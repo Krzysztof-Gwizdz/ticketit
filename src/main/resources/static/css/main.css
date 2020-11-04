@@ -1,0 +1,28 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    padding-top: 56px;
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
+nav {
+    background-color: white;
+}
+
+#home-jumbo {
+    color: white;
+    background-image: url('/images/jumbo1.jpeg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+footer {
+    background-color: lightgray;
+    padding: 50px 0;
+}

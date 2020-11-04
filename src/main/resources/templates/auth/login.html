@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Ticket-It</title>
+    <meta content="Krzysztof Gwiżdż" name="author"/>
+    <meta content="IE=edge,chrome=1" http-equiv="X-Ua-Compatible"/>
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+
+    <link rel="icon" sizes="32x32" th:href="@{/images/icons/favicon.ico}" type="image/ico">
+
+    <link media="screen" rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link media="screen" rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link media="screen" rel="stylesheet" th:href="@{/css/login.css}" type="text/css">
+    <link media="screen" rel="stylesheet" th:href="@{/css/all.min.css}" type="text/css">
+</head>
+<body id="page-top">
+
+<div th:replace="fragments/navigation :: navigation">
+</div>
+
+<main>
+
+    <div class="modal-dialog text-center">
+        <div class="col-sm-9 main-section">
+            <div class="modal-content">
+                <div class="col-12">
+                    <img class="form-logo" th:src="@{/images/stickyNote.png}" loading="lazy">
+                </div>
+                <div class="col-12 text-center">
+                    <h1 th:text="#{login.welcome}"></h1>
+                </div>
+                <div class="col-12 form-input">
+                    <form method="post" th:action="@{/loginAction}">
+                        <div class="form-group">
+                            <input class="form-control" th:placeholder="#{login.user.placeholder}" type="text">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="********" type="password">
+                        </div>
+                        <button class="btn btn-success" th:text="#{login.button}" type="submit">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<footer id="footer" th:replace="fragments/footer :: footer">
+</footer>
+
+<script th:src="@{/js/jquery-3.5.1.slim.min.js}"></script>
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/all.js}"></script>
+
+</body>
+</html>
