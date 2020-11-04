@@ -7,6 +7,7 @@
 .modal-content {
     padding: 20px 18px;
     border-radius: 10px;
+    background-color: lightgray;
 }
 
 .form-logo img {
@@ -18,17 +19,17 @@
     height: 42px;
     border-radius: 5px;
     border: 0;
-    background-color: #dfdfdf;
+    background-color: #ffffff;
     padding-left: 54px;
 }
 
 .form-group::before {
-    font-family: 'Font Awesome 5 Free';
+    font-family: 'Font Awesome 5 Free Solid';
     content: "\f007";
     position: absolute;
     font-size: 28px;
     left: 28px;
-    padding-top: 4px;
+    padding-top: 0px;
     color: black;
 }
 
