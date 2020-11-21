@@ -23,11 +23,12 @@ public class Ticket {
     @Column(name = "content")
     private String content;
 
-    /*@Column(name = "status")
-    private String status;*/
-
     @Column(name = "modification_date")
     private Timestamp modificationDate;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {})
+    @JoinColumn(name = "statusid")
+    private TicketStatus status;
 
     @OneToMany(fetch = FetchType.LAZY
             , cascade = CascadeType.ALL)
@@ -37,11 +38,6 @@ public class Ticket {
     //private LinkedHashMap<String, String> statusMap;
 
     public Ticket() {
-      /*  statusMap = new LinkedHashMap<>();
-        statusMap.put("open", "Otwarty");
-        statusMap.put("canceled", "Anulowany");
-        statusMap.put("wip", "W trakcie realizacji");
-        statusMap.put("closed", "Zakończony");*/
     }
 
     public Long getId() {

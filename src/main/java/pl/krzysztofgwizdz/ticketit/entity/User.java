@@ -1,14 +1,20 @@
 package pl.krzysztofgwizdz.ticketit.entity;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "users")
+@Table(name = "Users")
 public class User {
 
     @Id
-    @Column(name = "username")
+    @Column(name = "userid")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String userId;
+
+    @Column(name = "username", nullable = false)
     private String username;
 
     @Column(name = "password", nullable = false)
@@ -20,8 +26,33 @@ public class User {
     @Column(name = "enabled", nullable = false)
     private boolean enabled;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Column(name = "created")
+    private Timestamp createdDate;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "Users_Authorities",
+            joinColumns = { @JoinColumn(name = "userid") },
+            inverseJoinColumns = { @JoinColumn(name = "authorityid") }
+    )
     private Set<Authority> authorities;
+
+    public User(String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.authorities = new HashSet<>();
+    }
+
+    public String getUserId() {
+        return userId;
+    }
 
     public String getUsername() {
         return username;
@@ -53,6 +84,30 @@ public class User {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Timestamp getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Timestamp createdDate) {
+        this.createdDate = createdDate;
     }
 
     public Set<Authority> getAuthorities() {
