@@ -12,6 +12,5 @@ public class TicketStatus {
     private int id;
 
     @Column(name = "status_name")
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private String statusName;
 }

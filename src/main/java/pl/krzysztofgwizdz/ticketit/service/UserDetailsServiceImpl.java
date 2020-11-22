@@ -1,15 +1,17 @@
 package pl.krzysztofgwizdz.ticketit.service;
 
-import org.springframework.beans.factory.annotation.Value;
-import pl.krzysztofgwizdz.ticketit.entity.User;
-import pl.krzysztofgwizdz.ticketit.dao.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.krzysztofgwizdz.ticketit.dao.AuthorityRepository;
+import pl.krzysztofgwizdz.ticketit.dao.UserRepository;
+import pl.krzysztofgwizdz.ticketit.entity.Authority;
+import pl.krzysztofgwizdz.ticketit.entity.User;
 
 @Service("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -17,11 +19,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Value("${password.salt}")
     private String passwordSalt;
 
-    private final UserRepository userDetailsRepository;
+    private UserRepository userDetailsRepository;
+
+    private AuthorityRepository authorityRepository;
+
+    public UserDetailsServiceImpl() {}
 
     @Autowired
-    public UserDetailsServiceImpl(UserRepository userRepository){
-        this.userDetailsRepository = userRepository;
+    public void setUserDetailsRepository(UserRepository userDetailsRepository) {
+        this.userDetailsRepository = userDetailsRepository;
     }
 
     @Transactional(readOnly = true)
@@ -32,9 +38,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (user != null) {
             builder = org.springframework.security.core.userdetails.User.withUsername(username);
             builder.disabled(!user.isEnabled());
-            builder.password(user.getPassword()+"${password.salt}");
+            builder.password(user.getPassword() + "${password.salt}");
             String[] authorities = user.getAuthorities()
-                    .stream().map(a -> a.getAuthority()).toArray(String[]::new);
+                    .stream().map(Authority::getAuthorityName).toArray(String[]::new);
             builder.authorities(authorities);
             return builder.build();
         }

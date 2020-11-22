@@ -35,8 +35,6 @@ public class Ticket {
     @JoinColumn(name = "ticket_id")
     private List<TicketComment> commentList;
 
-    //private LinkedHashMap<String, String> statusMap;
-
     public Ticket() {
     }
 

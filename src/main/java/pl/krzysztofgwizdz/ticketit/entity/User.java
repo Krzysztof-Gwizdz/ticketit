@@ -35,14 +35,22 @@ public class User {
     @Column(name = "created")
     private Timestamp createdDate;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "Users_Authorities",
-            joinColumns = { @JoinColumn(name = "userid") },
-            inverseJoinColumns = { @JoinColumn(name = "authorityid") }
+            joinColumns = {@JoinColumn(name = "userid")},
+            inverseJoinColumns = {@JoinColumn(name = "authorityid")}
     )
     private Set<Authority> authorities;
 
+    public User() {
+    }
+
+    /**
+     * @param username
+     * @param password
+     * @param email
+     */
     public User(String username, String password, String email) {
         this.username = username;
         this.password = password;

@@ -1,16 +1,16 @@
 package pl.krzysztofgwizdz.ticketit.service;
 
-import pl.krzysztofgwizdz.ticketit.entity.Ticket;
-import pl.krzysztofgwizdz.ticketit.entity.TicketComment;
-import pl.krzysztofgwizdz.ticketit.dao.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.krzysztofgwizdz.ticketit.dao.TicketRepository;
+import pl.krzysztofgwizdz.ticketit.entity.Ticket;
+import pl.krzysztofgwizdz.ticketit.entity.TicketComment;
 
 import java.util.List;
 
 @Service
-public class TicketServiceImpl implements TicketService{
+public class TicketServiceImpl implements TicketService {
 
     @Autowired
     TicketRepository ticketRepository;

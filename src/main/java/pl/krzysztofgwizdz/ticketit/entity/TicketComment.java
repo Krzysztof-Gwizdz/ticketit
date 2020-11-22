@@ -30,9 +30,48 @@ public class TicketComment {
     @JoinColumn(name = "userid")
     private User user;
 
+    public TicketComment() {
+    }
+
     public TicketComment(String content, Ticket ticket, User user) {
         this.content = content;
         this.ticket = ticket;
+        this.user = user;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Timestamp getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Timestamp creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Ticket getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
         this.user = user;
     }
 }

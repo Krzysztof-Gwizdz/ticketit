@@ -12,12 +12,12 @@ public class UserDto {
 
     @NotNull(message = "* Pole jest wymagane.")
     @NotEmpty(message = "* Pole jest wymagane.")
-    @Size(min=6, max = 40, message = "* Nazwa użytkownika musi mieć od 6 do 40 znaków.")
+    @Size(min = 6, max = 40, message = "* Nazwa użytkownika musi mieć od 6 do 40 znaków.")
     private String username;
 
     @NotNull(message = "* Pole jest wymagane.")
     @NotEmpty(message = "* Pole jest wymagane.")
-    @Size(min=6, max = 40, message = "* Hasło musi mieć od 6 do 40 znaków.")
+    @Size(min = 6, max = 40, message = "* Hasło musi mieć od 6 do 40 znaków.")
     private String password;
 
     @NotNull(message = "* Pole jest wymagane.")

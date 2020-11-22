@@ -67,9 +67,7 @@ public class TicketController {
 
     @PostMapping("/addComment")
     public String addCommentToTicket(@RequestParam("ticketId") long ticketId,
-                                     @ModelAttribute("comment") TicketComment comment,
-                                     Principal principal){
-        comment.setAuthor(principal.getName());
+                                     @ModelAttribute("comment") TicketComment comment){
         ticketService.addCommentToTicketById(ticketId, comment);
         StringBuilder sb = new StringBuilder();
         sb.append("redirect:/ticket/details?ticketId=");

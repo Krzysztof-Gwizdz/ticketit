@@ -11,7 +11,7 @@
 
     <link media="screen" rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
     <link media="screen" rel="stylesheet" th:href="@{/css/main.css}"/>
-    <link media="screen" rel="stylesheet" th:href="@{/css/login.css}" type="text/css">
+    <link media="screen" rel="stylesheet" th:href="@{/css/signUp.css}" type="text/css">
 </head>
 <body id="page-top">
 
@@ -23,21 +23,21 @@
     <div class="modal-dialog text-center">
         <div class="col-sm-9 main-section">
             <div class="modal-content">
-                <div class="col-12">
-                    <img th:src="@{/images/stickyNote.png}" loading="lazy" width="50" height="50">
-                </div>
                 <div class="col-12 text-center">
-                    <h1 th:text="#{signUp.welcome}"></h1>
+                    <h1 th:text="#{signup.title.newaccount}">Create new account</h1>
                 </div>
                 <div class="col-12 form-input">
                     <form method="post" th:action="@{/loginAction}">
                         <div class="form-group">
-                            <input class="form-control" type="text">
+                            <span th:text="#{signup.label.username}">Username: </span><input class="form-control" type="text">
                         </div>
                         <div class="form-group">
-                            <input class="form-control" placeholder="********" type="password">
+                            <span th:text="#{signup.label.password}">Password: </span><input class="form-control" placeholder="********" type="password">
                         </div>
-                        <button class="btn btn-success" th:text="#{login.button}" type="submit">Login</button>
+                        <div class="form-group">
+                            <span th:text="#{signup.label.email}">E-mail: </span><input class="form-control" type="text">
+                        </div>
+                        <button class="btn btn-success" th:text="#{signup.button.submit}" type="submit">Login</button>
                     </form>
                 </div>
             </div>
