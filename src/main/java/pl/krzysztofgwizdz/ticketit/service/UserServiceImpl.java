@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -49,16 +50,16 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User signUpNewUser(UserDto userDto) throws UserAlreadyExistsException {
-        Set<Authority> userAuthorities = new HashSet<>();
-        Set<Authority> authoritySet = authorityRepository.getAuthorities();
+        List<Authority> userAuthorities = new ArrayList<>();
+        List<Authority> authorityList = authorityRepository.getAuthorities();
         if (userExists(userDto.getUsername(), userDto.getEmail())) {
             throw new UserAlreadyExistsException("There is already user with that username or email.");
         }
         String encodedPassword = passwordEncoder.encode(userDto.getPassword()+passwordSalt);
         User newUser = new User(userDto.getUsername(), encodedPassword, userDto.getEmail());
         newUser.setEnabled(false);
-        if(authoritySet.contains(new Authority(defaultAuthority))){
-            userAuthorities.add(new Authority(defaultAuthority));
+        if(authorityList.contains(new Authority(defaultAuthority))){
+            userAuthorities.add(authorityRepository.getAuthorityByName(defaultAuthority));
         }
         newUser.setAuthorities(userAuthorities);
         return userRepository.save(newUser);
@@ -66,7 +67,7 @@ public class UserServiceImpl implements UserService {
 
 
     private boolean userExists(String username, String email) {
-        List<User> users = userRepository.findUserByUsernameOrEmail(username, email);
-        return users != null && users.size() > 0;
+        User users = userRepository.findUserByUsernameOrEmail(username, email);
+        return users != null;
     }
 }

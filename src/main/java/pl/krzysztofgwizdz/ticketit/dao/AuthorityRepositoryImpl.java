@@ -25,17 +25,13 @@ public class AuthorityRepositoryImpl implements AuthorityRepository {
     }
 
     @Override
-    public Set<Authority> getAuthorities() {
+    public List<Authority> getAuthorities() {
         Session session = entityManager.unwrap(Session.class);
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         CriteriaQuery<Authority> criteriaQuery = criteriaBuilder.createQuery(Authority.class);
         criteriaQuery.from(Authority.class);
         List<Authority> authorityList = session.createQuery(criteriaQuery).getResultList();
-        Set<Authority> authoritySet = new HashSet<>();
-        for(Authority authority: authorityList){
-            authoritySet.add(authority);
-        }
-        return authoritySet;
+        return authorityList;
     }
 
     @Override

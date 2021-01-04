@@ -2,17 +2,17 @@ package pl.krzysztofgwizdz.ticketit.entity;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "Users")
+@Table(name = "users")
 public class User {
 
     @Id
     @Column(name = "userid")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String userId;
+    private Long userId;
 
     @Column(name = "username", nullable = false)
     private String username;
@@ -41,7 +41,7 @@ public class User {
             joinColumns = {@JoinColumn(name = "userid")},
             inverseJoinColumns = {@JoinColumn(name = "authorityid")}
     )
-    private Set<Authority> authorities;
+    private List<Authority> authorities;
 
     public User() {
     }
@@ -55,18 +55,22 @@ public class User {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.authorities = new HashSet<>();
+        this.authorities = new ArrayList<>();
     }
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
+    }
+
+    public void ListUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void ListUsername(String username) {
         this.username = username;
     }
 
@@ -74,7 +78,7 @@ public class User {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void ListPassword(String password) {
         this.password = password;
     }
 
@@ -82,7 +86,7 @@ public class User {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void ListEmail(String email) {
         this.email = email;
     }
 
@@ -118,11 +122,11 @@ public class User {
         this.createdDate = createdDate;
     }
 
-    public Set<Authority> getAuthorities() {
+    public List<Authority> getAuthorities() {
         return authorities;
     }
 
-    public void setAuthorities(Set<Authority> authorities) {
+    public void setAuthorities(List<Authority> authorities) {
         this.authorities = authorities;
     }
 }

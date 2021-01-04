@@ -3,7 +3,7 @@ package pl.krzysztofgwizdz.ticketit.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "TicketStatuses")
+@Table(name = "ticket_statuses")
 public class TicketStatus {
 
     @Id

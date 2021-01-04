@@ -2,11 +2,11 @@ package pl.krzysztofgwizdz.ticketit.dao;
 
 import pl.krzysztofgwizdz.ticketit.entity.Authority;
 
-import java.util.Set;
+import java.util.List;
 
 public interface AuthorityRepository {
 
-    Set<Authority> getAuthorities();
+    List<Authority> getAuthorities();
 
     Authority getAuthorityById(int id);
 

@@ -1,8 +1,8 @@
 package pl.krzysztofgwizdz.ticketit.entity;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "authorities")
@@ -16,13 +16,13 @@ public class Authority {
     @Column(name = "authority_name", unique = true)
     private String authorityName;
 
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
     @JoinTable(
             name = "Users_Authorities",
             joinColumns = {@JoinColumn(name = "authorityid")},
             inverseJoinColumns = {@JoinColumn(name = "userid")}
     )
-    private Set<User> userSet;
+    private List<User> userList;
 
     public Authority() {
     }
@@ -32,7 +32,7 @@ public class Authority {
      */
     public Authority(String authorityName) {
         this.authorityName = authorityName;
-        this.userSet = new HashSet<>();
+        this.userList = new ArrayList<>();
     }
 
     public String getAuthorityName() {

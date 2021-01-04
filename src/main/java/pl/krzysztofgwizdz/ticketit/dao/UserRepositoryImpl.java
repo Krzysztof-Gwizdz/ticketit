@@ -20,19 +20,38 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User findUserByUsername(String username) {
+    public User findUserById(int id) {
         Session session = entityManager.unwrap(Session.class);
-        return session.get(User.class, username);
+        return session.get(User.class, id);
     }
 
     @Override
-    public List<User> findUserByUsernameOrEmail(String username, String email) {
+    public User findUserByUsername(String username) {
         Session session = entityManager.unwrap(Session.class);
+        User user = null;
+        Query query = session.createQuery("from User where username = :username");
+        List<User> queryResult;
+        query.setParameter("username", username);
+        queryResult = query.getResultList();
+        if (queryResult.size() > 0) {
+            user = queryResult.get(0);
+        }
+        return user;
+    }
+
+    @Override
+    public User findUserByUsernameOrEmail(String username, String email) {
+        Session session = entityManager.unwrap(Session.class);
+        User user = null;
         Query query = session.createQuery("from User where username = :username or email = :email");
+        List<User> queryResult;
         query.setParameter("username", username);
         query.setParameter("email", email);
-        List<User> users = query.getResultList();
-        return users;
+        queryResult = query.getResultList();
+        if (queryResult.size() > 0) {
+            user = queryResult.get(0);
+        }
+        return user;
     }
 
     @Override
