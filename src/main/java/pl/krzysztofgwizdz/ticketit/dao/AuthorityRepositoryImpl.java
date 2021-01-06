@@ -55,6 +55,9 @@ public class AuthorityRepositoryImpl implements AuthorityRepository {
 
     @Override
     public void saveAuthority(String authorityName) {
-
+        Session session = entityManager.unwrap(Session.class);
+        Authority authority = new Authority();
+        authority.setAuthorityName(authorityName);
+        session.save(authorityName);
     }
 }

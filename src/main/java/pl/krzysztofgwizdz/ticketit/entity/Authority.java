@@ -25,6 +25,7 @@ public class Authority {
     private List<User> userList;
 
     public Authority() {
+        userList = new ArrayList<>();
     }
 
     /**
