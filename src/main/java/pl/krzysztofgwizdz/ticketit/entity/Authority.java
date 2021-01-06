@@ -18,7 +18,7 @@ public class Authority {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "Users_Authorities",
+            name = "users_authorities",
             joinColumns = {@JoinColumn(name = "authorityid")},
             inverseJoinColumns = {@JoinColumn(name = "userid")}
     )
@@ -28,7 +28,7 @@ public class Authority {
     }
 
     /**
-     * @param authorityName
+     * @param authorityName Name of the authority (i.e. ROLE_USER)
      */
     public Authority(String authorityName) {
         this.authorityName = authorityName;

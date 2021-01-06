@@ -11,20 +11,24 @@ public class Ticket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "ticketid")
     private Long id;
 
-    @Column(name = "author")
-    private String author;
-
-    @Column(name = "title")
+    @Column(name = "title", nullable = false)
     private String title;
 
     @Column(name = "content")
     private String content;
 
-    @Column(name = "modification_date")
+    @Column(name = "created")
+    private Timestamp creationDate;
+
+    @Column(name = "modified")
     private Timestamp modificationDate;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "userid")
+    private User author;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "statusid")
@@ -32,10 +36,11 @@ public class Ticket {
 
     @OneToMany(fetch = FetchType.LAZY
             , cascade = {CascadeType.ALL})
-    @JoinColumn(name = "ticket_id")
+    @JoinColumn(name = "ticketid")
     private List<TicketComment> commentList;
 
     public Ticket() {
+        this.commentList = new ArrayList<>();
     }
 
     public Long getId() {
@@ -44,14 +49,6 @@ public class Ticket {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
     }
 
     public String getTitle() {
@@ -70,12 +67,36 @@ public class Ticket {
         this.content = content;
     }
 
+    public Timestamp getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Timestamp creationDate) {
+        this.creationDate = creationDate;
+    }
+
     public Timestamp getModificationDate() {
         return modificationDate;
     }
 
     public void setModificationDate(Timestamp modificationDate) {
         this.modificationDate = modificationDate;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public TicketStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TicketStatus status) {
+        this.status = status;
     }
 
     public List<TicketComment> getCommentList() {
