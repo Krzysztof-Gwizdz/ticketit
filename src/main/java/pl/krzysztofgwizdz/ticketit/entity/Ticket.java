@@ -26,12 +26,12 @@ public class Ticket {
     @Column(name = "modification_date")
     private Timestamp modificationDate;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {})
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "statusid")
     private TicketStatus status;
 
     @OneToMany(fetch = FetchType.LAZY
-            , cascade = CascadeType.ALL)
+            , cascade = {CascadeType.ALL})
     @JoinColumn(name = "ticket_id")
     private List<TicketComment> commentList;
 
@@ -92,8 +92,4 @@ public class Ticket {
         }
         commentList.add(comment);
     }
-
-    /*public LinkedHashMap<String, String> getStatusMap() {
-        return statusMap;
-    }*/
 }
