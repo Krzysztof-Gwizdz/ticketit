@@ -20,9 +20,6 @@ import java.util.Set;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Value("${password.salt}")
-    private String passwordSalt;
-
     @Value("${users.default.authority}")
     private String defaultAuthority;
 
@@ -55,7 +52,7 @@ public class UserServiceImpl implements UserService {
         if (userExists(userDto.getUsername(), userDto.getEmail())) {
             throw new UserAlreadyExistsException("There is already user with that username or email.");
         }
-        String encodedPassword = passwordEncoder.encode(userDto.getPassword()+passwordSalt);
+        String encodedPassword = passwordEncoder.encode(userDto.getPassword());
         User newUser = new User(userDto.getUsername(), encodedPassword, userDto.getEmail());
         newUser.setEnabled(false);
         if(authorityList.contains(new Authority(defaultAuthority))){

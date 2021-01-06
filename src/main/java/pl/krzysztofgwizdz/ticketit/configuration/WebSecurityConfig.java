@@ -47,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 ).permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().loginPage("/login").loginProcessingUrl("/loginAction").permitAll()
+                .formLogin().loginPage("/login").permitAll()
                 .and()
                 .logout()
                 .invalidateHttpSession(true)

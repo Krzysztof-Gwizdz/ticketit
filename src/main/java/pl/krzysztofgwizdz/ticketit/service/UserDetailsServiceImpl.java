@@ -16,14 +16,12 @@ import pl.krzysztofgwizdz.ticketit.entity.User;
 @Service("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Value("${password.salt}")
-    private String passwordSalt;
-
     private UserRepository userDetailsRepository;
 
     private AuthorityRepository authorityRepository;
 
-    public UserDetailsServiceImpl() {}
+    public UserDetailsServiceImpl() {
+    }
 
     @Autowired
     public void setUserDetailsRepository(UserRepository userDetailsRepository) {
@@ -38,7 +36,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (user != null) {
             builder = org.springframework.security.core.userdetails.User.withUsername(username);
             builder.disabled(!user.isEnabled());
-            builder.password(user.getPassword() + "${password.salt}");
+            builder.password(user.getPassword());
             String[] authorities = user.getAuthorities()
                     .stream().map(Authority::getAuthorityName).toArray(String[]::new);
             builder.authorities(authorities);

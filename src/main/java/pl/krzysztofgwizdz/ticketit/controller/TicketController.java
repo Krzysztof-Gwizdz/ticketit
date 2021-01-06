@@ -1,12 +1,13 @@
 package pl.krzysztofgwizdz.ticketit.controller;
 
-import pl.krzysztofgwizdz.ticketit.entity.Ticket;
-import pl.krzysztofgwizdz.ticketit.entity.TicketComment;
-import pl.krzysztofgwizdz.ticketit.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.krzysztofgwizdz.ticketit.entity.Ticket;
+import pl.krzysztofgwizdz.ticketit.entity.TicketComment;
+import pl.krzysztofgwizdz.ticketit.service.TicketService;
+import pl.krzysztofgwizdz.ticketit.service.UserService;
 
 import java.security.Principal;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
 public class TicketController {
 
     private TicketService ticketService;
+    private UserService userService;
 
     @RequestMapping({"", "/"})
     public String redirectToList() {
@@ -32,7 +34,6 @@ public class TicketController {
     @GetMapping("/add")
     public String showAddTicketForm(Model model, Principal principal) {
         Ticket ticket = new Ticket();
-        ticket.setAuthor(principal.getName());
         model.addAttribute("ticket", ticket);
         return "ticketForm";
     }
@@ -67,7 +68,7 @@ public class TicketController {
 
     @PostMapping("/addComment")
     public String addCommentToTicket(@RequestParam("ticketId") long ticketId,
-                                     @ModelAttribute("comment") TicketComment comment){
+                                     @ModelAttribute("comment") TicketComment comment) {
         ticketService.addCommentToTicketById(ticketId, comment);
         StringBuilder sb = new StringBuilder();
         sb.append("redirect:/ticket/details?ticketId=");
@@ -76,7 +77,12 @@ public class TicketController {
     }
 
     @Autowired
-    public void setTicketService(TicketService ticketService){
+    public void setTicketService(TicketService ticketService) {
         this.ticketService = ticketService;
+    }
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 }
