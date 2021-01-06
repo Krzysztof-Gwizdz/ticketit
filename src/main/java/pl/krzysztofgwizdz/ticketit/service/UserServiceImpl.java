@@ -1,21 +1,19 @@
 package pl.krzysztofgwizdz.ticketit.service;
 
-import org.springframework.beans.factory.annotation.Value;
-import pl.krzysztofgwizdz.ticketit.dao.AuthorityRepository;
-import pl.krzysztofgwizdz.ticketit.entity.Authority;
-import pl.krzysztofgwizdz.ticketit.entity.User;
-import pl.krzysztofgwizdz.ticketit.dto.UserDto;
-import pl.krzysztofgwizdz.ticketit.error.UserAlreadyExistsException;
-import pl.krzysztofgwizdz.ticketit.dao.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.krzysztofgwizdz.ticketit.dao.AuthorityRepository;
+import pl.krzysztofgwizdz.ticketit.dao.UserRepository;
+import pl.krzysztofgwizdz.ticketit.dto.UserDto;
+import pl.krzysztofgwizdz.ticketit.entity.Authority;
+import pl.krzysztofgwizdz.ticketit.entity.User;
+import pl.krzysztofgwizdz.ticketit.error.UserAlreadyExistsException;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -30,7 +28,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(PasswordEncoder passwordEncoder){
+    public UserServiceImpl(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -55,7 +53,7 @@ public class UserServiceImpl implements UserService {
         String encodedPassword = passwordEncoder.encode(userDto.getPassword());
         User newUser = new User(userDto.getUsername(), encodedPassword, userDto.getEmail());
         newUser.setEnabled(false);
-        if(authorityList.contains(new Authority(defaultAuthority))){
+        if (authorityList.contains(new Authority(defaultAuthority))) {
             userAuthorities.add(authorityRepository.getAuthorityByName(defaultAuthority));
         }
         newUser.setAuthorities(userAuthorities);

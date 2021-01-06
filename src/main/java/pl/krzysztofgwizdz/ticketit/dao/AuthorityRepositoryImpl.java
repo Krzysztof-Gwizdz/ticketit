@@ -1,6 +1,5 @@
 package pl.krzysztofgwizdz.ticketit.dao;
 
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -10,9 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Repository
 public class AuthorityRepositoryImpl implements AuthorityRepository {
@@ -42,12 +39,12 @@ public class AuthorityRepositoryImpl implements AuthorityRepository {
     }
 
     @Override
-    public Authority getAuthorityByName(String name){
+    public Authority getAuthorityByName(String name) {
         Session session = entityManager.unwrap(Session.class);
         Query query = session.createQuery("from Authority where authorityName = :authorityName");
         query.setParameter("authorityName", name);
         List<Authority> authorities = query.getResultList();
-        if(authorities.size()==1){
+        if (authorities.size() == 1) {
             return authorities.get(0);
         }
         return null;
