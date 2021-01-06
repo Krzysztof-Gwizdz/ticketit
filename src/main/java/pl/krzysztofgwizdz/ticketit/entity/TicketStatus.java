@@ -7,10 +7,52 @@ import javax.persistence.*;
 public class TicketStatus {
 
     @Id
-    @Column(name = "statusid")
+    @Column(name = "statusid", nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
-    @Column(name = "status_name")
+    @Column(name = "status_name", nullable = false)
     private String statusName;
+
+    public TicketStatus() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getStatusName() {
+        return statusName;
+    }
+
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
+    }
+
+    @Override
+    public String toString() {
+        return "TicketStatus{" +
+                "id=" + id +
+                ", statusName='" + statusName + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TicketStatus that = (TicketStatus) o;
+
+        return statusName.equals(that.statusName);
+    }
+
+    @Override
+    public int hashCode() {
+        return statusName.hashCode();
+    }
 }
