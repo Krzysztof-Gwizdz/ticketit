@@ -57,7 +57,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User save(User user) {
         Session session = entityManager.unwrap(Session.class);
-        session.save(user);
+        session.saveOrUpdate(user);
         return user;
     }
 }
