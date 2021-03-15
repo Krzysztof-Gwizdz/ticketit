@@ -15,6 +15,9 @@ public class Project {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "acronym")
+    private String acronym;
+
     @Column(name = "description")
     private String description;
 
@@ -35,5 +38,5 @@ public class Project {
             cascade = CascadeType.ALL
     )
     @JoinColumn(name = "projectid")
-    List<Ticket> tickets;
+    private List<Ticket> tickets;
 }

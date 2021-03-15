@@ -31,6 +31,10 @@ public class Ticket {
     private User author;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "projectid")
+    private Project project;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "statusid")
     private TicketStatus status;
 
@@ -89,6 +93,14 @@ public class Ticket {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     public TicketStatus getStatus() {
