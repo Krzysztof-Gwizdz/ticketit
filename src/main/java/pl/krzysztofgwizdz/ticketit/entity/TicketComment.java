@@ -8,14 +8,14 @@ import java.sql.Timestamp;
 public class TicketComment {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "commentid")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "content")
     private String content;
 
-    @Column(name = "creation_date")
+    @Column(name = "created")
     private Timestamp creationDate;
 
     @ManyToOne(fetch = FetchType.LAZY,
