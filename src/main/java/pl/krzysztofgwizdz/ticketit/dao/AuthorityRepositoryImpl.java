@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public class AuthorityRepositoryImpl implements AuthorityRepository {
 
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     @Autowired
     public AuthorityRepositoryImpl(EntityManager entityManager) {
@@ -27,15 +27,13 @@ public class AuthorityRepositoryImpl implements AuthorityRepository {
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         CriteriaQuery<Authority> criteriaQuery = criteriaBuilder.createQuery(Authority.class);
         criteriaQuery.from(Authority.class);
-        List<Authority> authorityList = session.createQuery(criteriaQuery).getResultList();
-        return authorityList;
+        return session.createQuery(criteriaQuery).getResultList();
     }
 
     @Override
     public Authority getAuthorityById(int id) {
         Session session = entityManager.unwrap(Session.class);
-        Authority authority = session.byId(Authority.class).load(id);
-        return authority;
+        return session.byId(Authority.class).load(id);
     }
 
     @Override

@@ -29,15 +29,13 @@ public class TicketRepositoryImpl implements TicketRepository {
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         CriteriaQuery<Ticket> criteria = criteriaBuilder.createQuery(Ticket.class);
         criteria.from(Ticket.class);
-        List<Ticket> tickets = session.createQuery(criteria).getResultList();
-        return tickets;
+        return session.createQuery(criteria).getResultList();
     }
 
     @Override
     public Ticket findTicketById(Long id) {
         Session session = entityManager.unwrap(Session.class);
-        Ticket ticket = session.byId(Ticket.class).load(id);
-        return ticket;
+        return session.byId(Ticket.class).load(id);
     }
 
     @Override
