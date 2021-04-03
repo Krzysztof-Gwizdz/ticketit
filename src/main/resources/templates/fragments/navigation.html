@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8"/>
     <title>Ticket-It</title>
@@ -37,7 +37,7 @@
                         <a class="nav-link" href="#" th:text="#{navigation.navbar.contact}">Contact</a>
                     </li>
                     <li sec:authorize="hasRole('ROLE_USER')" class="nav-item">
-                        <a class="nav-link" href="#" th:text="#{navigation.navbar.organizations}">Organizations</a>
+                        <a class="nav-link" th:href="@{/organizations}" th:text="#{navigation.navbar.organizations}">Organizations</a>
                     </li>
                     <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item">
                         <a class="nav-link" href="#" th:text="#{navigation.navbar.admin}">Admin Page</a>
@@ -46,18 +46,25 @@
                 <div class="d-flex">
                     <div sec:authorize="isAuthenticated()">
                         <span class="nav-item">
-                            <span th:text="#{navigation.navbar.loggedAs}">You're logged as: </span><a href="#" sec:authentication="name">Username</a>
+                            <span th:text="#{navigation.navbar.loggedAs}">You're logged as: </span><a href="#"
+                                                                                                      sec:authentication="name">Username</a>
                         </span>
                         <a class="nav-item" th:href="@{/logout}">
-                            <button type="button" class="btn btn-outline-primary" th:text="#{navigation.navbar.signOut}">Sign Out</button>
+                            <button type="button" class="btn btn-outline-secondary"
+                                    th:text="#{navigation.navbar.signOut}">Sign Out
+                            </button>
                         </a>
                     </div>
                     <div sec:authorize="!isAuthenticated()">
                         <a class="nav-item" th:href="@{/login}">
-                            <button type="button" class="btn btn-outline-primary" th:text="#{navigation.navbar.signIn}">Sign In</button>
+                            <button type="button" class="btn btn-outline-secondary"
+                                    th:text="#{navigation.navbar.signIn}">Sign In
+                            </button>
                         </a>
                         <a class="nav-item" th:href="@{/signUp}">
-                            <button type="button" class="btn btn-primary" th:text="#{navigation.navbar.signUp}">Sign Up</button>
+                            <button type="button" class="btn btn-secondary" th:text="#{navigation.navbar.signUp}">Sign
+                                Up
+                            </button>
                         </a>
                     </div>
                 </div>

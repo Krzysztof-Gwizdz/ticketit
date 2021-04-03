@@ -13,7 +13,7 @@ import java.security.Principal;
 import java.util.List;
 
 @Controller
-@RequestMapping("/ticket")
+@RequestMapping("/tickets")
 public class TicketController {
 
     private TicketService ticketService;
