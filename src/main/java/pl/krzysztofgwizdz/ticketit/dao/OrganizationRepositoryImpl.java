@@ -36,9 +36,10 @@ public class OrganizationRepositoryImpl implements OrganizationRepository {
     }
 
     @Override
-    public void saveOrganization(Organization organization) {
+    public Organization saveOrganization(Organization organization) {
         Session session = entityManager.unwrap(Session.class);
         session.saveOrUpdate(organization);
+        return organization;
     }
 
     @Override

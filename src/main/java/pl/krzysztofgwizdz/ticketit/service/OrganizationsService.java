@@ -1,5 +1,6 @@
 package pl.krzysztofgwizdz.ticketit.service;
 
+import pl.krzysztofgwizdz.ticketit.dto.OrganizationDTO;
 import pl.krzysztofgwizdz.ticketit.entity.Organization;
 
 import java.util.List;
@@ -11,4 +12,6 @@ public interface OrganizationsService {
     Organization findById(long id);
 
     Organization findByShortname(String shortName);
+
+    Organization saveOrganization(OrganizationDTO organizationDTO, String username);
 }

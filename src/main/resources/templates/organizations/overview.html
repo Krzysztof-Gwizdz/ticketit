@@ -20,8 +20,14 @@
 
 <main>
     <div class="container mt-5">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Organizations</li>
+            </ol>
+        </nav>
         <div class="row mb-4">
-            <h4 class="col-md-10">Organizations</h4>
+            <h2 class="col-md-10">Organizations</h2>
             <a class="col-md-2" th:href="@{/organizations/create}">
                 <button type="button" class="btn btn-secondary">New organization</button>
             </a>

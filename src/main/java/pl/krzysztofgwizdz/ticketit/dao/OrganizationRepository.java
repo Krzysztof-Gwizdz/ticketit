@@ -10,7 +10,7 @@ public interface OrganizationRepository {
 
     Organization findOrganization(long id);
 
-    void saveOrganization(Organization organization);
+    Organization saveOrganization(Organization organization);
 
     void deleteOrganization(Organization organization);
 }

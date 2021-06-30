@@ -20,7 +20,31 @@
 
 <main>
     <div class="container mt-5">
-        TODO
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+                <li class="breadcrumb-item"><a th:href="@{/organizations}">Organizations</a></li>
+                <li class="breadcrumb-item active" aria-current="page">New Organization</li>
+            </ol>
+        </nav>
+        <section class="modal-dialog">
+            <div class="modal-content p-5">
+                <h2 class="mb-4">New organization</h2>
+                <form method="post" th:object="${organization}" th:action="@{/organizations/create}">
+                    <div class="mb-3">
+                        <label for="orgName" class="form-label">Organization name</label>
+                        <input type="text" class="form-control" id="orgName" th:field="*{fullName}" placeholder="e.g. Your Organization Name"/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="shortName" class="form-label">Shortname</label>
+                        <input type="text" class="form-control" id="shortName" th:field="*{shortName}" aria-describedby="shortNameHelp" placeholder="e.g. your-org-name"/>
+                        <div id="shortNameHelp" class="form-text">Allowed characters: A-Z, a-z, 0-9, "-", "_".</div>
+                    </div>
+                    <a th:href="@{/organizations}"><button type="button" class="btn btn-outline-secondary">Go back</button></a>
+                    <button type="submit" class="btn btn-secondary">Submit</button>
+                </form>
+            </div>
+        </section>
     </div>
 </main>
 

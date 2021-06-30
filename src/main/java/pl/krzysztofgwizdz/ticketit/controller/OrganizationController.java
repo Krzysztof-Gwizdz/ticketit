@@ -3,12 +3,14 @@ package pl.krzysztofgwizdz.ticketit.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import pl.krzysztofgwizdz.ticketit.dto.OrganizationDTO;
 import pl.krzysztofgwizdz.ticketit.entity.Organization;
 import pl.krzysztofgwizdz.ticketit.service.OrganizationsService;
 
+import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -37,9 +39,21 @@ public class OrganizationController {
     }
 
     @GetMapping("/create")
-    public String createOrganiztion(Model model){
-        Organization newOraganization = new Organization();
+    public String createOrganiztion(Model model) {
+        OrganizationDTO newOraganization = new OrganizationDTO();
         model.addAttribute("organization", newOraganization);
+        return "organizations/organizationForm";
+    }
+
+    @PostMapping("/create")
+    public String createOrganization(
+            @ModelAttribute("organization") @Valid OrganizationDTO organizationDTO,
+            BindingResult result,
+            Principal principal
+    ) {
+        if (!result.hasErrors() && organizationsService.saveOrganization(organizationDTO, principal.getName()) != null) {
+            return "organizations/overview";
+        }
         return "organizations/organizationForm";
     }
 }
