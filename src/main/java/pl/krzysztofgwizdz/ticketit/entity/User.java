@@ -1,20 +1,27 @@
 package pl.krzysztofgwizdz.ticketit.entity;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.NaturalIdCache;
+
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
+@NaturalIdCache
+@org.hibernate.annotations.Cache(
+        usage = CacheConcurrencyStrategy.READ_WRITE
+)
 public class User {
 
     @Id
-    @Column(name = "userid", nullable = false, unique = true)
+    @Column(name = "user_id", nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @Column(name = "username", nullable = false, unique = true)
+    @NaturalId
+    @Column(name = "user_name", nullable = false, unique = true)
     private String username;
 
     @Column(name = "password", nullable = false)
@@ -32,16 +39,23 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "created")
-    private Timestamp createdDate;
+    @Column(name = "created_on")
+    private Date createdOn = new Date();
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_authorities",
-            joinColumns = {@JoinColumn(name = "userid")},
-            inverseJoinColumns = {@JoinColumn(name = "authorityid")}
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "authority_id")}
     )
-    private List<Authority> authorities;
+    private List<Authority> authorities = new ArrayList<>();
+
+    @OneToMany(
+            mappedBy = "user_id",
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+            fetch = FetchType.LAZY
+    )
+    private Set<ProjectUserRoleLink> projectUserRoleLinks = new HashSet<>();
 
     public User() {
     }
@@ -55,7 +69,6 @@ public class User {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.authorities = new ArrayList<>();
     }
 
     public Long getUserId() {
@@ -114,12 +127,8 @@ public class User {
         this.lastName = lastName;
     }
 
-    public Timestamp getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Timestamp createdDate) {
-        this.createdDate = createdDate;
+    public Date getCreatedOn() {
+        return createdOn;
     }
 
     public List<Authority> getAuthorities() {
@@ -128,6 +137,14 @@ public class User {
 
     public void setAuthorities(List<Authority> authorities) {
         this.authorities = authorities;
+    }
+
+    public Set<ProjectUserRoleLink> getProjectUserRoleLinks() {
+        return projectUserRoleLinks;
+    }
+
+    public void setProjectUserRoleLinks(Set<ProjectUserRoleLink> projectUserRoleLinks) {
+        this.projectUserRoleLinks = projectUserRoleLinks;
     }
 
     public void addAuthority(Authority authority) {
@@ -149,7 +166,7 @@ public class User {
                 ", enabled=" + enabled +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", createdDate=" + createdDate +
+                ", createdDate=" + createdOn +
                 ", authorities=" + authorities +
                 '}';
     }
@@ -157,32 +174,13 @@ public class User {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
+        if (!(o instanceof User)) return false;
         User user = (User) o;
-
-        if (!userId.equals(user.userId)) return false;
-        if (!username.equals(user.username)) return false;
-        if (!password.equals(user.password)) return false;
-        if (!email.equals(user.email)) return false;
-        if (!enabled.equals(user.enabled)) return false;
-        if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null) return false;
-        if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null) return false;
-        if (!createdDate.equals(user.createdDate)) return false;
-        return authorities != null ? authorities.equals(user.authorities) : user.authorities == null;
+        return getUsername().equals(user.getUsername()) && getEmail().equals(user.getEmail());
     }
 
     @Override
     public int hashCode() {
-        int result = userId.hashCode();
-        result = 31 * result + username.hashCode();
-        result = 31 * result + password.hashCode();
-        result = 31 * result + email.hashCode();
-        result = 31 * result + enabled.hashCode();
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + createdDate.hashCode();
-        result = 31 * result + (authorities != null ? authorities.hashCode() : 0);
-        return result;
+        return Objects.hash(getUsername(), getEmail());
     }
 }

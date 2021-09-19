@@ -3,8 +3,9 @@ package pl.krzysztofgwizdz.ticketit.dao;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import pl.krzysztofgwizdz.ticketit.entity.Organization;
 import pl.krzysztofgwizdz.ticketit.entity.Project;
+import pl.krzysztofgwizdz.ticketit.entity.ProjectRole;
+import pl.krzysztofgwizdz.ticketit.entity.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -17,7 +18,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     private final EntityManager entityManager;
 
     @Autowired
-    public ProjectRepositoryImpl(EntityManager entityManager){
+    public ProjectRepositoryImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
@@ -37,6 +38,12 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     }
 
     @Override
+    public Project findByAcronym(String acronym) {
+        Session session = entityManager.unwrap(Session.class);
+        return session.bySimpleNaturalId(Project.class).load(acronym);
+    }
+
+    @Override
     public void saveProject(Project project) {
         Session session = entityManager.unwrap(Session.class);
         session.saveOrUpdate(project);
@@ -46,5 +53,29 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     public void deleteProject(Project project) {
         Session session = entityManager.unwrap(Session.class);
         session.delete(project);
+    }
+
+    @Override
+    public void addUserWithRole(Project project, User user, ProjectRole projectRole) {
+        Session session = entityManager.unwrap(Session.class);
+        Project dbProject = session.bySimpleNaturalId(Project.class).load(project.getAcronym());
+        User dbUser = session.byId(User.class).load(user.getUserId());
+        ProjectRole dbProjectRole = session.byId(ProjectRole.class).load(projectRole.getRoleId());
+        dbProject.addUserWithRole(dbUser, dbProjectRole);
+        session.saveOrUpdate(dbProject);
+        session.saveOrUpdate(dbUser);
+        session.saveOrUpdate(dbProjectRole);
+    }
+
+    @Override
+    public void removeRoleFromUser(Project project, User user, ProjectRole projectRole) {
+        Session session = entityManager.unwrap(Session.class);
+        Project dbProject = session.byId(Project.class).load(project.getProjectId());
+        User dbUser = session.byId(User.class).load(user.getUserId());
+        ProjectRole dbProjectRole = session.byId(ProjectRole.class).load(projectRole.getRoleId());
+        dbProject.removeRoleFromUser(dbUser, dbProjectRole);
+        session.saveOrUpdate(dbProject);
+        session.saveOrUpdate(dbUser);
+        session.saveOrUpdate(dbProjectRole);
     }
 }

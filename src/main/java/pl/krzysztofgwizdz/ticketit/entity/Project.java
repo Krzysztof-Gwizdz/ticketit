@@ -1,62 +1,72 @@
 package pl.krzysztofgwizdz.ticketit.entity;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.NaturalIdCache;
+
 import javax.persistence.*;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "projects")
+@NaturalIdCache
+@org.hibernate.annotations.Cache(
+        usage = CacheConcurrencyStrategy.READ_WRITE
+)
 public class Project {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "projectid")
-    private Long id;
+    @Column(name = "project_id")
+    private Long projectId;
 
     @Column(name = "name")
     private String name;
 
+    @NaturalId
     @Column(name = "acronym")
     private String acronym;
 
     @Column(name = "description")
     private String description;
 
-    @ManyToMany
-    @JoinTable(
-            name = "users_projects",
-            joinColumns = {@JoinColumn(name = "projectid")},
-            inverseJoinColumns = {@JoinColumn(name = "userid")}
+    @OneToMany(
+            mappedBy = "project_id",
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+            fetch = FetchType.LAZY
     )
-    private List<User> members;
-
-    @ManyToOne
-    @JoinColumn(name = "organizationid")
-    private Organization organization;
+    private Set<ProjectUserRoleLink> projectUserRoleLink = new HashSet<>();
 
     @OneToMany(
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name = "projectid")
-    private List<Ticket> tickets;
-
-    public Project(String name, String acronym, Organization organization) {
-        this.name = name;
-        this.acronym = acronym;
-        this.organization = organization;
-    }
+    @JoinColumn(name = "project_id")
+    private Set<Ticket> tickets = new HashSet<>();
 
     public Project() {
     }
 
-    public Long getId() {
-        return id;
+    /**
+     * @param name
+     * @param acronym
+     * @param description
+     */
+    public Project(String name, String acronym, String description) {
+        this.name = name;
+        this.acronym = acronym;
+        this.description = description;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Long getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
     }
 
     public String getName() {
@@ -83,35 +93,42 @@ public class Project {
         this.description = description;
     }
 
-    public List<User> getMembers() {
-        return members;
+    public Set<ProjectUserRoleLink> getProjectUserRoleLink() {
+        return projectUserRoleLink;
     }
 
-    public void setMembers(List<User> members) {
-        this.members = members;
+    public void setProjectUserRoleLink(Set<ProjectUserRoleLink> projectUserRoleLink) {
+        this.projectUserRoleLink = projectUserRoleLink;
     }
 
-    public Organization getOrganization() {
-        return organization;
-    }
-
-    public void setOrganization(Organization organization) {
-        this.organization = organization;
-    }
-
-    public List<Ticket> getTickets() {
+    public Set<Ticket> getTickets() {
         return tickets;
     }
 
-    public void setTickets(List<Ticket> tickets) {
+    public void setTickets(Set<Ticket> tickets) {
         this.tickets = tickets;
     }
 
-    public void addMember(User user) {
-        if (members == null) {
-            members = new LinkedList<>();
+    public void addUserWithRole(User user, ProjectRole projectRole) {
+        ProjectUserRoleLink projectUserRoleLink = new ProjectUserRoleLink(this, user, projectRole);
+        this.projectUserRoleLink.add(projectUserRoleLink);
+        user.getProjectUserRoleLinks().add(projectUserRoleLink);
+        projectRole.getProjectUserRoleLink().add(projectUserRoleLink);
+    }
+
+    public void removeRoleFromUser(User user, ProjectRole projectRole) {
+        Iterator<ProjectUserRoleLink> iterator = projectUserRoleLink.iterator();
+        while (iterator.hasNext()) {
+            ProjectUserRoleLink link = iterator.next();
+            if (link.getProject().equals(this) && link.getUser().equals(user) && link.getRole().equals(projectRole)) {
+                iterator.remove();
+                link.getUser().getProjectUserRoleLinks().remove(link);
+                link.getRole().getProjectUserRoleLink().remove(link);
+                link.setProject(null);
+                link.setUser(null);
+                link.setRole(null);
+            }
         }
-        members.add(user);
     }
 
     @Override
@@ -119,11 +136,11 @@ public class Project {
         if (this == o) return true;
         if (!(o instanceof Project)) return false;
         Project project = (Project) o;
-        return getAcronym().equals(project.getAcronym());
+        return getName().equals(project.getName()) && getAcronym().equals(project.getAcronym());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getAcronym());
+        return Objects.hash(getName(), getAcronym());
     }
 }
