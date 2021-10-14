@@ -18,6 +18,7 @@ public class ProjectUserRoleLink {
             cascade = {CascadeType.PERSIST, CascadeType.MERGE}
     )
     @MapsId("projectId")
+    @JoinColumn(name = "project_id")
     private Project project;
 
     @ManyToOne(
@@ -25,6 +26,7 @@ public class ProjectUserRoleLink {
             cascade = {CascadeType.PERSIST, CascadeType.MERGE}
     )
     @MapsId("userId")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne(
@@ -32,6 +34,7 @@ public class ProjectUserRoleLink {
             cascade = {CascadeType.PERSIST, CascadeType.MERGE}
     )
     @MapsId("roleId")
+    @JoinColumn(name = "role_id")
     private ProjectRole role;
 
     @Column(name = "joined_on")

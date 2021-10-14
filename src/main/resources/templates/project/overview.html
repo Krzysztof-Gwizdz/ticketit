@@ -23,14 +23,14 @@
     <div class="container mt-5">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Projects</li>
+                <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{navigation.navbar.home}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page" th:text="#{navigation.navbar.projects}">Projects</li>
             </ol>
         </nav>
         <div class="row mb-4">
-            <h2 class="col-md-10">Projects</h2>
+            <h2 class="col-md-10" th:text="#{projects.overview.title}">Projects</h2>
             <a class="col-md-2" th:href="@{/project/create}">
-                <button type="button" class="btn btn-secondary">New project</button>
+                <button type="button" class="btn btn-secondary" th:text="#{projects.overview.button.newproject}">New project</button>
             </a>
         </div>
         <div th:unless="${projectsLinks==null or #lists.isEmpty(projectsLinks)}">
@@ -44,10 +44,10 @@
                             <span class="org-member-status" th:text="${projectLink.getRole().getRoleName()}">Owner</span>
                         </div>
                         <div class="col-xl-1">
-                            <button class="btn btn-outline-secondary">Settings</button>
+                            <button class="btn btn-outline-secondary" th:text="#{projects.overview.button.settings}">Settings</button>
                         </div>
                         <div class="col-xl-1">
-                            <button class="btn btn-outline-secondary">Leave</button>
+                            <button class="btn btn-outline-secondary" th:text="#{projects.overview.button.leave}">Leave</button>
                         </div>
                     </div>
                 </li>

@@ -29,27 +29,31 @@
                 <div class="col-12 form-input">
                     <form method="post" th:object="${user}" th:action="@{/signUp}">
                         <div class="form-group">
-                            <span th:text="#{signup.label.username}">Username: </span><input class="form-control"
-                                                                                             type="text"
-                                                                                             placeholder="Username"
-                                                                                             th:field="*{username}">
+                            <span th:text="#{signup.label.username}">Username: </span>
+                            <input class="form-control"
+                                   type="text"
+                                   placeholder="Username"
+                                   th:field="*{username}">
                         </div>
                         <div class="form-group">
-                            <span th:text="#{signup.label.password}">Password: </span><input class="form-control"
-                                                                                             placeholder="********"
-                                                                                             type="password"
-                                                                                             th:field="*{password}">
+                            <span th:text="#{signup.label.password}">Password: </span>
+                            <input class="form-control"
+                                   placeholder="********"
+                                   type="password"
+                                   th:field="*{password}">
                         </div>
                         <div class="form-group">
-                            <span th:text="#{signup.label.password.retype}">Password: </span><input class="form-control"
-                                                                                                    placeholder="********"
-                                                                                                    type="password"
-                                                                                                    th:field="*{matchingPassword}">
+                            <span th:text="#{signup.label.password.retype}">Password: </span>
+                            <input class="form-control"
+                                   placeholder="********"
+                                   type="password"
+                                   th:field="*{matchingPassword}">
                         </div>
                         <div class="form-group">
-                            <span th:text="#{signup.label.email}">E-mail: </span><input class="form-control" type="text"
-                                                                                        placeholder="E-mail"
-                                                                                        th:field="*{email}">
+                            <span th:text="#{signup.label.email}">E-mail: </span>
+                            <input class="form-control" type="text"
+                                   placeholder="E-mail"
+                                   th:field="*{email}">
                         </div>
                         <button class="btn btn-success" th:text="#{signup.button.submit}" type="submit">Login</button>
                     </form>

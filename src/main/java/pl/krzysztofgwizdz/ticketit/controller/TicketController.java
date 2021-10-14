@@ -17,14 +17,8 @@ import java.util.List;
 public class TicketController {
 
     private TicketService ticketService;
-    private UserService userService;
 
-    @RequestMapping({"", "/"})
-    public String redirectToList() {
-        return "redirect:/ticket/list";
-    }
-
-    @GetMapping("/list")
+    @GetMapping
     public String getTicketList(Model model) {
         List<Ticket> tickets = ticketService.findAllTickets();
         model.addAttribute("tickets", tickets);
@@ -32,7 +26,7 @@ public class TicketController {
     }
 
     @GetMapping("/add")
-    public String showAddTicketForm(Model model, Principal principal) {
+    public String showAddTicketForm(Model model) {
         Ticket ticket = new Ticket();
         model.addAttribute("ticket", ticket);
         return "ticketForm";
@@ -79,10 +73,5 @@ public class TicketController {
     @Autowired
     public void setTicketService(TicketService ticketService) {
         this.ticketService = ticketService;
-    }
-
-    @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
     }
 }

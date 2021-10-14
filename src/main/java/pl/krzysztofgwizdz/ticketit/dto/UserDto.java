@@ -7,26 +7,26 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@PasswordMatches(message = "* Hasła muszą być takie same.")
+@PasswordMatches(message = "signup.form.field.error.password.nomatch")
 public class UserDto {
 
-    @NotNull(message = "* Pole jest wymagane.")
-    @NotEmpty(message = "* Pole jest wymagane.")
-    @Size(min = 6, max = 40, message = "* Nazwa użytkownika musi mieć od 6 do 40 znaków.")
+    @NotNull(message = "{form.field.error.required}")
+    @NotEmpty(message = "{form.field.error.required}")
+    @Size(min = 6, max = 40, message = "{signup.form.field.error.username.length}")
     private String username;
 
-    @NotNull(message = "* Pole jest wymagane.")
-    @NotEmpty(message = "* Pole jest wymagane.")
-    @Size(min = 6, max = 40, message = "* Hasło musi mieć od 6 do 40 znaków.")
+    @NotNull(message = "form.field.error.required")
+    @NotEmpty(message = "form.field.error.required")
+    @Size(min = 6, max = 40, message = "signup.form.field.error.password.length")
     private String password;
 
-    @NotNull(message = "* Pole jest wymagane.")
-    @NotEmpty(message = "* Pole jest wymagane.")
+    @NotNull(message = "form.field.error.required")
+    @NotEmpty(message = "form.field.error.required")
     private String matchingPassword;
 
-    @NotNull(message = "* Pole jest wymagane.")
-    @NotEmpty(message = "* Pole jest wymagane.")
-    @ValidEmail(message = "* Niepoprawny format adresu email.")
+    @NotNull(message = "form.field.error.required")
+    @NotEmpty(message = "form.field.error.required")
+    @ValidEmail(message = "signup.form.field.error.email.format")
     private String email;
 
     public String getUsername() {
