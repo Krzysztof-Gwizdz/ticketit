@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class TicketStatus {
 
     @Id
-    @Column(name = "statusid", nullable = false, unique = true)
+    @Column(name = "status_id", nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 

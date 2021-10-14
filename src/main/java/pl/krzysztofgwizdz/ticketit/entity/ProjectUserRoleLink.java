@@ -17,21 +17,21 @@ public class ProjectUserRoleLink {
             fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE}
     )
-    @MapsId("project_id")
+    @MapsId("projectId")
     private Project project;
 
     @ManyToOne(
             fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE}
     )
-    @MapsId("user_id")
+    @MapsId("userId")
     private User user;
 
     @ManyToOne(
             fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE}
     )
-    @MapsId("role_id")
+    @MapsId("roleId")
     private ProjectRole role;
 
     @Column(name = "joined_on")
@@ -69,6 +69,22 @@ public class ProjectUserRoleLink {
 
     public void setRole(ProjectRole role) {
         this.role = role;
+    }
+
+    public ProjectUserRoleId getProjectUserRoleId() {
+        return projectUserRoleId;
+    }
+
+    public void setProjectUserRoleId(ProjectUserRoleId projectUserRoleId) {
+        this.projectUserRoleId = projectUserRoleId;
+    }
+
+    public Date getJoinedOn() {
+        return joinedOn;
+    }
+
+    public void setJoinedOn(Date joinedOn) {
+        this.joinedOn = joinedOn;
     }
 
     @Override

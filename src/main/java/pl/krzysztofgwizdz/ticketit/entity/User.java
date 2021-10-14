@@ -21,7 +21,7 @@ public class User {
     private Long userId;
 
     @NaturalId
-    @Column(name = "user_name", nullable = false, unique = true)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
     @Column(name = "password", nullable = false)
@@ -51,7 +51,7 @@ public class User {
     private List<Authority> authorities = new ArrayList<>();
 
     @OneToMany(
-            mappedBy = "user_id",
+            mappedBy = "user",
             cascade = {CascadeType.PERSIST, CascadeType.MERGE},
             fetch = FetchType.LAZY
     )

@@ -1,33 +1,33 @@
 package pl.krzysztofgwizdz.ticketit.entity;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
 @Table(name = "ticket_comments")
 public class TicketComment {
 
     @Id
-    @Column(name = "commentid")
+    @Column(name = "comment_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "content")
     private String content;
 
-    @Column(name = "created")
-    private Timestamp creationDate;
+    @Column(name = "created_on")
+    private Date createdOn = new Date();
 
     @ManyToOne(fetch = FetchType.LAZY,
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "ticketid")
+    @JoinColumn(name = "ticket_id")
     private Ticket ticket;
 
     @ManyToOne(
             fetch = FetchType.LAZY,
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}
     )
-    @JoinColumn(name = "userid")
+    @JoinColumn(name = "user_id")
     private User user;
 
     public TicketComment() {
@@ -51,12 +51,12 @@ public class TicketComment {
         this.content = content;
     }
 
-    public Timestamp getCreationDate() {
-        return creationDate;
+    public Date getCreatedOn() {
+        return createdOn;
     }
 
-    public void setCreationDate(Timestamp creationDate) {
-        this.creationDate = creationDate;
+    public void setCreatedOn(Date createdOn) {
+        this.createdOn = createdOn;
     }
 
     public Ticket getTicket() {

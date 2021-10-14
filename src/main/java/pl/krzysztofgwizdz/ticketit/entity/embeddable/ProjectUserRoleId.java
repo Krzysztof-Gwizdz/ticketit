@@ -10,14 +10,14 @@ public class ProjectUserRoleId implements Serializable {
 
     private static final long serialVersionUID = -5939338969540237599L;
 
-    @Column(name = "projectid")
+    @Column(name = "project_id")
     private Long projectId;
 
-    @Column(name = "userid")
+    @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "projectroleid")
-    private Long projectRoleId;
+    @Column(name = "role_id")
+    private Long roleId;
 
     public ProjectUserRoleId() {
     }
@@ -25,12 +25,12 @@ public class ProjectUserRoleId implements Serializable {
     /**
      * @param projectId
      * @param userId
-     * @param projectRoleId
+     * @param roleId
      */
-    public ProjectUserRoleId(Long projectId, Long userId, Long projectRoleId) {
+    public ProjectUserRoleId(Long projectId, Long userId, Long roleId) {
         this.projectId = projectId;
         this.userId = userId;
-        this.projectRoleId = projectRoleId;
+        this.roleId = roleId;
     }
 
     public static long getSerialVersionUID() {
@@ -53,8 +53,8 @@ public class ProjectUserRoleId implements Serializable {
         this.userId = userId;
     }
 
-    public Long getProjectRoleId() {
-        return projectRoleId;
+    public Long getRoleId() {
+        return roleId;
     }
 
     @Override
@@ -62,11 +62,11 @@ public class ProjectUserRoleId implements Serializable {
         if (this == o) return true;
         if (!(o instanceof ProjectUserRoleId)) return false;
         ProjectUserRoleId that = (ProjectUserRoleId) o;
-        return getProjectId().equals(that.getProjectId()) && getUserId().equals(that.getUserId()) && getProjectRoleId().equals(that.getProjectRoleId());
+        return getProjectId().equals(that.getProjectId()) && getUserId().equals(that.getUserId()) && getRoleId().equals(that.getRoleId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getProjectId(), getUserId(), getProjectRoleId());
+        return Objects.hash(getProjectId(), getUserId(), getRoleId());
     }
 }

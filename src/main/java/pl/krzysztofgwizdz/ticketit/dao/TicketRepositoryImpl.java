@@ -63,7 +63,6 @@ public class TicketRepositoryImpl implements TicketRepository {
     @Override
     public void addCommentToTicketById(long ticketId, TicketComment comment) {
         Session session = entityManager.unwrap(Session.class);
-        comment.setCreationDate(new Timestamp(System.currentTimeMillis()));
         Ticket ticket = session.byId(Ticket.class).load(ticketId);
         Hibernate.initialize(ticket.getCommentList());
         ticket.addComment(comment);

@@ -5,10 +5,7 @@ import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.NaturalIdCache;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "projects")
@@ -33,8 +30,11 @@ public class Project {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "created_on")
+    private Date createdOn = new Date();
+
     @OneToMany(
-            mappedBy = "project_id",
+            mappedBy = "project",
             cascade = {CascadeType.PERSIST, CascadeType.MERGE},
             fetch = FetchType.LAZY
     )
@@ -91,6 +91,10 @@ public class Project {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Date getCreatedOn() {
+        return  createdOn;
     }
 
     public Set<ProjectUserRoleLink> getProjectUserRoleLink() {

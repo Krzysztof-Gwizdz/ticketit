@@ -28,15 +28,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User findUserByUsername(String username) {
         Session session = entityManager.unwrap(Session.class);
-        User user = null;
-        Query query = session.createQuery("from User where username = :username");
-        List<User> queryResult;
-        query.setParameter("username", username);
-        queryResult = query.getResultList();
-        if (queryResult.size() > 0) {
-            user = queryResult.get(0);
-        }
-        return user;
+        return session.bySimpleNaturalId(User.class).load(username);
     }
 
     @Override

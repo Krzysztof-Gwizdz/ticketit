@@ -9,7 +9,7 @@ import java.util.List;
 public class Authority {
 
     @Id
-    @Column(name = "authorityid")
+    @Column(name = "authority_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
@@ -19,8 +19,8 @@ public class Authority {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "users_authorities",
-            joinColumns = {@JoinColumn(name = "authorityid")},
-            inverseJoinColumns = {@JoinColumn(name = "userid")}
+            joinColumns = {@JoinColumn(name = "authority_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")}
     )
     private List<User> userList;
 

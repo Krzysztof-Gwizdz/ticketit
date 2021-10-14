@@ -1,8 +1,8 @@
 package pl.krzysztofgwizdz.ticketit.entity;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -11,7 +11,7 @@ public class Ticket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ticketid")
+    @Column(name = "ticket_id")
     private Long id;
 
     @Column(name = "title", nullable = false)
@@ -20,27 +20,27 @@ public class Ticket {
     @Column(name = "content")
     private String content;
 
-    @Column(name = "created")
-    private Timestamp creationDate;
+    @Column(name = "created_on")
+    private Date creationDate = new Date();
 
-    @Column(name = "modified")
-    private Timestamp modificationDate;
+    @Column(name = "modified_on")
+    private Date modificationDate;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "userid")
+    @JoinColumn(name = "user_id")
     private User author;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "projectid")
+    @JoinColumn(name = "project_id")
     private Project project;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "statusid")
+    @JoinColumn(name = "status_id")
     private TicketStatus status;
 
     @OneToMany(fetch = FetchType.LAZY
             , cascade = {CascadeType.ALL})
-    @JoinColumn(name = "ticketid")
+    @JoinColumn(name = "ticket_id")
     private List<TicketComment> commentList;
 
     public Ticket() {
@@ -71,19 +71,19 @@ public class Ticket {
         this.content = content;
     }
 
-    public Timestamp getCreationDate() {
+    public Date getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Timestamp creationDate) {
+    public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
 
-    public Timestamp getModificationDate() {
+    public Date getModificationDate() {
         return modificationDate;
     }
 
-    public void setModificationDate(Timestamp modificationDate) {
+    public void setModificationDate(Date modificationDate) {
         this.modificationDate = modificationDate;
     }
 

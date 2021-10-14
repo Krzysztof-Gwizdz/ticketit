@@ -26,7 +26,7 @@ public class ProjectRole {
     private String roleName;
 
     @OneToMany(
-            mappedBy = "role_id",
+            mappedBy = "role",
             cascade = {CascadeType.PERSIST, CascadeType.MERGE},
             fetch = FetchType.LAZY
     )
