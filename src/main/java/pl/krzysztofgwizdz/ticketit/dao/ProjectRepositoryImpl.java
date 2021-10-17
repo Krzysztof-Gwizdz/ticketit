@@ -44,9 +44,10 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     }
 
     @Override
-    public void saveProject(Project project) {
+    public Project saveProject(Project project) {
         Session session = entityManager.unwrap(Session.class);
         session.saveOrUpdate(project);
+        return project;
     }
 
     @Override
@@ -56,7 +57,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     }
 
     @Override
-    public void addUserWithRole(Project project, User user, ProjectRole projectRole) {
+    public Project addUserWithRole(Project project, User user, ProjectRole projectRole) {
         Session session = entityManager.unwrap(Session.class);
         Project dbProject = session.bySimpleNaturalId(Project.class).load(project.getAcronym());
         User dbUser = session.byId(User.class).load(user.getUserId());
@@ -65,6 +66,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         session.saveOrUpdate(dbProject);
         session.saveOrUpdate(dbUser);
         session.saveOrUpdate(dbProjectRole);
+        return dbProject;
     }
 
     @Override

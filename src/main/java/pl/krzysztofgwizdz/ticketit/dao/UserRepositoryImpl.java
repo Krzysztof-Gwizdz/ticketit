@@ -47,6 +47,19 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public User findUserByUsernameWithProjects(String username) {
+        return entityManager.createQuery(
+                "select u " +
+                    "from User u " +
+                    "join fetch u.projectUserRoleLinks purl " +
+                    "join fetch purl.project " +
+                    "join fetch purl.role " +
+                    "where u.username = :username", User.class)
+                .setParameter("username", username)
+                .getSingleResult();
+    }
+
+    @Override
     public User save(User user) {
         Session session = entityManager.unwrap(Session.class);
         session.saveOrUpdate(user);

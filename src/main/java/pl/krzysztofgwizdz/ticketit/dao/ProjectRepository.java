@@ -18,11 +18,11 @@ public interface ProjectRepository {
      */
     Project findByAcronym(String acronym);
 
-    void saveProject(Project project);
+    Project saveProject(Project project);
 
     void deleteProject(Project project);
 
-    void addUserWithRole(Project project, User user, ProjectRole projectRole);
+    Project addUserWithRole(Project project, User user, ProjectRole projectRole);
 
     void removeRoleFromUser(Project project, User user, ProjectRole projectRole);
 }

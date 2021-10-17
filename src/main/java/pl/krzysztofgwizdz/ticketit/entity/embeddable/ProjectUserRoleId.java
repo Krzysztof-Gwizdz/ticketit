@@ -8,8 +8,6 @@ import java.util.Objects;
 @Embeddable
 public class ProjectUserRoleId implements Serializable {
 
-    private static final long serialVersionUID = -5939338969540237599L;
-
     @Column(name = "project_id")
     private Long projectId;
 
@@ -33,24 +31,12 @@ public class ProjectUserRoleId implements Serializable {
         this.roleId = roleId;
     }
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
-
     public Long getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(Long projectId) {
-        this.projectId = projectId;
-    }
-
     public Long getUserId() {
         return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 
     public Long getRoleId() {

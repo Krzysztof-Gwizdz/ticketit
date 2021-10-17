@@ -10,5 +10,7 @@ public interface UserRepository {
 
     User findUserByUsernameOrEmail(String username, String email);
 
+    User findUserByUsernameWithProjects(String username);
+
     User save(User user);
 }

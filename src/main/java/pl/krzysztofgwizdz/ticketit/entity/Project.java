@@ -7,7 +7,7 @@ import org.hibernate.annotations.NaturalIdCache;
 import javax.persistence.*;
 import java.util.*;
 
-@Entity
+@Entity(name = "Project")
 @Table(name = "projects")
 @NaturalIdCache
 @org.hibernate.annotations.Cache(
@@ -99,10 +99,6 @@ public class Project {
 
     public Set<ProjectUserRoleLink> getProjectUserRoleLink() {
         return projectUserRoleLink;
-    }
-
-    public void setProjectUserRoleLink(Set<ProjectUserRoleLink> projectUserRoleLink) {
-        this.projectUserRoleLink = projectUserRoleLink;
     }
 
     public Set<Ticket> getTickets() {

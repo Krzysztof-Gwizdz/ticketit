@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
-@Entity
+@Entity(name = "ProjectUserRoleLink")
 @Table(name = "project_users")
 public class ProjectUserRoleLink {
 
@@ -14,24 +14,21 @@ public class ProjectUserRoleLink {
     private ProjectUserRoleId projectUserRoleId;
 
     @ManyToOne(
-            fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE}
+            fetch = FetchType.LAZY
     )
     @MapsId("projectId")
     @JoinColumn(name = "project_id")
     private Project project;
 
     @ManyToOne(
-            fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE}
+            fetch = FetchType.LAZY
     )
     @MapsId("userId")
     @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne(
-            fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE}
+            fetch = FetchType.LAZY
     )
     @MapsId("roleId")
     @JoinColumn(name = "role_id")
@@ -48,6 +45,10 @@ public class ProjectUserRoleLink {
         this.user = user;
         this.role = role;
         this.projectUserRoleId = new ProjectUserRoleId(project.getProjectId(), user.getUserId(), role.getRoleId());
+    }
+
+    public ProjectUserRoleId getProjectUserRoleId() {
+        return projectUserRoleId;
     }
 
     public Project getProject() {
@@ -74,20 +75,8 @@ public class ProjectUserRoleLink {
         this.role = role;
     }
 
-    public ProjectUserRoleId getProjectUserRoleId() {
-        return projectUserRoleId;
-    }
-
-    public void setProjectUserRoleId(ProjectUserRoleId projectUserRoleId) {
-        this.projectUserRoleId = projectUserRoleId;
-    }
-
     public Date getJoinedOn() {
         return joinedOn;
-    }
-
-    public void setJoinedOn(Date joinedOn) {
-        this.joinedOn = joinedOn;
     }
 
     @Override

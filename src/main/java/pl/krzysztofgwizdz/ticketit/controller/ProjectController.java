@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.krzysztofgwizdz.ticketit.dto.ProjectDto;
+import pl.krzysztofgwizdz.ticketit.entity.Project;
 import pl.krzysztofgwizdz.ticketit.entity.ProjectUserRoleLink;
 import pl.krzysztofgwizdz.ticketit.service.ProjectService;
 
@@ -46,12 +47,17 @@ public class ProjectController {
     @PostMapping("/create")
     public String createNewProject(
             @ModelAttribute("project") @Valid ProjectDto projectDto,
-            BindingResult result
+            BindingResult result,
+            Principal principal
     ) {
         if(result.hasErrors()){
             return "project/form";
         }
         //Create new project with service
+        Project saved = projectService.saveProjectWithUserAndRole(principal.getName(), projectDto);
+        if (saved == null) {
+            return "project/form";
+        }
         return "project/overview";
     }
 

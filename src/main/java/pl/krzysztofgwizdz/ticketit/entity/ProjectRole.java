@@ -5,10 +5,11 @@ import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.NaturalIdCache;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-@Entity
+@Entity(name = "ProjectRole")
 @Table(name = "project_roles")
 @NaturalIdCache
 @org.hibernate.annotations.Cache(
@@ -30,7 +31,7 @@ public class ProjectRole {
             cascade = {CascadeType.PERSIST, CascadeType.MERGE},
             fetch = FetchType.LAZY
     )
-    private Set<ProjectUserRoleLink> projectUserRoleLink;
+    private Set<ProjectUserRoleLink> projectUserRoleLink = new HashSet<>();
 
     public ProjectRole() {
     }
@@ -59,20 +60,16 @@ public class ProjectRole {
         return projectUserRoleLink;
     }
 
-    public void setProjectUserRoleLink(Set<ProjectUserRoleLink> projectUserRoleLinkSet) {
-        this.projectUserRoleLink = projectUserRoleLinkSet;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ProjectRole)) return false;
         ProjectRole that = (ProjectRole) o;
-        return getRoleId().equals(that.getRoleId()) && getRoleName().equals(that.getRoleName()) && Objects.equals(getProjectUserRoleLink(), that.getProjectUserRoleLink());
+        return getRoleName().equals(that.getRoleName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getRoleId(), getRoleName(), getProjectUserRoleLink());
+        return Objects.hash(getRoleName());
     }
 }

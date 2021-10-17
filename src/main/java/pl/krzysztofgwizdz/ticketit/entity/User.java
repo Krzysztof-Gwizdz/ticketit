@@ -7,7 +7,7 @@ import org.hibernate.annotations.NaturalIdCache;
 import javax.persistence.*;
 import java.util.*;
 
-@Entity
+@Entity(name = "User")
 @Table(name = "users")
 @NaturalIdCache
 @org.hibernate.annotations.Cache(
@@ -141,10 +141,6 @@ public class User {
 
     public Set<ProjectUserRoleLink> getProjectUserRoleLinks() {
         return projectUserRoleLinks;
-    }
-
-    public void setProjectUserRoleLinks(Set<ProjectUserRoleLink> projectUserRoleLinks) {
-        this.projectUserRoleLinks = projectUserRoleLinks;
     }
 
     public void addAuthority(Authority authority) {
