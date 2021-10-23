@@ -59,14 +59,11 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     @Override
     public Project addUserWithRole(Project project, User user, ProjectRole projectRole) {
         Session session = entityManager.unwrap(Session.class);
-        Project dbProject = session.bySimpleNaturalId(Project.class).load(project.getAcronym());
-        User dbUser = session.byId(User.class).load(user.getUserId());
-        ProjectRole dbProjectRole = session.byId(ProjectRole.class).load(projectRole.getRoleId());
-        dbProject.addUserWithRole(dbUser, dbProjectRole);
-        session.saveOrUpdate(dbProject);
-        session.saveOrUpdate(dbUser);
-        session.saveOrUpdate(dbProjectRole);
-        return dbProject;
+        project.addUserWithRole(user, projectRole);
+        session.saveOrUpdate(project);
+        session.saveOrUpdate(user);
+        session.saveOrUpdate(projectRole);
+        return project;
     }
 
     @Override

@@ -53,6 +53,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Autowired
+    public void setProjectRoleRepository(ProjectRoleRepository projectRoleRepository) {
+        this.projectRoleRepository = projectRoleRepository;
+    }
+
+    @Autowired
     public void setProjectRepository(ProjectRepository projectRepository) {
         this.projectRepository = projectRepository;
     }

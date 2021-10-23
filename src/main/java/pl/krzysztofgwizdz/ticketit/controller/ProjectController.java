@@ -58,7 +58,7 @@ public class ProjectController {
         if (saved == null) {
             return "project/form";
         }
-        return "project/overview";
+        return "redirect:/project";
     }
 
     @Autowired

@@ -34,7 +34,7 @@
             <h2 class="col-md-10" th:text="#{projects.form.title}">Create new project</h2>
         </div>
         <div class="col-12 form-input">
-            <form method="post" th:object="${project}" th:action="@{/project/create}">
+            <form method="post" th:object="${project}" action="#" th:action="@{/project/create}">
                 <div class="form-group">
                     <label>
                         <span th:text="#{projects.form.label.projectname}">Projects name:</span>
