@@ -77,4 +77,16 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         session.saveOrUpdate(dbUser);
         session.saveOrUpdate(dbProjectRole);
     }
+
+    @Override
+    public Project findProjectWithUsers(Long id) {
+        return entityManager.createQuery("select p " +
+                "from Project p " +
+                "join fetch p.projectUserRoleLink purl " +
+                "join fetch purl.user " +
+                "join fetch purl.role " +
+                "where p.projectId = :projectId", Project.class)
+                .setParameter("projectId", id)
+                .getSingleResult();
+    }
 }

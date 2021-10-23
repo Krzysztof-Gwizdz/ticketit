@@ -18,6 +18,8 @@ public interface ProjectRepository {
      */
     Project findByAcronym(String acronym);
 
+    Project findProjectWithUsers(Long id);
+
     Project saveProject(Project project);
 
     void deleteProject(Project project);

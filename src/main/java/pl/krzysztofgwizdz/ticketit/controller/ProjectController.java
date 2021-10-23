@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import pl.krzysztofgwizdz.ticketit.dto.ProjectDto;
 import pl.krzysztofgwizdz.ticketit.entity.Project;
 import pl.krzysztofgwizdz.ticketit.entity.ProjectUserRoleLink;
@@ -59,6 +56,19 @@ public class ProjectController {
             return "project/form";
         }
         return "redirect:/project";
+    }
+
+    @GetMapping("/{projectAcronym}/settings")
+    public String projectSettings(
+            @PathVariable("projectAcronym") String projectAcronym,
+            Model model,
+            Principal principal
+    ) {
+        Project project = projectService.getProjectByAcronym(projectAcronym);
+        Set<ProjectUserRoleLink> projectUsers = projectService.getProjectUserRoleLinksByProject(project.getProjectId());
+        model.addAttribute("project", project);
+        model.addAttribute("projectUsers", projectUsers);
+        return "project/settings";
     }
 
     @Autowired
