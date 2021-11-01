@@ -25,19 +25,22 @@
                 <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{navigation.navbar.home}">Home</a></li>
                 <li class="breadcrumb-item"><a th:href="@{/project}"
                                                th:text="#{navigation.navbar.projects}">Projects</a></li>
-                <li class="breadcrumb-item" aria-current="page" th:text="">
-                    <!-- Projectname breadcrumb here -->
+                <li class="breadcrumb-item"><a th:href="@{/project/{projectAcronym}(projectAcronym = ${project.getAcronym()})}"
+                                               th:text="${project.getAcronym()}">PROJECTACRONYM</a>
+
                 </li>
-                <li class="breadcrumb-item active" aria-current="page" th:text="aaa">
+                <li class="breadcrumb-item active" aria-current="page" th:text="#{navigation.navbar.settings}">
                     Settings
                 </li>
             </ol>
         </nav>
         <div class="row mb-4">
-            <h2 class="col-md-10" th:text="#{projects.form.title}">Create new project</h2>
+            <h2 class="col-md-10" th:text="${project.name} + ' - ' + #{projects.settings.title}">Project settings</h2>
         </div>
         <div class="col-12 form-input">
-            <form method="post" th:object="${project}" action="#" th:action="@{/project/create}">
+            <form method="post" th:object="${project}" action="#" th:action="@{/project/update}">
+                <input type="hidden" th:field="*{projectId}"/>
+                <input type="hidden" th:field="*{createdOn}">
                 <div class="form-group">
                     <label>
                         <span th:text="#{projects.form.label.projectname}">Projects name:</span>

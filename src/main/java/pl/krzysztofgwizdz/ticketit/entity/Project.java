@@ -31,7 +31,7 @@ public class Project {
     private String description;
 
     @Column(name = "created_on")
-    private Date createdOn = new Date();
+    private Date createdOn;
 
     @OneToMany(
             mappedBy = "project",
@@ -94,7 +94,11 @@ public class Project {
     }
 
     public Date getCreatedOn() {
-        return  createdOn;
+        return createdOn;
+    }
+
+    public void setCreatedOn(Date createdOn) {
+        this.createdOn = createdOn;
     }
 
     public Set<ProjectUserRoleLink> getProjectUserRoleLink() {
@@ -129,6 +133,15 @@ public class Project {
                 link.setRole(null);
             }
         }
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        createdOn = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
     }
 
     @Override

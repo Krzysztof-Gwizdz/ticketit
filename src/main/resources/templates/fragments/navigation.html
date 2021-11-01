@@ -46,7 +46,7 @@
                 <div class="d-flex">
                     <div sec:authorize="isAuthenticated()">
                         <span class="nav-item">
-                            <span th:text="#{navigation.navbar.loggedAs}">You're logged as: </span><a href="#"
+                            <span th:text="#{navigation.navbar.loggedAs} + ' '">You're logged as: </span><a href="#"
                                                                                                       sec:authentication="name">Username</a>
                         </span>
                         <a class="nav-item" th:href="@{/logout}">

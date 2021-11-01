@@ -12,6 +12,8 @@ public interface ProjectService {
 
     Project saveProjectWithUserAndRole(String username, ProjectDto projectDto);
 
+    Project updateProject(Project project);
+
     Project getProjectByAcronym(String projectAcronym);
 
     Set<ProjectUserRoleLink> getProjectUserRoleLinksByProject(Long projectId);

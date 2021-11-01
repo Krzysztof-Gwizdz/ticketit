@@ -12,6 +12,7 @@ import pl.krzysztofgwizdz.ticketit.service.ProjectService;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.HashSet;
 import java.util.Set;
 
 @Controller
@@ -47,12 +48,12 @@ public class ProjectController {
             BindingResult result,
             Principal principal
     ) {
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             return "project/form";
         }
         //Create new project with service
-        Project saved = projectService.saveProjectWithUserAndRole(principal.getName(), projectDto);
-        if (saved == null) {
+        Project savedProject = projectService.saveProjectWithUserAndRole(principal.getName(), projectDto);
+        if (savedProject == null) {
             return "project/form";
         }
         return "redirect:/project";
@@ -69,6 +70,22 @@ public class ProjectController {
         model.addAttribute("project", project);
         model.addAttribute("projectUsers", projectUsers);
         return "project/settings";
+    }
+
+    @PostMapping("/update")
+    public String projectSettingsPost(
+            @ModelAttribute("project") Project project,
+            @ModelAttribute("projectUsers") HashSet<ProjectUserRoleLink> projectUsers,
+            BindingResult result
+    ) {
+        if (result.hasErrors()) {
+            return "project/settings";
+        }
+        Project savedProject = projectService.updateProject(project);
+        if (savedProject == null) {
+            return "project/form";
+        }
+        return "redirect:/project";
     }
 
     @Autowired
