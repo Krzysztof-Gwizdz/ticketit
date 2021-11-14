@@ -40,7 +40,7 @@
         <div class="col-12 form-input">
             <form method="post" th:object="${project}" action="#" th:action="@{/project/update}">
                 <input type="hidden" th:field="*{projectId}"/>
-                <input type="hidden" th:field="*{createdOn}">
+                <input type="hidden" th:field="*{createdOn}"/>
                 <div class="form-group">
                     <label>
                         <span th:text="#{projects.form.label.projectname}">Projects name:</span>

@@ -3,6 +3,7 @@ package pl.krzysztofgwizdz.ticketit.entity;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.NaturalIdCache;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.*;
@@ -31,6 +32,7 @@ public class Project {
     private String description;
 
     @Column(name = "created_on")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Date createdOn;
 
     @OneToMany(
