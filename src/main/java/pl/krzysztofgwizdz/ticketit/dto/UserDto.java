@@ -10,9 +10,9 @@ import javax.validation.constraints.Size;
 @PasswordMatches(message = "signup.form.field.error.password.nomatch")
 public class UserDto {
 
-    @NotNull(message = "{form.field.error.required}")
-    @NotEmpty(message = "{form.field.error.required}")
-    @Size(min = 6, max = 40, message = "{signup.form.field.error.username.length}")
+    @NotNull(message = "form.field.error.required")
+    @NotEmpty(message = "form.field.error.required")
+    @Size(min = 6, max = 40, message = "signup.form.field.error.username.length")
     private String username;
 
     @NotNull(message = "form.field.error.required")

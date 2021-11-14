@@ -21,3 +21,9 @@
     border: 0;
     background-color: #ffffff;
 }
+
+#globalErrorsBox {
+    width: 100%;
+    background-color: #ffbdce;
+    border: 1px solid #dc3545;
+}

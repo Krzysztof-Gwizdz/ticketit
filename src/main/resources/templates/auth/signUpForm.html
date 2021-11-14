@@ -28,12 +28,16 @@
                 </div>
                 <div class="col-12 form-input">
                     <form method="post" th:object="${user}" th:action="@{/signUp}">
+                        <div id="globalErrorsBox" th:if="${#fields.hasGlobalErrors()}">
+                            <p class="error-message my-0 py-0" th:each="err : ${#fields.globalErrors()}" th:text="#{${err}}"></p>
+                        </div>
                         <div class="form-group">
-                            <span th:text="#{signup.label.username}">Username: </span>
-                            <input class="form-control"
+                            <label for="usernameInput" class="form-label" th:text="#{signup.label.username}">Username: </label>
+                            <input id="usernameInput" class="form-control"
                                    type="text"
                                    placeholder="Username"
                                    th:field="*{username}">
+                            <p class="error-message my-0 py-0" th:each="err : ${#fields.errors('username')}" th:text="#{${err}}"></p>
                         </div>
                         <div class="form-group">
                             <span th:text="#{signup.label.password}">Password: </span>
@@ -41,6 +45,7 @@
                                    placeholder="********"
                                    type="password"
                                    th:field="*{password}">
+                            <p class="error-message my-0 py-0" th:each="err : ${#fields.errors('password')}" th:text="#{${err}}"></p>
                         </div>
                         <div class="form-group">
                             <span th:text="#{signup.label.password.retype}">Password: </span>
@@ -48,12 +53,14 @@
                                    placeholder="********"
                                    type="password"
                                    th:field="*{matchingPassword}">
+                            <p class="error-message my-0 py-0" th:each="err : ${#fields.errors('matchingPassword')}" th:text="#{${err}}"></p>
                         </div>
                         <div class="form-group">
                             <span th:text="#{signup.label.email}">E-mail: </span>
                             <input class="form-control" type="text"
                                    placeholder="E-mail"
                                    th:field="*{email}">
+                            <p class="error-message my-0 py-0" th:each="err : ${#fields.errors('email')}" th:text="#{${err}}"></p>
                         </div>
                         <button class="btn btn-success" th:text="#{signup.button.submit}" type="submit">Login</button>
                     </form>
