@@ -43,7 +43,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/",
                         "/signUp**",
                         "/signUpAction**",
-                        "/login**"
+                        "/login**",
+                        "/webfonts/**"
                 ).permitAll()
                 .anyRequest().authenticated()
                 .and()

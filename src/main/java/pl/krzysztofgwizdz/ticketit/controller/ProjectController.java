@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import pl.krzysztofgwizdz.ticketit.dto.ProjectDto;
 import pl.krzysztofgwizdz.ticketit.entity.Project;
 import pl.krzysztofgwizdz.ticketit.entity.ProjectUserRoleLink;
@@ -15,6 +12,7 @@ import pl.krzysztofgwizdz.ticketit.service.ProjectService;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.HashSet;
 import java.util.Set;
 
 @Controller
@@ -50,12 +48,41 @@ public class ProjectController {
             BindingResult result,
             Principal principal
     ) {
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             return "project/form";
         }
         //Create new project with service
-        Project saved = projectService.saveProjectWithUserAndRole(principal.getName(), projectDto);
-        if (saved == null) {
+        Project savedProject = projectService.saveProjectWithUserAndRole(principal.getName(), projectDto);
+        if (savedProject == null) {
+            return "project/form";
+        }
+        return "redirect:/project";
+    }
+
+    @GetMapping("/{projectAcronym}/settings")
+    public String projectSettings(
+            @PathVariable("projectAcronym") String projectAcronym,
+            Model model,
+            Principal principal
+    ) {
+        Project project = projectService.getProjectByAcronym(projectAcronym);
+        Set<ProjectUserRoleLink> projectUsers = projectService.getProjectUserRoleLinksByProject(project.getProjectId());
+        model.addAttribute("project", project);
+        model.addAttribute("projectUsers", projectUsers);
+        return "project/settings";
+    }
+
+    @PostMapping("/update")
+    public String projectSettingsPost(
+            @ModelAttribute("project") Project project,
+            @ModelAttribute("projectUsers") HashSet<ProjectUserRoleLink> projectUsers,
+            BindingResult result
+    ) {
+        if (result.hasErrors()) {
+            return "project/settings";
+        }
+        Project savedProject = projectService.updateProject(project);
+        if (savedProject == null) {
             return "project/form";
         }
         return "redirect:/project";

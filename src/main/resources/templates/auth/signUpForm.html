@@ -11,7 +11,8 @@
 
     <link media="screen" rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
     <link media="screen" rel="stylesheet" th:href="@{/css/main.css}"/>
-    <link media="screen" rel="stylesheet" th:href="@{/css/signUp.css}" type="text/css">
+    <link media="screen" rel="stylesheet" th:href="@{/css/login.css}" type="text/css">
+    <link media="screen" rel="stylesheet" th:href="@{/css/all.min.css}" type="text/css">
 </head>
 <body id="page-top">
 
@@ -24,36 +25,77 @@
         <div class="col-sm-9 main-section">
             <div class="modal-content">
                 <div class="col-12 text-center">
+                    <i id="usersIcon" class="fas fa-users"></i>
+                </div>
+                <div class="col-12 text-center">
                     <h1 th:text="#{signup.title.newaccount}">Create new account</h1>
                 </div>
                 <div class="col-12 form-input">
                     <form method="post" th:object="${user}" th:action="@{/signUp}">
-                        <div class="form-group">
-                            <span th:text="#{signup.label.username}">Username: </span>
-                            <input class="form-control"
-                                   type="text"
-                                   placeholder="Username"
-                                   th:field="*{username}">
+                        <div id="globalErrorsBox" th:if="${#fields.hasGlobalErrors()}">
+                            <p class="error-message my-0 py-0" th:each="err : ${#fields.globalErrors()}"
+                               th:text="#{${err}}"></p>
                         </div>
                         <div class="form-group">
-                            <span th:text="#{signup.label.password}">Password: </span>
-                            <input class="form-control"
-                                   placeholder="********"
-                                   type="password"
-                                   th:field="*{password}">
+                            <label for="usernameInput" class="form-label"
+                                   th:text="#{signup.label.username}">Username: </label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="usernameInputIcon"><i class="fas fa-user"></i></span>
+                                <input id="usernameInput" class="form-control"
+                                       type="text"
+                                       th:placeholder="#{login.user.placeholder}"
+                                       placeholder="Username"
+                                       th:field="*{username}"
+                                       aria-label="Username"
+                                       aria-describedby="usernameInputIcon"/>
+                            </div>
+                            <p class="error-message my-0 py-0" th:each="err : ${#fields.errors('username')}"
+                               th:text="#{${err}}"></p>
                         </div>
                         <div class="form-group">
-                            <span th:text="#{signup.label.password.retype}">Password: </span>
-                            <input class="form-control"
-                                   placeholder="********"
-                                   type="password"
-                                   th:field="*{matchingPassword}">
+                            <label for="passwordInput" th:text="#{signup.label.password}">Password: </label>
+                            <div class="input-group">
+                                <span id="passwordInputIcon" class="input-group-text"><i class="fas fa-lock"></i></span>
+                                <input id="passwordInput"
+                                       class="form-control"
+                                       placeholder="********"
+                                       type="password"
+                                       th:field="*{password}"
+                                       aria-label="Password"
+                                       aria-describedby="passwordInputIcon">
+                            </div>
+                            <p class="error-message my-0 py-0" th:each="err : ${#fields.errors('password')}"
+                               th:text="#{${err}}"></p>
                         </div>
                         <div class="form-group">
-                            <span th:text="#{signup.label.email}">E-mail: </span>
-                            <input class="form-control" type="text"
-                                   placeholder="E-mail"
-                                   th:field="*{email}">
+                            <label for="passwordInput" th:text="#{signup.label.password.retype}">Password: </label>
+                            <div class="input-group">
+                                <span id="passwordMatchInputIcon" class="input-group-text"><i
+                                        class="fas fa-lock"></i></span>
+                                <input id="passwordMatchInput"
+                                       class="form-control"
+                                       placeholder="********"
+                                       type="password"
+                                       th:field="*{matchingPassword}"
+                                       aria-label="PasswordMatch"
+                                       aria-describedby="passwordMatchInputIcon">
+                            </div>
+                            <p class="error-message my-0 py-0" th:each="err : ${#fields.errors('matchingPassword')}"
+                               th:text="#{${err}}"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="emailInput" th:text="#{signup.label.email}">E-mail: </label>
+                            <div class="input-group">
+                                <span id="emailInputIcon" class="input-group-text"><i class="fas fa-at"></i></span>
+                                <input id="emailInput"
+                                       class="form-control" type="text"
+                                       placeholder="E-mail"
+                                       th:field="*{email}"
+                                       aria-label="Email"
+                                       aria-describedby="emailInputIcon">
+                            </div>
+                            <p class="error-message my-0 py-0" th:each="err : ${#fields.errors('email')}"
+                               th:text="#{${err}}"></p>
                         </div>
                         <button class="btn btn-success" th:text="#{signup.button.submit}" type="submit">Login</button>
                     </form>

@@ -41,7 +41,7 @@ public class AuthController {
             registredUser = createUserAccount(userDto);
         }
         if (registredUser == null) {
-            //result.reject("Istnieje już użytkownik o podanym loginie lub emailu.");
+            result.reject("signup.form.error.userexists");
         }
         if (result.hasErrors()) {
             return "auth/signUpForm";

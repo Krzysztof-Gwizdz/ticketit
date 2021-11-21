@@ -6,14 +6,14 @@ import javax.validation.constraints.Size;
 
 public class ProjectDto {
 
-    @NotNull(message = "#{form.field.error.required}")
-    @NotEmpty(message = "#{form.field.error.required}")
-    @Size(min = 6, max = 255, message = "#{projects.form.field.error.name}")
+    @NotNull(message = "form.field.error.required")
+    @NotEmpty(message = "form.field.error.required")
+    @Size(min = 6, max = 255, message = "projects.form.field.error.name")
     private String name;
 
-    @NotNull(message = "#{form.field.error.required}")
-    @NotEmpty(message = "#{form.field.error.required}")
-    @Size(min = 2, max = 50, message = "#{projects.form.field.error.acronym}")
+    @NotNull(message = "form.field.error.required")
+    @NotEmpty(message = "form.field.error.required")
+    @Size(min = 2, max = 50, message = "projects.form.field.error.acronym")
     private String acronym;
 
     private String description;

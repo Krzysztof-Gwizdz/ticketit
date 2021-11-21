@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import pl.krzysztofgwizdz.ticketit.entity.User;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.util.List;
 
@@ -48,15 +49,19 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User findUserByUsernameWithProjects(String username) {
-        return entityManager.createQuery(
-                "select u " +
-                    "from User u " +
-                    "join fetch u.projectUserRoleLinks purl " +
-                    "join fetch purl.project " +
-                    "join fetch purl.role " +
-                    "where u.username = :username", User.class)
-                .setParameter("username", username)
-                .getSingleResult();
+        try {
+            return entityManager.createQuery(
+                    "select u " +
+                            "from User u " +
+                            "join fetch u.projectUserRoleLinks purl " +
+                            "join fetch purl.project " +
+                            "join fetch purl.role " +
+                            "where u.username = :username", User.class)
+                    .setParameter("username", username)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return findUserByUsername(username);
+        }
     }
 
     @Override

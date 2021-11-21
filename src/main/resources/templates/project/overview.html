@@ -12,6 +12,7 @@
     <link media="screen" rel="stylesheet" th:href="@{/css/bootstrap.min.css}"
           href="../../static/css/bootstrap.min.css"/>
     <link media="screen" rel="stylesheet" th:href="@{/css/main.css}" href="../../static/css/main.css"/>
+    <link media="screen" rel="stylesheet" th:href="@{/css/all.min.css}" type="text/css">
 </head>
 
 <body id="page-top">
@@ -44,7 +45,9 @@
                             <span class="org-member-status" th:text="${projectLink.getRole().getRoleName()}">Owner</span>
                         </div>
                         <div class="col-xl-1">
-                            <button class="btn btn-outline-secondary" th:text="#{projects.overview.button.settings}">Settings</button>
+                            <a th:href="@{/project/{projectAcronym}/settings(projectAcronym = ${projectLink.getProject().getAcronym()})}" href="#">
+                                <button class="btn btn-outline-secondary" th:text="#{projects.overview.button.settings}">Settings</button>
+                            </a>
                         </div>
                         <div class="col-xl-1">
                             <button class="btn btn-outline-secondary" th:text="#{projects.overview.button.leave}">Leave</button>

@@ -12,6 +12,7 @@
     <link media="screen" rel="stylesheet" th:href="@{/css/bootstrap.min.css}"
           href="../../static/css/bootstrap.min.css"/>
     <link media="screen" rel="stylesheet" th:href="@{/css/main.css}" href="../../static/css/main.css"/>
+    <link media="screen" rel="stylesheet" th:href="@{/css/all.min.css}" type="text/css">
 </head>
 
 <body id="page-top">
@@ -36,36 +37,35 @@
         <div class="col-12 form-input">
             <form method="post" th:object="${project}" action="#" th:action="@{/project/create}">
                 <div class="form-group">
-                    <label>
-                        <span th:text="#{projects.form.label.projectname}">Projects name:</span>
-                        <input class="form-control"
-                               type="text"
-                               th:placeholder="#{projects.form.placeholder.projectname}"
-                               placeholder="Projects name"
-                               th:field="*{name}">
-                    </label>
+                    <label for="projectNameInput" class="form-label" th:text="#{projects.form.label.projectname}">Projects
+                        name:</label>
+                    <input id="projectNameInput" class="form-control"
+                           type="text"
+                           th:placeholder="#{projects.form.placeholder.projectname}"
+                           placeholder="Projects name"
+                           th:field="*{name}">
+                    <p class="error-message my-0 py-0" th:each="err : ${#fields.errors('name')}" th:text="#{${err}}"></p>
                 </div>
                 <div class="form-group">
-                    <label>
-                        <span th:text="#{projects.form.label.acronym}">Projcts acronym:</span>
-                        <input class="form-control"
-                               type="text"
-                               th:placeholder="#{projects.form.placeholder.acronym}"
-                               placeholder="ACRONYM"
-                               th:field="*{acronym}">
-                    </label>
+                    <label class="form-label" for="acronymInput" th:text="#{projects.form.label.acronym}">Projcts
+                        acronym:</label>
+                    <input id="acronymInput" class="form-control"
+                           type="text"
+                           th:placeholder="#{projects.form.placeholder.acronym}"
+                           placeholder="ACRONYM"
+                           th:field="*{acronym}">
+                    <p class="error-message my-0 py-0" th:each="err : ${#fields.errors('acronym')}" th:text="#{${err}}"></p>
                 </div>
                 <div class="form-group">
-                    <label>
-                        <span th:text="#{projects.form.label.description}">Description:</span>
-                        <input class="form-control"
-                               type="text"
-                               th:placeholder="#{projects.form.placeholder.description}"
-                               placeholder="Description"
-                               th:field="*{description}">
-                    </label>
+                    <label class="form-label" for="descriptionInput" th:text="#{projects.form.label.description}">Description:</label>
+                    <textarea id="descriptionInput" class="form-control"
+                              th:placeholder="#{projects.form.placeholder.description}"
+                              placeholder="Description"
+                              th:field="*{description}"></textarea>
                 </div>
-                <button class="btn btn-success" th:text="#{projects.form.button.submit}" type="submit">Create project</button>
+                <button class="btn btn-success" th:text="#{projects.form.button.createnew}" type="submit">Create
+                    project
+                </button>
             </form>
         </div>
 

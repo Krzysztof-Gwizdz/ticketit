@@ -3,6 +3,7 @@ package pl.krzysztofgwizdz.ticketit.entity;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.NaturalIdCache;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.*;
@@ -31,7 +32,8 @@ public class Project {
     private String description;
 
     @Column(name = "created_on")
-    private Date createdOn = new Date();
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private Date createdOn;
 
     @OneToMany(
             mappedBy = "project",
@@ -94,7 +96,11 @@ public class Project {
     }
 
     public Date getCreatedOn() {
-        return  createdOn;
+        return createdOn;
+    }
+
+    public void setCreatedOn(Date createdOn) {
+        this.createdOn = createdOn;
     }
 
     public Set<ProjectUserRoleLink> getProjectUserRoleLink() {
@@ -129,6 +135,15 @@ public class Project {
                 link.setRole(null);
             }
         }
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        createdOn = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
     }
 
     @Override

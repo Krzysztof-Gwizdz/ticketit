@@ -52,6 +52,27 @@ public class ProjectServiceImpl implements ProjectService {
         return saved;
     }
 
+    @Override
+    @Transactional
+    public Project getProjectByAcronym(String projectAcronym) {
+        return projectRepository.findByAcronym(projectAcronym);
+    }
+
+    @Override
+    @Transactional
+    public Set<ProjectUserRoleLink> getProjectUserRoleLinksByProject(Long projectId) {
+        Project project = projectRepository.findProject(projectId);
+        Set<ProjectUserRoleLink> links = project.getProjectUserRoleLink();
+        return links;
+    }
+
+    @Override
+    @Transactional
+    public Project updateProject(Project project) {
+        Project savedProject = projectRepository.saveProject(project);
+        return savedProject;
+    }
+
     @Autowired
     public void setProjectRoleRepository(ProjectRoleRepository projectRoleRepository) {
         this.projectRoleRepository = projectRoleRepository;
