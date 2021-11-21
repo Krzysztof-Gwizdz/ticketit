@@ -7,9 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.krzysztofgwizdz.ticketit.entity.Ticket;
 import pl.krzysztofgwizdz.ticketit.entity.TicketComment;
 import pl.krzysztofgwizdz.ticketit.service.TicketService;
-import pl.krzysztofgwizdz.ticketit.service.UserService;
 
-import java.security.Principal;
 import java.util.List;
 
 @Controller
