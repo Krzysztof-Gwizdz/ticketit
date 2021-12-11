@@ -1,9 +1,13 @@
 package pl.krzysztofgwizdz.ticketit.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tickets")
@@ -26,11 +30,11 @@ public class Ticket {
     @Column(name = "modified_on")
     private Date modificationDate;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User author;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
     private Project project;
 
@@ -124,5 +128,29 @@ public class Ticket {
             commentList = new ArrayList<>();
         }
         commentList.add(comment);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Ticket)) return false;
+        Ticket ticket = (Ticket) o;
+        return getTitle().equals(ticket.getTitle()) && getCreationDate().equals(ticket.getCreationDate());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getTitle(), getCreationDate());
+    }
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", creationDate=" + creationDate +
+                ", modificationDate=" + modificationDate +
+                '}';
     }
 }

@@ -35,7 +35,7 @@
             </a>
         </div>
         <div th:unless="${projectsLinks==null or #lists.isEmpty(projectsLinks)}">
-            <ul>
+            <ul id="project-list" class="no-punctation">
                 <li class="my-2" th:each="projectLink: ${projectsLinks}">
                     <div class="row">
                         <div class="col-xl-10">

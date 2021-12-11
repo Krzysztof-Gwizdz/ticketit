@@ -8,10 +8,13 @@ import pl.krzysztofgwizdz.ticketit.entity.Ticket;
 import pl.krzysztofgwizdz.ticketit.entity.TicketComment;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class TicketRepositoryImpl implements TicketRepository {
@@ -39,6 +42,24 @@ public class TicketRepositoryImpl implements TicketRepository {
     }
 
     @Override
+    public Ticket findTicketWithCommentsById(long ticketId) {
+        Session session = entityManager.unwrap(Session.class);
+        Ticket ticket = session.byId(Ticket.class).load(ticketId);
+        Hibernate.initialize(ticket.getCommentList());
+        return ticket;
+    }
+
+    @Override
+    public Set<Ticket> findTicketsByProject(long projectId) {
+        Session session = entityManager.unwrap(Session.class);
+        Query query = session.createQuery("FROM Ticket t WHERE t.project.projectId=:projectId");
+        query.setParameter("projectId", projectId);
+        List<Ticket> result = query.getResultList();
+        Set<Ticket> tickets = new HashSet<>(result);
+        return tickets;
+    }
+
+    @Override
     public void saveTicket(Ticket ticket) {
         Session session = entityManager.unwrap(Session.class);
         ticket.setModificationDate(new Timestamp(System.currentTimeMillis()));
@@ -50,14 +71,6 @@ public class TicketRepositoryImpl implements TicketRepository {
         Session session = entityManager.unwrap(Session.class);
         Ticket ticketToDelete = session.byId(Ticket.class).load(id);
         session.delete(ticketToDelete);
-    }
-
-    @Override
-    public Ticket findTicketWithCommentsById(long ticketId) {
-        Session session = entityManager.unwrap(Session.class);
-        Ticket ticket = session.byId(Ticket.class).load(ticketId);
-        Hibernate.initialize(ticket.getCommentList());
-        return ticket;
     }
 
     @Override

@@ -8,6 +8,7 @@ import pl.krzysztofgwizdz.ticketit.entity.Ticket;
 import pl.krzysztofgwizdz.ticketit.entity.TicketComment;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class TicketServiceImpl implements TicketService {
@@ -29,6 +30,18 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     @Transactional
+    public Ticket findTicketWithCommentsById(long ticketId) {
+        return ticketRepository.findTicketWithCommentsById(ticketId);
+    }
+
+    @Override
+    @Transactional
+    public Set<Ticket> findTicketsByProject(long projectId) {
+        return ticketRepository.findTicketsByProject(projectId);
+    }
+
+    @Override
+    @Transactional
     public void saveTicket(Ticket ticket) {
         ticketRepository.saveTicket(ticket);
     }
@@ -37,12 +50,6 @@ public class TicketServiceImpl implements TicketService {
     @Transactional
     public void deleteTicketById(Long id) {
         ticketRepository.deleteTicketById(id);
-    }
-
-    @Override
-    @Transactional
-    public Ticket findTicketWithCommentsById(long ticketId) {
-        return ticketRepository.findTicketWithCommentsById(ticketId);
     }
 
     @Override

@@ -1,25 +1,31 @@
 package pl.krzysztofgwizdz.ticketit.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import pl.krzysztofgwizdz.ticketit.dto.ProjectDto;
 import pl.krzysztofgwizdz.ticketit.entity.Project;
 import pl.krzysztofgwizdz.ticketit.entity.ProjectUserRoleLink;
+import pl.krzysztofgwizdz.ticketit.entity.Ticket;
 import pl.krzysztofgwizdz.ticketit.service.ProjectService;
+import pl.krzysztofgwizdz.ticketit.service.TicketService;
 
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/project")
 public class ProjectController {
 
     private ProjectService projectService;
+    private TicketService ticketService;
 
     public ProjectController() {
     }
@@ -59,6 +65,25 @@ public class ProjectController {
         return "redirect:/project";
     }
 
+    @GetMapping("/{projectAcronym}")
+    public String projectPage(
+            @PathVariable("projectAcronym") String projectAcronym,
+            Model model
+    ) {
+        Project project = projectService.getProjectByAcronym(projectAcronym);
+        if (project == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "application.error.404");
+        }
+        //TODO 403 error when not authorized
+        Set<Ticket> tickets = ticketService.findTicketsByProject(project.getProjectId());
+        Set<Ticket> openTickets = tickets.stream().filter(t -> t.getStatus().getId() == 1).collect(Collectors.toSet());
+        Set<Ticket> inProgressTickets = tickets.stream().filter(t -> t.getStatus().getId() == 2).collect(Collectors.toSet());
+        model.addAttribute("project", project);
+        model.addAttribute("openTickets", openTickets);
+        model.addAttribute("inProgressTickets", inProgressTickets);
+        return "project/projectPage";
+    }
+
     @GetMapping("/{projectAcronym}/settings")
     public String projectSettings(
             @PathVariable("projectAcronym") String projectAcronym,
@@ -66,6 +91,9 @@ public class ProjectController {
             Principal principal
     ) {
         Project project = projectService.getProjectByAcronym(projectAcronym);
+        if (project == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "application.error.404");
+        }
         Set<ProjectUserRoleLink> projectUsers = projectService.getProjectUserRoleLinksByProject(project.getProjectId());
         model.addAttribute("project", project);
         model.addAttribute("projectUsers", projectUsers);
@@ -91,5 +119,10 @@ public class ProjectController {
     @Autowired
     public void setProjectService(ProjectService projectService) {
         this.projectService = projectService;
+    }
+
+    @Autowired
+    public void setTicketService(TicketService ticketService) {
+        this.ticketService = ticketService;
     }
 }
