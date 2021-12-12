@@ -1,5 +1,6 @@
 package pl.krzysztofgwizdz.ticketit.service;
 
+import pl.krzysztofgwizdz.ticketit.dto.TicketDto;
 import pl.krzysztofgwizdz.ticketit.entity.Ticket;
 import pl.krzysztofgwizdz.ticketit.entity.TicketComment;
 
@@ -16,7 +17,7 @@ public interface TicketService {
 
     Set<Ticket> findTicketsByProject(long projectId);
 
-    void saveTicket(Ticket ticket);
+    void saveTicket(TicketDto ticket, String username, String projectAcronym);
 
     void deleteTicketById(Long id);
 

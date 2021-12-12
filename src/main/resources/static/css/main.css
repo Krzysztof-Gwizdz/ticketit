@@ -36,3 +36,8 @@ footer>div.container {
 ul.no-punctation {
     list-style-type: none;
 }
+
+.ticket-date {
+    font-size: 0.8rem;
+    color: #a0a0a0;
+}

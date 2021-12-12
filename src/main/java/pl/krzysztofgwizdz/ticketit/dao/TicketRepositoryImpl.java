@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pl.krzysztofgwizdz.ticketit.entity.Ticket;
 import pl.krzysztofgwizdz.ticketit.entity.TicketComment;
+import pl.krzysztofgwizdz.ticketit.entity.TicketStatus;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -62,7 +63,6 @@ public class TicketRepositoryImpl implements TicketRepository {
     @Override
     public void saveTicket(Ticket ticket) {
         Session session = entityManager.unwrap(Session.class);
-        ticket.setModificationDate(new Timestamp(System.currentTimeMillis()));
         session.saveOrUpdate(ticket);
     }
 
@@ -80,5 +80,12 @@ public class TicketRepositoryImpl implements TicketRepository {
         Hibernate.initialize(ticket.getCommentList());
         ticket.addComment(comment);
         session.update(ticket);
+    }
+
+    @Override
+    public TicketStatus findTicketStatusById(Integer statusId) {
+        Session session = entityManager.unwrap(Session.class);
+        TicketStatus ticketStatus = session.byId(TicketStatus.class).load(statusId);
+        return ticketStatus;
     }
 }

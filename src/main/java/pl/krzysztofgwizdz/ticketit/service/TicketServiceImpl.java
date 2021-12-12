@@ -3,18 +3,22 @@ package pl.krzysztofgwizdz.ticketit.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.krzysztofgwizdz.ticketit.dao.ProjectRepository;
 import pl.krzysztofgwizdz.ticketit.dao.TicketRepository;
-import pl.krzysztofgwizdz.ticketit.entity.Ticket;
-import pl.krzysztofgwizdz.ticketit.entity.TicketComment;
+import pl.krzysztofgwizdz.ticketit.dao.UserRepository;
+import pl.krzysztofgwizdz.ticketit.dto.TicketDto;
+import pl.krzysztofgwizdz.ticketit.entity.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 @Service
 public class TicketServiceImpl implements TicketService {
 
-    @Autowired
     TicketRepository ticketRepository;
+    UserRepository userRepository;
+    ProjectRepository projectRepository;
 
     @Override
     @Transactional
@@ -42,8 +46,19 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     @Transactional
-    public void saveTicket(Ticket ticket) {
-        ticketRepository.saveTicket(ticket);
+    public void saveTicket(TicketDto ticketDto, String username, String projectAcronym) {
+        Ticket newTicket = new Ticket();
+        User ticketAuthor = userRepository.findUserByUsername(username);
+        Project baseProject = projectRepository.findByAcronym(projectAcronym);
+        TicketStatus ticketStatus = ticketRepository.findTicketStatusById(1);
+        newTicket.setTitle(ticketDto.getTitle());
+        newTicket.setContent(ticketDto.getContent());
+        newTicket.setCreationDate(new Date());
+        newTicket.setModificationDate(new Date());
+        newTicket.setAuthor(ticketAuthor);
+        newTicket.setProject(baseProject);
+        newTicket.setStatus(ticketStatus);
+        ticketRepository.saveTicket(newTicket);
     }
 
     @Override
@@ -56,5 +71,20 @@ public class TicketServiceImpl implements TicketService {
     @Transactional
     public void addCommentToTicketById(long ticketId, TicketComment comment) {
         ticketRepository.addCommentToTicketById(ticketId, comment);
+    }
+
+    @Autowired
+    public void setTicketRepository(TicketRepository ticketRepository) {
+        this.ticketRepository = ticketRepository;
+    }
+
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @Autowired
+    public void setProjectRepository(ProjectRepository projectRepository) {
+        this.projectRepository = projectRepository;
     }
 }

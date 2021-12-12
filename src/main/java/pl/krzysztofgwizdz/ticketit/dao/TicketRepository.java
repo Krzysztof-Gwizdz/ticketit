@@ -2,6 +2,7 @@ package pl.krzysztofgwizdz.ticketit.dao;
 
 import pl.krzysztofgwizdz.ticketit.entity.Ticket;
 import pl.krzysztofgwizdz.ticketit.entity.TicketComment;
+import pl.krzysztofgwizdz.ticketit.entity.TicketStatus;
 
 import java.util.List;
 import java.util.Set;
@@ -21,4 +22,6 @@ public interface TicketRepository {
     void deleteTicketById(Long id);
 
     void addCommentToTicketById(long ticketId, TicketComment comment);
+
+    TicketStatus findTicketStatusById(Integer statusId);
 }

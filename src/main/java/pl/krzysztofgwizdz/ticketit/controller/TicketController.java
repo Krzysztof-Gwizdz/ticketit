@@ -15,7 +15,6 @@ import pl.krzysztofgwizdz.ticketit.entity.Ticket;
 import pl.krzysztofgwizdz.ticketit.entity.TicketComment;
 import pl.krzysztofgwizdz.ticketit.service.ProjectService;
 import pl.krzysztofgwizdz.ticketit.service.TicketService;
-import pl.krzysztofgwizdz.ticketit.service.UserService;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -29,7 +28,6 @@ public class TicketController {
 
     private TicketService ticketService;
     private ProjectService projectService;
-    private UserService userService;
 
     @GetMapping
     public String getTicketList(Model model) {
@@ -53,13 +51,6 @@ public class TicketController {
         return "ticket/createTicketForm";
     }
 
-    @GetMapping("/update")
-    public String showUpdateTicketForm(@RequestParam("ticketId") long ticketId, Model model) {
-        Ticket ticket = ticketService.findTicketById(ticketId);
-        model.addAttribute("ticket", ticket);
-        return "ticketForm";
-    }
-
     @PostMapping("/create")
     public String saveTicket(
             @PathVariable("projectAcronym") String projectAcronym,
@@ -68,30 +59,50 @@ public class TicketController {
             Principal principal,
             Model model
     ) {
-        if(result.hasErrors()) {
-            Project project = projectService.getProjectByAcronym(projectAcronym);
+        Project project = projectService.getProjectByAcronym(projectAcronym);
+        if (result.hasErrors()) {
             model.addAttribute("project", project);
             return "ticket/createTicketForm";
+        }
+        if (project == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "application.error.404");
         }
         logger.info("Ticket: " + ticket);
         logger.info("Project acronym: " + projectAcronym);
         logger.info("Username: " + principal.getName());
+        ticketService.saveTicket(ticket, principal.getName(), projectAcronym);
         return "redirect:/project/" + projectAcronym;
+    }
+
+    @RequestMapping("/{ticketId}")
+    public String showTicketDetails(
+            @PathVariable("projectAcronym") String projectAcronym,
+            @PathVariable("ticketId") long ticketId,
+            Model model
+    ) {
+        Ticket ticket = ticketService.findTicketWithCommentsById(ticketId);
+        Project project = projectService.getProjectByAcronym(projectAcronym);
+        if (project == null || !project.equals(ticket.getProject())) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "application.error.404");
+        }
+        TicketComment ticketComment = new TicketComment();
+        model.addAttribute("projectAcronym", projectAcronym);
+        model.addAttribute("ticket", ticket);
+        model.addAttribute("comment", ticketComment);
+        return "ticket/ticketDetails";
+    }
+
+    @GetMapping("/update")
+    public String showUpdateTicketForm(@RequestParam("ticketId") long ticketId, Model model) {
+        Ticket ticket = ticketService.findTicketById(ticketId);
+        model.addAttribute("ticket", ticket);
+        return "ticketForm";
     }
 
     @RequestMapping("/delete")
     public String deleteTicket(@RequestParam("ticketId") long ticketId) {
         ticketService.deleteTicketById(ticketId);
         return "redirect:/ticket/list";
-    }
-
-    @RequestMapping("/details")
-    public String showTicketDetails(@RequestParam("ticketId") long ticketId, Model model) {
-        Ticket ticket = ticketService.findTicketWithCommentsById(ticketId);
-        TicketComment ticketComment = new TicketComment();
-        model.addAttribute("ticket", ticket);
-        model.addAttribute("comment", ticketComment);
-        return "ticketDetails";
     }
 
     @PostMapping("/addComment")
@@ -112,10 +123,5 @@ public class TicketController {
     @Autowired
     public void setProjectService(ProjectService projectService) {
         this.projectService = projectService;
-    }
-
-    @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
     }
 }
