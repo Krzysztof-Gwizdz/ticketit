@@ -105,14 +105,60 @@ public class TicketController {
         return "redirect:/ticket/list";
     }
 
-    @PostMapping("/addComment")
-    public String addCommentToTicket(@RequestParam("ticketId") long ticketId,
-                                     @ModelAttribute("comment") TicketComment comment) {
-        ticketService.addCommentToTicketById(ticketId, comment);
-        StringBuilder sb = new StringBuilder();
-        sb.append("redirect:/ticket/details?ticketId=");
-        sb.append(ticketId);
-        return sb.toString();
+    @PostMapping("{ticketId}/add-comment")
+    public String addCommentToTicket(
+            @PathVariable("projectAcronym") String projectAcronym,
+            @PathVariable("ticketId") long ticketId,
+            @ModelAttribute("comment") @Valid TicketComment comment,
+            BindingResult result,
+            Principal principal,
+            Model model
+    ) {
+        Project project = projectService.getProjectByAcronym(projectAcronym);
+        Ticket ticket = ticketService.findTicketWithCommentsById(ticketId);
+        if (project == null || ticket == null || !project.equals(ticket.getProject())) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "application.error.404");
+        }
+        model.addAttribute("ticket", ticket);
+        model.addAttribute("projectAcronym", projectAcronym);
+        if (result.hasErrors()) {
+            return "ticket/ticketDetails";
+        }
+        ticketService.addCommentToTicketById(ticketId, comment, principal.getName());
+        StringBuilder url = new StringBuilder();
+        url.append("redirect:/project/");
+        url.append(projectAcronym);
+        url.append("/ticket/");
+        url.append(ticketId);
+        return url.toString();
+    }
+
+    @GetMapping("{ticketId}/comment/{commentId}/delete")
+    public String deleteTicketComment(
+            @PathVariable("projectAcronym") String projectAcronym,
+            @PathVariable("ticketId") long ticketId,
+            @PathVariable("commentId") long commentId,
+            Principal principal
+    ) {
+        Project project = projectService.getProjectByAcronym(projectAcronym);
+        Ticket ticket = ticketService.findTicketWithCommentsById(ticketId);
+        if (project == null || ticket == null || !project.equals(ticket.getProject())) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "application.error.404");
+        }
+        TicketComment commentToDelete = ticket.getCommentList().stream().filter(comment -> comment.getId() == commentId).findFirst().get();
+        if (commentToDelete == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "application.error.404");
+        }
+        if(!principal.getName().equals(commentToDelete.getUser().getUsername())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "application.error.403");
+        }
+        ticketService.deleteComment(commentId);
+        StringBuilder url = new StringBuilder();
+        url.append("redirect:/project/");
+        url.append(projectAcronym);
+        url.append("/ticket/");
+        url.append(ticketId);
+        return url.toString();
     }
 
     @Autowired

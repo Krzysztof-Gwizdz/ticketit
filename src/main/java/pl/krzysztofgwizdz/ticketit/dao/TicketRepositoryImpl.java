@@ -74,12 +74,20 @@ public class TicketRepositoryImpl implements TicketRepository {
     }
 
     @Override
-    public void addCommentToTicketById(long ticketId, TicketComment comment) {
+    public void addCommentToTicketById(TicketComment comment) {
         Session session = entityManager.unwrap(Session.class);
-        Ticket ticket = session.byId(Ticket.class).load(ticketId);
+        Ticket ticket = session.byId(Ticket.class).load(comment.getTicket().getId());
         Hibernate.initialize(ticket.getCommentList());
         ticket.addComment(comment);
         session.update(ticket);
+    }
+
+    @Override
+    public void deleteComment(long commentId) {
+        Session session = entityManager.unwrap(Session.class);
+        TicketComment commentToDelete = session.byId(TicketComment.class).load(commentId);
+        session.delete(commentToDelete);
+        session.flush();
     }
 
     @Override

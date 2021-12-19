@@ -1,6 +1,8 @@
 package pl.krzysztofgwizdz.ticketit.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
@@ -12,6 +14,8 @@ public class TicketComment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "form.field.error.required")
+    @NotEmpty(message = "form.field.error.required")
     @Column(name = "content")
     private String content;
 

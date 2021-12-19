@@ -21,5 +21,7 @@ public interface TicketService {
 
     void deleteTicketById(Long id);
 
-    void addCommentToTicketById(long ticketId, TicketComment comment);
+    void addCommentToTicketById(long ticketId, TicketComment comment, String username);
+
+    void deleteComment(long commentId);
 }

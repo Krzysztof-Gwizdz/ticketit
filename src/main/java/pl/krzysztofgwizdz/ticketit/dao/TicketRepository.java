@@ -21,7 +21,9 @@ public interface TicketRepository {
 
     void deleteTicketById(Long id);
 
-    void addCommentToTicketById(long ticketId, TicketComment comment);
+    void addCommentToTicketById(TicketComment comment);
+
+    void deleteComment(long commentId);
 
     TicketStatus findTicketStatusById(Integer statusId);
 }

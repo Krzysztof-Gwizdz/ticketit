@@ -10,6 +10,7 @@ import pl.krzysztofgwizdz.ticketit.dto.TicketDto;
 import pl.krzysztofgwizdz.ticketit.entity.*;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -69,8 +70,20 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     @Transactional
-    public void addCommentToTicketById(long ticketId, TicketComment comment) {
-        ticketRepository.addCommentToTicketById(ticketId, comment);
+    public void addCommentToTicketById(long ticketId, TicketComment comment, String username) {
+        Ticket ticket = ticketRepository.findTicketById(ticketId);
+        User user = userRepository.findUserByUsername(username);
+        if (ticket != null && user != null) {
+            comment.setTicket(ticket);
+            comment.setUser(user);
+            ticketRepository.addCommentToTicketById(comment);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void deleteComment(long commentId) {
+        ticketRepository.deleteComment(commentId);
     }
 
     @Autowired

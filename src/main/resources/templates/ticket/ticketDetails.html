@@ -41,10 +41,10 @@
             </a>
         </div>
         <div class="row">
-            <p class="col my-0 ticket-date" th:text="#{tickets.details.label.createdOn} + ' ' + ${#dates.format(ticket.creationDate, 'dd.MM.yyyy HH:mm:ss')}">Ticket creation date</p>
+            <p class="col my-0 ticket-date" th:text="#{tickets.details.label.createdOn} + ' ' + ${#dates.format(ticket.creationDate, 'dd.MM.yyyy HH:mm')}">Ticket creation date</p>
         </div>
         <div class="row">
-            <p class="col my-0 ticket-date" th:text="#{tickets.details.label.modifiedOn} + ' ' + ${#dates.format(ticket.modificationDate, 'dd.MM.yyyy HH:mm:ss')}">Ticket modification date</p>
+            <p class="col my-0 ticket-date" th:text="#{tickets.details.label.modifiedOn} + ' ' + ${#dates.format(ticket.modificationDate, 'dd.MM.yyyy HH:mm')}">Ticket modification date</p>
         </div>
         <div class="row mt-3">
             <h4 class="col" th:text="#{tickets.details.label.ticketStatus} + ' ' + #{'ticket.status.name.' + ${ticket.getStatus().getId()}}">Ticket status</h4>
@@ -55,13 +55,34 @@
         <div class="row mt-3">
             <h3 class="col">Comments</h3>
         </div>
-        <div class="row mt-2">
-            <form class="col" method="post" action="/#">
-                <textarea id="ticketCommentInput" class="form-control"
-                          placeholder="Comment text"></textarea>
+        <div class="row my-2">
+            <form class="col" method="post" th:object="${comment}" th:action="@{/project/{projectAcronym}/ticket/{ticketId}/add-comment(projectAcronym = ${projectAcronym}, ticketId = ${ticket.id})}">
+                <div class="form-group">
+                    <textarea id="ticketCommentInput" class="form-control"
+                              th:placeholder="#{tickets.details.comment.form.placeholder.content}"
+                              th:field="*{content}"
+                              placeholder="Comment text"></textarea>
+                    <p class="error-message my-0 py-0" th:each="err : ${#fields.errors('content')}" th:text="#{${err}}"></p>
+                </div>
+
                 <button class="btn btn-secondary mt-1" type="submit">Post comment
                 </button>
             </form>
+        </div>
+        <div th:unless="${ticket.commentList == null or #lists.isEmpty(ticket.commentList)}" class="row mb-3">
+            <ul class="col no-punctation">
+                <li th:each="comment : ${ticket.commentList}">
+                    <div class="row mb-0">
+                        <h5 class="col mb-0" th:text="${comment.user.username}"></h5>
+                    </div>
+                    <div class="row mb-1">
+                        <p class="col my-0 ticket-date" th:text="#{tickets.details.label.createdOn} + ' ' + ${#dates.format(comment.createdOn, 'dd.MM.yyyy HH:mm')}"></p>
+                    </div>
+                    <div class="row">
+                        <p class="col" th:text="${comment.content}"></p>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 

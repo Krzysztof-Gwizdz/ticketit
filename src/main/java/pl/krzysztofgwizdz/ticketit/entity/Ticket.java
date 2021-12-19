@@ -42,9 +42,11 @@ public class Ticket {
     @JoinColumn(name = "status_id")
     private TicketStatus status;
 
-    @OneToMany(fetch = FetchType.LAZY
-            , cascade = {CascadeType.ALL})
-    @JoinColumn(name = "ticket_id")
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.ALL},
+            mappedBy = "ticket"
+    )
     private List<TicketComment> commentList;
 
     public Ticket() {
@@ -128,6 +130,10 @@ public class Ticket {
             commentList = new ArrayList<>();
         }
         commentList.add(comment);
+    }
+
+    public void removeComment(TicketComment comment) {
+        commentList.remove(comment);
     }
 
     @Override
