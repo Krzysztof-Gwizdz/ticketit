@@ -12,7 +12,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -85,9 +84,7 @@ public class TicketRepositoryImpl implements TicketRepository {
     @Override
     public void deleteComment(long commentId) {
         Session session = entityManager.unwrap(Session.class);
-        TicketComment commentToDelete = session.byId(TicketComment.class).load(commentId);
-        session.delete(commentToDelete);
-        session.flush();
+        session.createQuery("delete from TicketComment where id= :id").setParameter("id", commentId).executeUpdate();
     }
 
     @Override

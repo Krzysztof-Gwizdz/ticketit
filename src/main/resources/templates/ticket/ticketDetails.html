@@ -73,7 +73,12 @@
             <ul class="col no-punctation">
                 <li th:each="comment : ${ticket.commentList}">
                     <div class="row mb-0">
-                        <h5 class="col mb-0" th:text="${comment.user.username}"></h5>
+                        <h5 th:unless="${comment.user.username.equals(#authentication.name)}" class="col mb-0" th:text="${comment.user.username}"></h5>
+                        <h5 th:if="${comment.user.username.equals(#authentication.name)}" class="col-md-10 mb-0" th:text="${comment.user.username}"></h5>
+                        <div th:if="${comment.user.username.equals(#authentication.name)}" class="col-md-2 mb-0 text-md-right">
+                            <a th:href="@{/project/{projectAcronym}/ticket/{ticketId}/comment/{commentId}/update(projectAcronym = ${projectAcronym}, ticketId = ${ticket.id}, commentId = ${comment.id})}" th:text="#{tickets.details.comment.label.edit}"></a>
+                            <a th:href="@{/project/{projectAcronym}/ticket/{ticketId}/comment/{commentId}/delete(projectAcronym = ${projectAcronym}, ticketId = ${ticket.id}, commentId = ${comment.id})}" th:text="#{tickets.details.comment.label.delete}"></a>
+                        </div>
                     </div>
                     <div class="row mb-1">
                         <p class="col my-0 ticket-date" th:text="#{tickets.details.label.createdOn} + ' ' + ${#dates.format(comment.createdOn, 'dd.MM.yyyy HH:mm')}"></p>

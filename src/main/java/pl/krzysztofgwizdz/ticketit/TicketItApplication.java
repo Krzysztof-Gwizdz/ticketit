@@ -9,8 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class TicketItApplication {
 
     public static void main(String[] args) {
-        DefaultPersistEventListener logger = new DefaultPersistEventListener();
-        logger.onPersist();
         SpringApplication.run(TicketItApplication.class, args);
     }
 
