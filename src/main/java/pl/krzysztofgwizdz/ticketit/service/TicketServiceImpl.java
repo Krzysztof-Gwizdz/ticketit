@@ -82,6 +82,12 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     @Transactional
+    public void updateComment(TicketComment comment) {
+        ticketRepository.updateTicketComment(comment);
+    }
+
+    @Override
+    @Transactional
     public void deleteComment(long commentId) {
         ticketRepository.deleteComment(commentId);
     }

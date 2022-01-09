@@ -22,6 +22,8 @@ public interface ProjectRepository {
 
     Project saveProject(Project project);
 
+    Project updateProject(Project project);
+
     void deleteProject(Project project);
 
     Project addUserWithRole(Project project, User user, ProjectRole projectRole);

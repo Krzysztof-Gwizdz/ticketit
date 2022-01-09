@@ -32,7 +32,7 @@ public class Project {
     private String description;
 
     @Column(name = "created_on")
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createdOn;
 
     @OneToMany(

@@ -94,9 +94,11 @@ public class ProjectController {
         if (project == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "application.error.404");
         }
-        Set<ProjectUserRoleLink> projectUsers = projectService.getProjectUserRoleLinksByProject(project.getProjectId());
+        ProjectUserRoleLink memberFound = project.getProjectUserRoleLink().stream().filter(projectUserRoleLink -> projectUserRoleLink.getUser().getUsername().equals(principal.getName())).findAny().get();
+        if(memberFound == null){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "application.error.403");
+        }
         model.addAttribute("project", project);
-        model.addAttribute("projectUsers", projectUsers);
         return "project/settings";
     }
 

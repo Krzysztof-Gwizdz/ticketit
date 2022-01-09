@@ -23,5 +23,7 @@ public interface TicketService {
 
     void addCommentToTicketById(long ticketId, TicketComment comment, String username);
 
+    void updateComment(TicketComment comment);
+
     void deleteComment(long commentId);
 }

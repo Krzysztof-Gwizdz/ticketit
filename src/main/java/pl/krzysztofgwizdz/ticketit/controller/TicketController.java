@@ -150,9 +150,65 @@ public class TicketController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "application.error.404");
         }
         if(!principal.getName().equals(commentToDelete.getUser().getUsername())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "application.error.403");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "application.error.403");
         }
         ticketService.deleteComment(commentId);
+        StringBuilder url = new StringBuilder();
+        url.append("redirect:/project/");
+        url.append(projectAcronym);
+        url.append("/ticket/");
+        url.append(ticketId);
+        return url.toString();
+    }
+
+    @GetMapping("{ticketId}/comment/{commentId}/update")
+    public String updateTicketCommentForm(
+            @PathVariable("projectAcronym") String projectAcronym,
+            @PathVariable("ticketId") long ticketId,
+            @PathVariable("commentId") long commentId,
+            Model model,
+            Principal principal
+    ) {
+        Project project = projectService.getProjectByAcronym(projectAcronym);
+        Ticket ticket = ticketService.findTicketWithCommentsById(ticketId);
+        if (project == null || ticket == null || !project.equals(ticket.getProject())) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "application.error.404");
+        }
+        TicketComment commentToUpdate = ticket.getCommentList().stream().filter(comment -> comment.getId() == commentId).findFirst().get();
+        if (commentToUpdate == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "application.error.404");
+        }
+        if(!principal.getName().equals(commentToUpdate.getUser().getUsername())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "application.error.403");
+        }
+        model.addAttribute("projectAcronym", projectAcronym);
+        model.addAttribute("ticketId", ticket.getId());
+        model.addAttribute("comment", commentToUpdate);
+        return "ticket/commentUpdateForm";
+    }
+
+    @PostMapping("{ticketId}/comment/{commentId}/update")
+    public String updateTicketComment(
+            @PathVariable("projectAcronym") String projectAcronym,
+            @PathVariable("ticketId") long ticketId,
+            @PathVariable("commentId") long commentId,
+            @ModelAttribute("comment") TicketComment comment,
+            Principal principal
+    ){
+        Project project = projectService.getProjectByAcronym(projectAcronym);
+        Ticket ticket = ticketService.findTicketWithCommentsById(ticketId);
+        if (project == null || ticket == null || !project.equals(ticket.getProject())) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "application.error.404");
+        }
+        TicketComment commentToUpdate = ticket.getCommentList().stream().filter(commentIter -> commentIter.getId() == commentId).findFirst().get();
+        if (commentToUpdate == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "application.error.404");
+        }
+        if(!principal.getName().equals(commentToUpdate.getUser().getUsername())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "application.error.403");
+        }
+        commentToUpdate.setContent(comment.getContent());
+        ticketService.updateComment(commentToUpdate);
         StringBuilder url = new StringBuilder();
         url.append("redirect:/project/");
         url.append(projectAcronym);

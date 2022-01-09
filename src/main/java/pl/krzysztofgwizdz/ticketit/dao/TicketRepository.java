@@ -23,6 +23,8 @@ public interface TicketRepository {
 
     void addCommentToTicketById(TicketComment comment);
 
+    void updateTicketComment(TicketComment comment);
+
     void deleteComment(long commentId);
 
     TicketStatus findTicketStatusById(Integer statusId);

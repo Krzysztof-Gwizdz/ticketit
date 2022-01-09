@@ -24,12 +24,6 @@ public class ProjectServiceImpl implements ProjectService {
     public ProjectServiceImpl() {
     }
 
-    public ProjectServiceImpl(ProjectRepository projectRepository, UserRepository userRepository, ProjectRoleRepository projectRoleRepository) {
-        this.projectRepository = projectRepository;
-        this.userRepository = userRepository;
-        this.projectRoleRepository = projectRoleRepository;
-    }
-
     @Override
     @Transactional
     public Set<ProjectUserRoleLink> getProjectUserRoleLinksByUser(String username) {
@@ -69,7 +63,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     @Transactional
     public Project updateProject(Project project) {
-        Project savedProject = projectRepository.saveProject(project);
+        Project savedProject = projectRepository.updateProject(project);
         return savedProject;
     }
 

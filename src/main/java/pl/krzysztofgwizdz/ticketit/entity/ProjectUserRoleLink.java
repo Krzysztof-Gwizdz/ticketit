@@ -1,5 +1,6 @@
 package pl.krzysztofgwizdz.ticketit.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import pl.krzysztofgwizdz.ticketit.entity.embeddable.ProjectUserRoleId;
 
 import javax.persistence.*;
@@ -35,6 +36,7 @@ public class ProjectUserRoleLink {
     private ProjectRole role;
 
     @Column(name = "joined_on")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date joinedOn = new Date();
 
     public ProjectUserRoleLink() {

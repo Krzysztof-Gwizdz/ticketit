@@ -82,6 +82,12 @@ public class TicketRepositoryImpl implements TicketRepository {
     }
 
     @Override
+    public void updateTicketComment(TicketComment comment) {
+        Session session = entityManager.unwrap(Session.class);
+        session.update(comment);
+    }
+
+    @Override
     public void deleteComment(long commentId) {
         Session session = entityManager.unwrap(Session.class);
         session.createQuery("delete from TicketComment where id= :id").setParameter("id", commentId).executeUpdate();

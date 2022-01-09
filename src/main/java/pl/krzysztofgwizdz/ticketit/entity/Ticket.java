@@ -1,5 +1,7 @@
 package pl.krzysztofgwizdz.ticketit.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -25,9 +27,11 @@ public class Ticket {
     private String content;
 
     @Column(name = "created_on")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date creationDate = new Date();
 
     @Column(name = "modified_on")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date modificationDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
