@@ -36,7 +36,7 @@
                     <h2 class="col" th:text="${ticket.title}">Ticket title</h2>
                 </div>
             </div>
-            <a class="col-md-2 align-self-center text-md-right text-center" href="#">
+            <a class="col-md-2 align-self-center text-md-right text-center" href="#" th:href="@{/project/{projectAcronym}/ticket/{ticketId}/update(projectAcronym = ${projectAcronym}, ticketId = ${ticket.id})}">
                 <button type="button" class="btn btn-secondary" th:text="#{tickets.details.button.edit}">Edit</button>
             </a>
         </div>

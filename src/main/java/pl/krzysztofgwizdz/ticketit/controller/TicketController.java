@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import pl.krzysztofgwizdz.ticketit.dto.TicketDto;
 import pl.krzysztofgwizdz.ticketit.entity.Project;
+import pl.krzysztofgwizdz.ticketit.entity.ProjectUserRoleLink;
 import pl.krzysztofgwizdz.ticketit.entity.Ticket;
 import pl.krzysztofgwizdz.ticketit.entity.TicketComment;
 import pl.krzysztofgwizdz.ticketit.service.ProjectService;
@@ -19,6 +20,8 @@ import pl.krzysztofgwizdz.ticketit.service.TicketService;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/project/{projectAcronym}/ticket")
@@ -38,13 +41,20 @@ public class TicketController {
 
     @GetMapping("/create")
     public String showAddTicketForm(
-            Model model,
-            @PathVariable("projectAcronym") String projectAcronym
+            @PathVariable("projectAcronym") String projectAcronym,
+            Principal principal,
+            Model model
     ) {
         TicketDto ticket = new TicketDto();
         Project project = projectService.getProjectByAcronym(projectAcronym);
         if (project == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "application.error.404");
+        }
+        Set<ProjectUserRoleLink> projectMembers = projectService.getProjectUserRoleLinksByUser(principal.getName());
+        try {
+            ProjectUserRoleLink membership = projectMembers.stream().filter(m -> m.getProject().equals(project)).findAny().get();
+        } catch (NoSuchElementException ex) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "application.error.403");
         }
         model.addAttribute("project", project);
         model.addAttribute("ticket", ticket);
@@ -60,12 +70,18 @@ public class TicketController {
             Model model
     ) {
         Project project = projectService.getProjectByAcronym(projectAcronym);
+        if (project == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "application.error.404");
+        }
+        Set<ProjectUserRoleLink> projectMembers = projectService.getProjectUserRoleLinksByUser(principal.getName());
+        try {
+            ProjectUserRoleLink membership = projectMembers.stream().filter(m -> m.getProject().equals(project)).findAny().get();
+        } catch (NoSuchElementException ex) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "application.error.403");
+        }
         if (result.hasErrors()) {
             model.addAttribute("project", project);
             return "ticket/createTicketForm";
-        }
-        if (project == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "application.error.404");
         }
         logger.info("Ticket: " + ticket);
         logger.info("Project acronym: " + projectAcronym);
@@ -78,12 +94,19 @@ public class TicketController {
     public String showTicketDetails(
             @PathVariable("projectAcronym") String projectAcronym,
             @PathVariable("ticketId") long ticketId,
+            Principal principal,
             Model model
     ) {
         Ticket ticket = ticketService.findTicketWithCommentsById(ticketId);
         Project project = projectService.getProjectByAcronym(projectAcronym);
         if (project == null || !project.equals(ticket.getProject())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "application.error.404");
+        }
+        Set<ProjectUserRoleLink> projectMembers = projectService.getProjectUserRoleLinksByUser(principal.getName());
+        try {
+            ProjectUserRoleLink membership = projectMembers.stream().filter(m -> m.getProject().equals(project)).findAny().get();
+        } catch (NoSuchElementException ex) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "application.error.403");
         }
         TicketComment ticketComment = new TicketComment();
         model.addAttribute("projectAcronym", projectAcronym);
@@ -92,11 +115,26 @@ public class TicketController {
         return "ticket/ticketDetails";
     }
 
-    @GetMapping("/update")
-    public String showUpdateTicketForm(@RequestParam("ticketId") long ticketId, Model model) {
+    @GetMapping("{ticketId}/update")
+    public String showUpdateTicketForm(
+            @PathVariable("projectAcronym") String projectAcronym,
+            @PathVariable("ticketId") long ticketId,
+            Principal principal,
+            Model model
+    ) {
         Ticket ticket = ticketService.findTicketById(ticketId);
+        Project project = projectService.getProjectByAcronym(projectAcronym);
+        if (project == null || !project.equals(ticket.getProject())) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "application.error.404");
+        }
+        Set<ProjectUserRoleLink> projectMembers = projectService.getProjectUserRoleLinksByUser(principal.getName());
+        try {
+            ProjectUserRoleLink membership = projectMembers.stream().filter(m -> m.getProject().equals(project)).findAny().get();
+        } catch (NoSuchElementException ex) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "application.error.403");
+        }
         model.addAttribute("ticket", ticket);
-        return "ticketForm";
+        return "ticket/updateTicket";
     }
 
     @RequestMapping("/delete")
@@ -118,6 +156,12 @@ public class TicketController {
         Ticket ticket = ticketService.findTicketWithCommentsById(ticketId);
         if (project == null || ticket == null || !project.equals(ticket.getProject())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "application.error.404");
+        }
+        Set<ProjectUserRoleLink> projectMembers = projectService.getProjectUserRoleLinksByUser(principal.getName());
+        try {
+            ProjectUserRoleLink membership = projectMembers.stream().filter(m -> m.getProject().equals(project)).findAny().get();
+        } catch (NoSuchElementException ex) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "application.error.403");
         }
         model.addAttribute("ticket", ticket);
         model.addAttribute("projectAcronym", projectAcronym);
@@ -144,6 +188,12 @@ public class TicketController {
         Ticket ticket = ticketService.findTicketWithCommentsById(ticketId);
         if (project == null || ticket == null || !project.equals(ticket.getProject())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "application.error.404");
+        }
+        Set<ProjectUserRoleLink> projectMembers = projectService.getProjectUserRoleLinksByUser(principal.getName());
+        try {
+            ProjectUserRoleLink membership = projectMembers.stream().filter(m -> m.getProject().equals(project)).findAny().get();
+        } catch (NoSuchElementException ex) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "application.error.403");
         }
         TicketComment commentToDelete = ticket.getCommentList().stream().filter(comment -> comment.getId() == commentId).findFirst().get();
         if (commentToDelete == null) {
@@ -174,6 +224,12 @@ public class TicketController {
         if (project == null || ticket == null || !project.equals(ticket.getProject())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "application.error.404");
         }
+        Set<ProjectUserRoleLink> projectMembers = projectService.getProjectUserRoleLinksByUser(principal.getName());
+        try {
+            ProjectUserRoleLink membership = projectMembers.stream().filter(m -> m.getProject().equals(project)).findAny().get();
+        } catch (NoSuchElementException ex) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "application.error.403");
+        }
         TicketComment commentToUpdate = ticket.getCommentList().stream().filter(comment -> comment.getId() == commentId).findFirst().get();
         if (commentToUpdate == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "application.error.404");
@@ -199,6 +255,12 @@ public class TicketController {
         Ticket ticket = ticketService.findTicketWithCommentsById(ticketId);
         if (project == null || ticket == null || !project.equals(ticket.getProject())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "application.error.404");
+        }
+        Set<ProjectUserRoleLink> projectMembers = projectService.getProjectUserRoleLinksByUser(principal.getName());
+        try {
+            ProjectUserRoleLink membership = projectMembers.stream().filter(m -> m.getProject().equals(project)).findAny().get();
+        } catch (NoSuchElementException ex) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "application.error.403");
         }
         TicketComment commentToUpdate = ticket.getCommentList().stream().filter(commentIter -> commentIter.getId() == commentId).findFirst().get();
         if (commentToUpdate == null) {

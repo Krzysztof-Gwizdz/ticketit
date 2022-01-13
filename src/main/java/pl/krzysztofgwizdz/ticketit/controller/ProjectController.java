@@ -17,6 +17,7 @@ import pl.krzysztofgwizdz.ticketit.service.TicketService;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.HashSet;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -68,13 +69,19 @@ public class ProjectController {
     @GetMapping("/{projectAcronym}")
     public String projectPage(
             @PathVariable("projectAcronym") String projectAcronym,
+            Principal principal,
             Model model
     ) {
         Project project = projectService.getProjectByAcronym(projectAcronym);
         if (project == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "application.error.404");
         }
-        //TODO 403 error when not authorized
+        Set<ProjectUserRoleLink> projectMembers = projectService.getProjectUserRoleLinksByUser(principal.getName());
+        try {
+            ProjectUserRoleLink membership = projectMembers.stream().filter(m -> m.getProject().equals(project)).findAny().get();
+        } catch (NoSuchElementException ex) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "application.error.403");
+        }
         Set<Ticket> tickets = ticketService.findTicketsByProject(project.getProjectId());
         Set<Ticket> openTickets = tickets.stream().filter(t -> t.getStatus().getId() == 1).collect(Collectors.toSet());
         Set<Ticket> inProgressTickets = tickets.stream().filter(t -> t.getStatus().getId() == 2).collect(Collectors.toSet());
@@ -94,8 +101,10 @@ public class ProjectController {
         if (project == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "application.error.404");
         }
-        ProjectUserRoleLink memberFound = project.getProjectUserRoleLink().stream().filter(projectUserRoleLink -> projectUserRoleLink.getUser().getUsername().equals(principal.getName())).findAny().get();
-        if(memberFound == null){
+        Set<ProjectUserRoleLink> projectMembers = projectService.getProjectUserRoleLinksByUser(principal.getName());
+        try {
+            ProjectUserRoleLink membership = projectMembers.stream().filter(m -> m.getProject().equals(project)).findAny().get();
+        } catch (NoSuchElementException ex) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "application.error.403");
         }
         model.addAttribute("project", project);

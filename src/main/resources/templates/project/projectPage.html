@@ -55,12 +55,11 @@
         <div class="row">
             <h3 class="col" th:text="#{projects.project.inprogress}">In progress tickets</h3>
         </div>
-        <div class="row">
+        <div class="row mb-2">
             <div class="col" th:unless="${inProgressTickets==null or #lists.isEmpty(inProgressTickets)}">
                 <ul class="no-punctation">
                     <li th:each="ticket :${inProgressTickets}">
-                        <span th:text="${ticket.id}">Id</span>
-                        <span th:text="${ticket.title}">Title</span>
+                        <a th:href="@{/project/{projectAcronym}/ticket/{ticketId}(projectAcronym = ${project.acronym}, ticketId = ${ticket.id})}"><span th:text="${ticket.title}">Title</span></a>
                     </li>
                 </ul>
             </div>
