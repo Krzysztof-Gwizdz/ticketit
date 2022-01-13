@@ -73,8 +73,10 @@
 <footer id="footer" th:replace="fragments/footer :: footer">
 </footer>
 
-<script th:src="@{/js/jquery-3.5.1.slim.min.js}"></script>
-<script th:src="@{/js/popper.min.js}"></script>
-<script th:src="@{/js/bootstrap.min.js}"></script>
+<div id="script-includes" th:replace="fragments/scriptIncludes :: script-includes"></div>
+
+<!--<script th:src="@{/js/jquery-3.5.1.slim.min.js}"></script>-->
+<!--<script th:src="@{/js/popper.min.js}"></script>-->
+<!--<script th:src="@{/js/bootstrap.min.js}"></script>-->
 </body>
 </html>

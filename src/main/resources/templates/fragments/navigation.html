@@ -45,6 +45,16 @@
                     </li>
                 </ul>
                 <div class="d-flex">
+                    <div id="language-selector mx-2">
+                        <span th:text="#{navigation.navbar.language}"></span>
+                        <select id="locales">
+                            <option value=""></option>
+                            <option value="en_US">EN US</option>
+                            <option value="en_GB">EN GB</option>
+                            <option value="pl">PL</option>
+                            <option value="de">DE</option>
+                        </select>
+                    </div>
                     <div sec:authorize="isAuthenticated()">
                         <span class="nav-item">
                             <span th:text="#{navigation.navbar.loggedAs} + ' '">You're logged as: </span><a href="#"
