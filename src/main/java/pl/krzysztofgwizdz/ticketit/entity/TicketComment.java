@@ -1,6 +1,10 @@
 package pl.krzysztofgwizdz.ticketit.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
@@ -12,10 +16,13 @@ public class TicketComment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "form.field.error.required")
+    @NotEmpty(message = "form.field.error.required")
     @Column(name = "content")
     private String content;
 
     @Column(name = "created_on")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createdOn = new Date();
 
     @ManyToOne(fetch = FetchType.LAZY,

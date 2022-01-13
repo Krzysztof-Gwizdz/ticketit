@@ -1,9 +1,11 @@
 package pl.krzysztofgwizdz.ticketit.service;
 
+import pl.krzysztofgwizdz.ticketit.dto.TicketDto;
 import pl.krzysztofgwizdz.ticketit.entity.Ticket;
 import pl.krzysztofgwizdz.ticketit.entity.TicketComment;
 
 import java.util.List;
+import java.util.Set;
 
 public interface TicketService {
 
@@ -11,11 +13,17 @@ public interface TicketService {
 
     Ticket findTicketById(Long id);
 
-    void saveTicket(Ticket ticket);
+    Ticket findTicketWithCommentsById(long ticketId);
+
+    Set<Ticket> findTicketsByProject(long projectId);
+
+    void saveTicket(TicketDto ticket, String username, String projectAcronym);
 
     void deleteTicketById(Long id);
 
-    Ticket findTicketWithCommentsById(long ticketId);
+    void addCommentToTicketById(long ticketId, TicketComment comment, String username);
 
-    void addCommentToTicketById(long ticketId, TicketComment comment);
+    void updateComment(TicketComment comment);
+
+    void deleteComment(long commentId);
 }

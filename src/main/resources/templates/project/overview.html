@@ -30,26 +30,23 @@
         </nav>
         <div class="row mb-4">
             <h2 class="col-md-10" th:text="#{projects.overview.title}">Projects</h2>
-            <a class="col-md-2" th:href="@{/project/create}">
+            <a class="col-md-2 text-md-right" th:href="@{/project/create}">
                 <button type="button" class="btn btn-secondary" th:text="#{projects.overview.button.newproject}">New project</button>
             </a>
         </div>
-        <div th:unless="${projectsLinks==null or #lists.isEmpty(projectsLinks)}">
-            <ul>
+        <div class="row" th:unless="${projectsLinks==null or #lists.isEmpty(projectsLinks)}">
+            <ul id="project-list" class="col no-punctation">
                 <li class="my-2" th:each="projectLink: ${projectsLinks}">
-                    <div class="row">
-                        <div class="col-xl-10">
+                    <div class="row align-self-center">
+                        <div class="col-md-9">
                             <span class="display-5 org-link-header"><a th:text="${projectLink.getProject().getName()}"
                                                                        th:href="@{/project/{projectAcronym}(projectAcronym = ${projectLink.getProject().getAcronym()})}"
                                                                        href="#">Project</a></span>
-                            <span class="org-member-status" th:text="${projectLink.getRole().getRoleName()}">Owner</span>
                         </div>
-                        <div class="col-xl-1">
+                        <div class="col-md-3 text-md-right">
                             <a th:href="@{/project/{projectAcronym}/settings(projectAcronym = ${projectLink.getProject().getAcronym()})}" href="#">
                                 <button class="btn btn-outline-secondary" th:text="#{projects.overview.button.settings}">Settings</button>
                             </a>
-                        </div>
-                        <div class="col-xl-1">
                             <button class="btn btn-outline-secondary" th:text="#{projects.overview.button.leave}">Leave</button>
                         </div>
                     </div>

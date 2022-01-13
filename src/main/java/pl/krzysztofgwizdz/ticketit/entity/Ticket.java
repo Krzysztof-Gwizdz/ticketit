@@ -1,9 +1,15 @@
 package pl.krzysztofgwizdz.ticketit.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tickets")
@@ -21,16 +27,18 @@ public class Ticket {
     private String content;
 
     @Column(name = "created_on")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date creationDate = new Date();
 
     @Column(name = "modified_on")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date modificationDate;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User author;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
     private Project project;
 
@@ -38,9 +46,11 @@ public class Ticket {
     @JoinColumn(name = "status_id")
     private TicketStatus status;
 
-    @OneToMany(fetch = FetchType.LAZY
-            , cascade = {CascadeType.ALL})
-    @JoinColumn(name = "ticket_id")
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.ALL},
+            mappedBy = "ticket"
+    )
     private List<TicketComment> commentList;
 
     public Ticket() {
@@ -124,5 +134,33 @@ public class Ticket {
             commentList = new ArrayList<>();
         }
         commentList.add(comment);
+    }
+
+    public void removeComment(TicketComment comment) {
+        commentList.remove(comment);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Ticket)) return false;
+        Ticket ticket = (Ticket) o;
+        return getTitle().equals(ticket.getTitle()) && getCreationDate().equals(ticket.getCreationDate());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getTitle(), getCreationDate());
+    }
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", creationDate=" + creationDate +
+                ", modificationDate=" + modificationDate +
+                '}';
     }
 }

@@ -22,7 +22,7 @@ nav {
     background-size: cover;
 }
 
-footer {
+footer>div.container {
     background-color: lightgray;
     padding: 50px 0;
 }
@@ -31,4 +31,13 @@ footer {
     width: 100%;
     font-size: 80%;
     color: #dc3545;
+}
+
+ul.no-punctation {
+    list-style-type: none;
+}
+
+.ticket-date {
+    font-size: 0.8rem;
+    color: #a0a0a0;
 }

@@ -6,12 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pl.krzysztofgwizdz.ticketit.entity.Ticket;
 import pl.krzysztofgwizdz.ticketit.entity.TicketComment;
+import pl.krzysztofgwizdz.ticketit.entity.TicketStatus;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class TicketRepositoryImpl implements TicketRepository {
@@ -39,9 +42,26 @@ public class TicketRepositoryImpl implements TicketRepository {
     }
 
     @Override
+    public Ticket findTicketWithCommentsById(long ticketId) {
+        Session session = entityManager.unwrap(Session.class);
+        Ticket ticket = session.byId(Ticket.class).load(ticketId);
+        Hibernate.initialize(ticket.getCommentList());
+        return ticket;
+    }
+
+    @Override
+    public Set<Ticket> findTicketsByProject(long projectId) {
+        Session session = entityManager.unwrap(Session.class);
+        Query query = session.createQuery("FROM Ticket t WHERE t.project.projectId=:projectId");
+        query.setParameter("projectId", projectId);
+        List<Ticket> result = query.getResultList();
+        Set<Ticket> tickets = new HashSet<>(result);
+        return tickets;
+    }
+
+    @Override
     public void saveTicket(Ticket ticket) {
         Session session = entityManager.unwrap(Session.class);
-        ticket.setModificationDate(new Timestamp(System.currentTimeMillis()));
         session.saveOrUpdate(ticket);
     }
 
@@ -53,19 +73,30 @@ public class TicketRepositoryImpl implements TicketRepository {
     }
 
     @Override
-    public Ticket findTicketWithCommentsById(long ticketId) {
+    public void addCommentToTicketById(TicketComment comment) {
         Session session = entityManager.unwrap(Session.class);
-        Ticket ticket = session.byId(Ticket.class).load(ticketId);
-        Hibernate.initialize(ticket.getCommentList());
-        return ticket;
-    }
-
-    @Override
-    public void addCommentToTicketById(long ticketId, TicketComment comment) {
-        Session session = entityManager.unwrap(Session.class);
-        Ticket ticket = session.byId(Ticket.class).load(ticketId);
+        Ticket ticket = session.byId(Ticket.class).load(comment.getTicket().getId());
         Hibernate.initialize(ticket.getCommentList());
         ticket.addComment(comment);
         session.update(ticket);
+    }
+
+    @Override
+    public void updateTicketComment(TicketComment comment) {
+        Session session = entityManager.unwrap(Session.class);
+        session.update(comment);
+    }
+
+    @Override
+    public void deleteComment(long commentId) {
+        Session session = entityManager.unwrap(Session.class);
+        session.createQuery("delete from TicketComment where id= :id").setParameter("id", commentId).executeUpdate();
+    }
+
+    @Override
+    public TicketStatus findTicketStatusById(Integer statusId) {
+        Session session = entityManager.unwrap(Session.class);
+        TicketStatus ticketStatus = session.byId(TicketStatus.class).load(statusId);
+        return ticketStatus;
     }
 }
