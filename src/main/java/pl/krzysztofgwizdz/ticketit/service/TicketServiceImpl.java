@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.krzysztofgwizdz.ticketit.dao.ProjectRepository;
 import pl.krzysztofgwizdz.ticketit.dao.TicketRepository;
+import pl.krzysztofgwizdz.ticketit.dao.TicketStatusRepository;
 import pl.krzysztofgwizdz.ticketit.dao.UserRepository;
 import pl.krzysztofgwizdz.ticketit.dto.TicketDto;
 import pl.krzysztofgwizdz.ticketit.entity.*;
@@ -18,6 +19,7 @@ import java.util.Set;
 public class TicketServiceImpl implements TicketService {
 
     TicketRepository ticketRepository;
+    TicketStatusRepository ticketStatusRepository;
     UserRepository userRepository;
     ProjectRepository projectRepository;
 
@@ -51,7 +53,7 @@ public class TicketServiceImpl implements TicketService {
         Ticket newTicket = new Ticket();
         User ticketAuthor = userRepository.findUserByUsername(username);
         Project baseProject = projectRepository.findByAcronym(projectAcronym);
-        TicketStatus ticketStatus = ticketRepository.findTicketStatusById(1);
+        TicketStatus ticketStatus = ticketStatusRepository.findTicketStatusById(1);
         newTicket.setTitle(ticketDto.getTitle());
         newTicket.setContent(ticketDto.getContent());
         newTicket.setCreationDate(new Date());
@@ -88,6 +90,12 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     @Transactional
+    public Set<TicketStatus> findAllTicketStatuses() {
+        return ticketStatusRepository.findAll();
+    }
+
+    @Override
+    @Transactional
     public void deleteComment(long commentId) {
         ticketRepository.deleteComment(commentId);
     }
@@ -95,6 +103,11 @@ public class TicketServiceImpl implements TicketService {
     @Autowired
     public void setTicketRepository(TicketRepository ticketRepository) {
         this.ticketRepository = ticketRepository;
+    }
+
+    @Autowired
+    public void setTicketStatusRepository(TicketStatusRepository ticketStatusRepository) {
+        this.ticketStatusRepository = ticketStatusRepository;
     }
 
     @Autowired

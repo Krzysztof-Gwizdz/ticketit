@@ -92,11 +92,4 @@ public class TicketRepositoryImpl implements TicketRepository {
         Session session = entityManager.unwrap(Session.class);
         session.createQuery("delete from TicketComment where id= :id").setParameter("id", commentId).executeUpdate();
     }
-
-    @Override
-    public TicketStatus findTicketStatusById(Integer statusId) {
-        Session session = entityManager.unwrap(Session.class);
-        TicketStatus ticketStatus = session.byId(TicketStatus.class).load(statusId);
-        return ticketStatus;
-    }
 }

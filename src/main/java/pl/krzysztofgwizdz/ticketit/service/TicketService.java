@@ -3,6 +3,7 @@ package pl.krzysztofgwizdz.ticketit.service;
 import pl.krzysztofgwizdz.ticketit.dto.TicketDto;
 import pl.krzysztofgwizdz.ticketit.entity.Ticket;
 import pl.krzysztofgwizdz.ticketit.entity.TicketComment;
+import pl.krzysztofgwizdz.ticketit.entity.TicketStatus;
 
 import java.util.List;
 import java.util.Set;
@@ -26,4 +27,6 @@ public interface TicketService {
     void updateComment(TicketComment comment);
 
     void deleteComment(long commentId);
+
+    Set<TicketStatus> findAllTicketStatuses();
 }

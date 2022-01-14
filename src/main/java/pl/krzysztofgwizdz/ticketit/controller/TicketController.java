@@ -10,10 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import pl.krzysztofgwizdz.ticketit.dto.TicketDto;
-import pl.krzysztofgwizdz.ticketit.entity.Project;
-import pl.krzysztofgwizdz.ticketit.entity.ProjectUserRoleLink;
-import pl.krzysztofgwizdz.ticketit.entity.Ticket;
-import pl.krzysztofgwizdz.ticketit.entity.TicketComment;
+import pl.krzysztofgwizdz.ticketit.entity.*;
 import pl.krzysztofgwizdz.ticketit.service.ProjectService;
 import pl.krzysztofgwizdz.ticketit.service.TicketService;
 
@@ -133,7 +130,10 @@ public class TicketController {
         } catch (NoSuchElementException ex) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "application.error.403");
         }
+        Set<TicketStatus> ticketStatuses = ticketService.findAllTicketStatuses();
+        model.addAttribute("projectAcronym", projectAcronym);
         model.addAttribute("ticket", ticket);
+        model.addAttribute("ticketStatuses", ticketStatuses);
         return "ticket/updateTicket";
     }
 

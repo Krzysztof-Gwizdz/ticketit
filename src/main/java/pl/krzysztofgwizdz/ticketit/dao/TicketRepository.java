@@ -26,6 +26,4 @@ public interface TicketRepository {
     void updateTicketComment(TicketComment comment);
 
     void deleteComment(long commentId);
-
-    TicketStatus findTicketStatusById(Integer statusId);
 }
