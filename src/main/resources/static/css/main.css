@@ -41,3 +41,7 @@ ul.no-punctation {
     font-size: 0.8rem;
     color: #a0a0a0;
 }
+
+.org-link-header {
+    font-size: 1.1rem;
+}

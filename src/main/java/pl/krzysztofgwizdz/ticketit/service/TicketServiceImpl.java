@@ -66,6 +66,18 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     @Transactional
+    public void updateTicket(TicketDto ticketDto) {
+        Ticket ticket = ticketRepository.findTicketById(ticketDto.getTicketId());
+        TicketStatus ticketStatus = ticketStatusRepository.findTicketStatusById(ticketDto.getTicketStatusId());
+        ticket.setTitle(ticketDto.getTitle());
+        ticket.setContent(ticketDto.getContent());
+        ticket.setModificationDate(new Date());
+        ticket.setStatus(ticketStatus);
+        ticketRepository.saveTicket(ticket);
+    }
+
+    @Override
+    @Transactional
     public void deleteTicketById(Long id) {
         ticketRepository.deleteTicketById(id);
     }

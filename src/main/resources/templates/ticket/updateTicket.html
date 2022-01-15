@@ -27,7 +27,7 @@
                 <li class="breadcrumb-item"><a th:href="@{/project}"
                                                th:text="#{navigation.navbar.projects}">Projects</a></li>
                 <li class="breadcrumb-item"><a href="#" th:href="@{/project/{projectAcronym}(projectAcronym = ${projectAcronym})}" th:text="${projectAcronym}">PROJECT_ACRONYM</a></li>
-                <li class="breadcrumb-item"><a href="#" th:href="@{/project/{projectAcronym}/ticket/{ticketId}(projectAcronym = ${projectAcronym}, ticketId = ${ticket.id})}" th:text="${projectAcronym + ' ' + ticket.id}">PROJECT_ACRONYM - TICKET_ID</a></li>
+                <li class="breadcrumb-item"><a href="#" th:href="@{/project/{projectAcronym}/ticket/{ticketId}(projectAcronym = ${projectAcronym}, ticketId = ${ticket.ticketId})}" th:text="${projectAcronym + ' ' + ticket.ticketId}">PROJECT_ACRONYM - TICKET_ID</a></li>
                 <li class="breadcrumb-item active" aria-current="page" th:text="#{tickets.form.nav.update}">Update ticket</li>
             </ol>
         </nav>
@@ -36,8 +36,7 @@
         </div>
         <div class="col-12 form-input">
             <form method="post" th:object="${ticket}" action="#" th:action="@{/project/{projectAcronym}/ticket/{ticketId}/update(projectAcronym = ${projectAcronym}, ticketId = ${ticketId})}">
-                <input type="hidden" th:field="*{id}">
-                <input type="hidden" th:field="*{creationDate}">
+                <input type="hidden" th:field="*{ticketId}">
                 <div class="form-group">
                     <label for="ticketTitleInput" class="form-label"
                            th:text="#{tickets.form.label.title}">Title:</label>
@@ -52,8 +51,8 @@
                 <div class="form-group">
                     <label id="ticketStatusInputLabel" for="ticketStatusInput" class="col-form-label"
                            th:text="#{tickets.form.label.status}">Status:</label>
-                    <select name="statuses" id="ticketStatusInput" class="form-control">
-                        <option th:each="status, itemStat : ${ticketStatuses}" th:value="${status.id}" th:text="${status.statusName}"></option>
+                    <select name="statuses" id="ticketStatusInput" class="form-control" th:field="*{ticketStatusId}">
+                        <option th:each="status, itemStat : ${ticketStatuses}" th:value="${status.id}" th:text="#{${'ticket.status.name.' + status.id}}"></option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -78,3 +77,5 @@
 </footer>
 
 <div id="script-includes" th:replace="fragments/scriptIncludes :: script-includes"></div>
+</body>
+</html>

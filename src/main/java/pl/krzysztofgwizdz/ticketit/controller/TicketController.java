@@ -1,7 +1,5 @@
 package pl.krzysztofgwizdz.ticketit.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -23,8 +21,6 @@ import java.util.Set;
 @Controller
 @RequestMapping("/project/{projectAcronym}/ticket")
 public class TicketController {
-
-    Logger logger = LoggerFactory.getLogger(TicketController.class);
 
     private TicketService ticketService;
     private ProjectService projectService;
@@ -80,9 +76,6 @@ public class TicketController {
             model.addAttribute("project", project);
             return "ticket/createTicketForm";
         }
-        logger.info("Ticket: " + ticket);
-        logger.info("Project acronym: " + projectAcronym);
-        logger.info("Username: " + principal.getName());
         ticketService.saveTicket(ticket, principal.getName(), projectAcronym);
         return "redirect:/project/" + projectAcronym;
     }
@@ -131,10 +124,53 @@ public class TicketController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "application.error.403");
         }
         Set<TicketStatus> ticketStatuses = ticketService.findAllTicketStatuses();
+        TicketDto ticketDto = new TicketDto(
+                ticket.getId(),
+                ticket.getTitle(),
+                ticket.getContent(),
+                ticket.getStatus().getId()
+        );
         model.addAttribute("projectAcronym", projectAcronym);
-        model.addAttribute("ticket", ticket);
+        model.addAttribute("ticket", ticketDto);
         model.addAttribute("ticketStatuses", ticketStatuses);
         return "ticket/updateTicket";
+    }
+
+    @PostMapping("{ticketId}/update")
+    public String udateTicket(
+            @PathVariable("projectAcronym") String projectAcronym,
+            @PathVariable("ticketId") long ticketId,
+            @ModelAttribute("ticket") TicketDto ticketDto,
+            BindingResult bindingResult,
+            Model model,
+            Principal principal
+    ) {
+        Ticket ticket = ticketService.findTicketById(ticketId);
+        Project project = projectService.getProjectByAcronym(projectAcronym);
+        if (project == null || !project.equals(ticket.getProject())) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "application.error.404");
+        }
+        Set<ProjectUserRoleLink> projectMembers = projectService.getProjectUserRoleLinksByUser(principal.getName());
+        try {
+            ProjectUserRoleLink membership = projectMembers.stream().filter(m -> m.getProject().equals(project)).findAny().get();
+        } catch (NoSuchElementException ex) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "application.error.403");
+        }
+        if (bindingResult.hasErrors()) {
+            Set<TicketStatus> ticketStatuses = ticketService.findAllTicketStatuses();
+            model.addAttribute("projectAcronym", projectAcronym);
+            model.addAttribute("ticket", ticketDto);
+            model.addAttribute("ticketStatuses", ticketStatuses);
+            return "ticket/updateTicket";
+        }
+        ticketService.updateTicket(ticketDto);
+
+        StringBuilder url = new StringBuilder();
+        url.append("redirect:/project/");
+        url.append(projectAcronym);
+        url.append("/ticket/");
+        url.append(ticketId);
+        return url.toString();
     }
 
     @RequestMapping("/delete")
@@ -199,7 +235,7 @@ public class TicketController {
         if (commentToDelete == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "application.error.404");
         }
-        if(!principal.getName().equals(commentToDelete.getUser().getUsername())) {
+        if (!principal.getName().equals(commentToDelete.getUser().getUsername())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "application.error.403");
         }
         ticketService.deleteComment(commentId);
@@ -234,7 +270,7 @@ public class TicketController {
         if (commentToUpdate == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "application.error.404");
         }
-        if(!principal.getName().equals(commentToUpdate.getUser().getUsername())) {
+        if (!principal.getName().equals(commentToUpdate.getUser().getUsername())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "application.error.403");
         }
         model.addAttribute("projectAcronym", projectAcronym);
@@ -250,7 +286,7 @@ public class TicketController {
             @PathVariable("commentId") long commentId,
             @ModelAttribute("comment") TicketComment comment,
             Principal principal
-    ){
+    ) {
         Project project = projectService.getProjectByAcronym(projectAcronym);
         Ticket ticket = ticketService.findTicketWithCommentsById(ticketId);
         if (project == null || ticket == null || !project.equals(ticket.getProject())) {
@@ -266,7 +302,7 @@ public class TicketController {
         if (commentToUpdate == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "application.error.404");
         }
-        if(!principal.getName().equals(commentToUpdate.getUser().getUsername())) {
+        if (!principal.getName().equals(commentToUpdate.getUser().getUsername())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "application.error.403");
         }
         commentToUpdate.setContent(comment.getContent());

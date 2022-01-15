@@ -18,6 +18,11 @@ public class TicketStatus {
     public TicketStatus() {
     }
 
+    public TicketStatus(Integer id, String statusName) {
+        this.id = id;
+        this.statusName = statusName;
+    }
+
     public Integer getId() {
         return id;
     }

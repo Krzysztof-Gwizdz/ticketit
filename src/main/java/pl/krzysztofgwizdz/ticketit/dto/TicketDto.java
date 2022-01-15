@@ -3,8 +3,11 @@ package pl.krzysztofgwizdz.ticketit.dto;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 public class TicketDto {
+
+    private long ticketId;
 
     @NotNull(message = "form.field.error.required")
     @NotEmpty(message = "form.field.error.required")
@@ -13,12 +16,24 @@ public class TicketDto {
 
     private String content;
 
+    private int ticketStatusId;
+
     public TicketDto() {
     }
 
-    public TicketDto(String title, String content) {
+    public TicketDto(long ticketId, String title, String content, int ticketStatusId) {
+        this.ticketId = ticketId;
         this.title = title;
         this.content = content;
+        this.ticketStatusId = ticketStatusId;
+    }
+
+    public long getTicketId() {
+        return ticketId;
+    }
+
+    public void setTicketId(long ticketId) {
+        this.ticketId = ticketId;
     }
 
     public String getTitle() {
@@ -35,5 +50,13 @@ public class TicketDto {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public int getTicketStatusId() {
+        return ticketStatusId;
+    }
+
+    public void setTicketStatusId(int ticketStatusId) {
+        this.ticketStatusId = ticketStatusId;
     }
 }

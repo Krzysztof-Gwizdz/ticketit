@@ -20,6 +20,8 @@ public interface TicketService {
 
     void saveTicket(TicketDto ticket, String username, String projectAcronym);
 
+    void updateTicket(TicketDto ticketDto);
+
     void deleteTicketById(Long id);
 
     void addCommentToTicketById(long ticketId, TicketComment comment, String username);
