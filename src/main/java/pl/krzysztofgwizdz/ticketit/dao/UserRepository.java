@@ -2,7 +2,11 @@ package pl.krzysztofgwizdz.ticketit.dao;
 
 import pl.krzysztofgwizdz.ticketit.entity.User;
 
+import java.util.List;
+
 public interface UserRepository {
+
+    List<User> findAllUsers();
 
     User findUserById(int id);
 

@@ -8,6 +8,8 @@ import pl.krzysztofgwizdz.ticketit.entity.User;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 
 @Repository
@@ -18,6 +20,15 @@ public class UserRepositoryImpl implements UserRepository {
     @Autowired
     public UserRepositoryImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
+    }
+
+    @Override
+    public List<User> findAllUsers() {
+        Session session = entityManager.unwrap(Session.class);
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<User> query = cb.createQuery(User.class);
+        query.from(User.class);
+        return session.createQuery(query).getResultList();
     }
 
     @Override

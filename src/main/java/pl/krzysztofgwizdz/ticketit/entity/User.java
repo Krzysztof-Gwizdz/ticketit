@@ -105,7 +105,7 @@ public class User {
         this.email = email;
     }
 
-    public Boolean isEnabled() {
+    public Boolean getEnabled() {
         return enabled;
     }
 

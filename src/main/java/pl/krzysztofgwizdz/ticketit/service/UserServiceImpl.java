@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import pl.krzysztofgwizdz.ticketit.dao.AuthorityRepository;
 import pl.krzysztofgwizdz.ticketit.dao.UserRepository;
 import pl.krzysztofgwizdz.ticketit.dto.UserDto;
@@ -60,6 +61,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(newUser);
     }
 
+    @Override
+    public List<User> findAllUsers() {
+        List<User> users = userRepository.findAllUsers();
+        return users;
+    }
 
     private boolean userExists(String username, String email) {
         User users = userRepository.findUserByUsernameOrEmail(username, email);

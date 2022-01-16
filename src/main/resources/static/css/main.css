@@ -45,3 +45,15 @@ ul.no-punctation {
 .org-link-header {
     font-size: 1.1rem;
 }
+
+.fancy-table>thead>tr>th, .fancy-table>tbody>tr>td {
+    padding: 0px 10px;
+}
+
+.fancy-table>tbody>tr {
+    border-top: 1px solid #000;
+}
+
+.white-space-extended {
+    white-space: pre-wrap;
+}
