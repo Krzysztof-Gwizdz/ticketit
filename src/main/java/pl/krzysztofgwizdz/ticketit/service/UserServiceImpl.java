@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import pl.krzysztofgwizdz.ticketit.dao.AuthorityRepository;
 import pl.krzysztofgwizdz.ticketit.dao.UserRepository;
 import pl.krzysztofgwizdz.ticketit.dto.UserDto;
+import pl.krzysztofgwizdz.ticketit.dto.UserListDto;
 import pl.krzysztofgwizdz.ticketit.entity.Authority;
 import pl.krzysztofgwizdz.ticketit.entity.User;
 import pl.krzysztofgwizdz.ticketit.error.UserAlreadyExistsException;
@@ -62,9 +63,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public List<User> findAllUsers() {
         List<User> users = userRepository.findAllUsers();
         return users;
+    }
+
+    @Override
+    @Transactional
+    public void updateUserStatuses(UserListDto userListDto) {
+        for (User userDto : userListDto.getUsers()) {
+            User userToUpdate = userRepository.findUserById(userDto.getUserId());
+            if(userToUpdate != null) {
+                userToUpdate.setEnabled(userDto.getEnabled());
+                userRepository.updateUser(userToUpdate);
+            }
+        }
     }
 
     private boolean userExists(String username, String email) {

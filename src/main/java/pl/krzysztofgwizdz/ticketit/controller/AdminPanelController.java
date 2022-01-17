@@ -11,7 +11,6 @@ import pl.krzysztofgwizdz.ticketit.dto.UserListDto;
 import pl.krzysztofgwizdz.ticketit.entity.User;
 import pl.krzysztofgwizdz.ticketit.service.UserService;
 
-import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @Controller
@@ -39,7 +38,7 @@ public class AdminPanelController {
     public String userMangementSave(
             @ModelAttribute("usersDto") UserListDto usersDto
     ) {
-        //TODO Prepare update users here, in service, and maybe repository
+        userService.updateUserStatuses(usersDto);
         return "redirect:/admin/users";
     }
 

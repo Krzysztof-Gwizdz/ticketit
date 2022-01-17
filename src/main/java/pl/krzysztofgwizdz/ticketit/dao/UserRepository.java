@@ -8,13 +8,15 @@ public interface UserRepository {
 
     List<User> findAllUsers();
 
-    User findUserById(int id);
+    User findUserById(long id);
 
     User findUserByUsername(String username);
 
     User findUserByUsernameOrEmail(String username, String email);
 
     User findUserByUsernameWithProjects(String username);
+
+    User updateUser(User user);
 
     User save(User user);
 }

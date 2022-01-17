@@ -32,7 +32,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User findUserById(int id) {
+    public User findUserById(long id) {
         Session session = entityManager.unwrap(Session.class);
         return session.get(User.class, id);
     }
@@ -73,6 +73,13 @@ public class UserRepositoryImpl implements UserRepository {
         } catch (NoResultException e) {
             return findUserByUsername(username);
         }
+    }
+
+    @Override
+    public User updateUser(User user) {
+        Session session = entityManager.unwrap(Session.class);
+        session.update(user);
+        return user;
     }
 
     @Override

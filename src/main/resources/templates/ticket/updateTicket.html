@@ -27,7 +27,7 @@
                 <li class="breadcrumb-item"><a th:href="@{/project}"
                                                th:text="#{navigation.navbar.projects}">Projects</a></li>
                 <li class="breadcrumb-item"><a href="#" th:href="@{/project/{projectAcronym}(projectAcronym = ${projectAcronym})}" th:text="${projectAcronym}">PROJECT_ACRONYM</a></li>
-                <li class="breadcrumb-item"><a href="#" th:href="@{/project/{projectAcronym}/ticket/{ticketId}(projectAcronym = ${projectAcronym}, ticketId = ${ticket.ticketId})}" th:text="${projectAcronym + ' ' + ticket.ticketId}">PROJECT_ACRONYM - TICKET_ID</a></li>
+                <li class="breadcrumb-item"><a href="#" th:href="@{/project/{projectAcronym}/ticket/{ticketId}(projectAcronym = ${projectAcronym}, ticketId = ${ticket.ticketId})}" th:text="${projectAcronym + ' - ' + ticket.ticketId}">PROJECT_ACRONYM - TICKET_ID</a></li>
                 <li class="breadcrumb-item active" aria-current="page" th:text="#{tickets.form.nav.update}">Update ticket</li>
             </ol>
         </nav>
