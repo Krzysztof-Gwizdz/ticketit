@@ -71,6 +71,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    public User findByUsername(String username) {
+        return userRepository.findUserByUsername(username);
+    }
+
+    @Override
+    @Transactional
     public void updateUserStatuses(UserListDto userListDto) {
         for (User userDto : userListDto.getUsers()) {
             User userToUpdate = userRepository.findUserById(userDto.getUserId());
