@@ -9,9 +9,10 @@
 
     <link rel="icon" sizes="32x32" th:href="@{/images/icons/favicon.ico}" type="image/ico">
 
-    <link media="screen" rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
-    <link media="screen" rel="stylesheet" th:href="@{/css/main.css}"/>
-    <link media="screen" rel="stylesheet" th:href="@{/css/all.min.css}" type="text/css">
+    <link media="screen" rel="stylesheet" th:href="@{/css/bootstrap.min.css}"
+          href="../../static/css/bootstrap.min.css"/>
+    <link media="screen" rel="stylesheet" th:href="@{/css/main.css}" href="../../static/css/main.css"/>
+    <link media="screen" rel="stylesheet" th:href="@{/css/all.min.css}" href="../../static/css/all.min.css" type="text/css">
 </head>
 <body id="page-top">
 
@@ -28,94 +29,52 @@
         </div>
     </header>
 
+    <section id="services" class="my-3">
+        <div class="container">
+            <div class="row">
+                <div class="my-2 my-md-0 col-md-4">
+                    <div class="card">
+                        <img th:src="@{/images/plan.jpg}" src="../../static/images/plan.jpg" class="card-img-top" alt="people planning"/>
+                        <div class="card-body text-center">
+                            <h5 class="card-title" th:text="#{home.cards.plan.header}">Plan your team's work</h5>
+                            <p class="card-body" th:text="#{home.cards.plan.body}">Ticket-It gives overview on what needs to be done, what currently been doing and what was done.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="my-2 my-md-0 col-md-4">
+                    <div class="card">
+                        <img th:src="@{/images/discussion.png}" src="../../static/images/discussion.png" class="card-img-top" alt="people planning"/>
+                        <div class="card-body text-center">
+                            <h5 class="card-title" th:text="#{home.cards.touch.header}">Be in touch</h5>
+                            <p class="card-body" th:text="#{home.cards.touch.body}">Discuss on tasks to deliver best solutions to your clients. Every ticket has a comment section!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="my-2 my-md-0 col-md-4">
+                    <div class="card">
+                        <img th:src="@{/images/groups.jpg}" src="../../static/images/groups.jpg" class="card-img-top" alt="people planning"/>
+                        <div class="card-body text-center">
+                            <h5 class="card-title" th:text="#{home.cards.split.header}">Split into projects</h5>
+                            <p class="card-body" th:text="#{home.cards.split.body}">Organize your team's work by creating projects and assign the right members.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <div class="container">
-        <p>
-            Bacon ipsum dolor amet ham hock porchetta short ribs tenderloin, boudin turducken meatball pig meatloaf
-            filet
-            mignon jerky capicola. Sirloin buffalo chicken kevin ball tip bacon. Corned beef buffalo picanha shankle ham
-            ribeye boudin cow beef beef ribs chicken pancetta andouille meatball. Shankle porchetta tri-tip, ribeye pig
-            strip steak frankfurter. Shank brisket swine, tongue landjaeger kielbasa kevin bacon filet mignon pork loin.
-            Meatball fatback tenderloin venison boudin chislic t-bone turducken.
-        </p>
-        <p>
-            Bresaola pork ball tip shoulder sausage pork chop cow tenderloin tri-tip burgdoggen ham hock. Prosciutto
-            tongue
-            drumstick, bacon buffalo capicola jowl venison corned beef. Sausage boudin shank pancetta. Ribeye pork loin
-            doner bacon pork chop pig pork flank pastrami. Meatloaf ground round swine t-bone ham hock, bacon landjaeger
-            filet mignon shoulder tail pork chop salami leberkas venison.
-        </p>
-        <p>
-            Ground round kevin pastrami ham hock, bresaola jowl pork loin spare ribs porchetta t-bone. Venison drumstick
-            spare ribs shoulder, burgdoggen tongue pancetta chicken swine. Sausage beef fatback strip steak capicola
-            short
-            loin ball tip meatball. Pork loin turkey chislic, leberkas landjaeger andouille ground round brisket pig
-            ball
-            tip t-bone fatback kevin chuck salami. Biltong cow pancetta, rump kevin shoulder pig capicola andouille
-            turducken beef salami pork chop chicken.
-        </p>
-        <p>
-            Drumstick turducken rump bacon, sirloin shank cupim. Ground round spare ribs leberkas, ham hock turkey beef
-            ribs
-            meatloaf sausage shoulder t-bone. Tri-tip tenderloin prosciutto andouille chuck t-bone kielbasa meatball
-            chislic. Turkey filet mignon short loin, beef ribs beef prosciutto ball tip pork chop doner boudin sausage.
-        </p>
-        <p>
-            Ham pig short loin, pork buffalo jowl chuck kielbasa landjaeger jerky turkey short ribs picanha cow. Strip
-            steak
-            leberkas venison cupim prosciutto pig burgdoggen turducken brisket meatloaf short loin pork shoulder ham
-            andouille. Short loin alcatra cupim, landjaeger buffalo andouille spare ribs kielbasa chislic burgdoggen
-            salami
-            pork loin. Tenderloin cupim ribeye pork loin spare ribs ball tip. Bacon pig pork loin fatback, biltong jowl
-            alcatra pastrami pork chop. Prosciutto cow capicola, spare ribs shank t-bone biltong. Ball tip andouille
-            buffalo
-            ribeye, short ribs kevin turkey leberkas ham hock venison spare ribs doner pig rump.
-        </p>
-        <p>
-            Biltong jerky alcatra, prosciutto meatloaf corned beef drumstick kevin chuck ham hock boudin chicken tail.
-            Ham
-            hock doner prosciutto, biltong short loin frankfurter shankle pastrami landjaeger chislic ham buffalo filet
-            mignon jerky salami. Landjaeger prosciutto drumstick, ball tip frankfurter leberkas tenderloin jerky
-            capicola
-            pancetta doner andouille. Kielbasa biltong sirloin rump meatball filet mignon cupim turkey tri-tip chuck
-            doner
-            buffalo. Pork chop jerky pastrami corned beef burgdoggen capicola turkey pork belly bacon filet mignon swine
-            landjaeger shoulder. Ham cupim drumstick bacon venison swine, beef ribs ribeye t-bone corned beef meatball.
-        </p>
-        <p>
-            Beef ribs turkey tail fatback meatball chicken shankle sirloin. Boudin leberkas picanha chuck chicken, shank
-            beef bacon shoulder chislic jerky pastrami. Jowl doner frankfurter pork chop tail. Drumstick pork chop tail
-            shank. Tail ribeye chislic, bresaola buffalo meatball burgdoggen spare ribs kevin landjaeger swine jowl
-            meatloaf
-            biltong. Pork belly tongue turducken, jerky tri-tip sausage pancetta.
-        </p>
-        <p>
-            Kevin rump pork salami, corned beef kielbasa cupim tri-tip frankfurter pancetta alcatra. Jowl salami t-bone
-            pancetta ball tip, turkey chicken picanha chuck. Filet mignon chicken brisket, bresaola chuck pancetta
-            turkey.
-            Prosciutto corned beef porchetta pastrami ham hock beef ribs bacon alcatra capicola tenderloin drumstick.
-            Meatball fatback jerky bresaola ground round chislic leberkas strip steak. Ham hock andouille meatloaf strip
-            steak turkey sirloin tri-tip shankle chislic kevin jerky filet mignon swine. Shoulder turducken salami
-            t-bone
-            tongue flank.
-        </p>
-        <p>
-            Chislic jowl swine cow sirloin, venison tongue. Sausage andouille fatback ground round, beef picanha
-            frankfurter. Pastrami ground round pork belly chislic shankle biltong porchetta ball tip strip steak jerky
-            shank
-            beef spare ribs tenderloin meatball. Turkey corned beef buffalo capicola, fatback ham shank short ribs bacon
-            shankle chicken pork loin doner prosciutto tenderloin.
-        </p>
-        <p>
-            Cupim doner flank swine, burgdoggen andouille chicken. Filet mignon bacon meatball, hamburger pig andouille
-            doner alcatra turkey chislic tenderloin boudin. Swine leberkas ball tip ham, boudin brisket strip steak
-            pancetta
-            pork belly meatball chicken flank meatloaf. Short ribs hamburger doner fatback salami, ribeye cow capicola
-            pork
-            loin.
-        </p>
-    </div>
-
+    <section id="contact" class="my-5">
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-md-8 text-center">
+                    <h2 th:text="#{home.contact.header}">Faced any troubles?</h2>
+                    <hr>
+                    <p th:text="#{home.contact.body}">If you faced any troubles, please contact author.</p>
+                    <button class="btn btn-secondary my-4" th:text="#{home.contact.button}">Go to conatact page</button>
+                </div>
+            </div>
+        </div>
+    </section>
 </main>
 
 <footer id="footer" th:replace="fragments/footer :: footer">

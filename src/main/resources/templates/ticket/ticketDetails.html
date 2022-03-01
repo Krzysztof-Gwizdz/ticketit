@@ -65,8 +65,7 @@
                     <p class="error-message my-0 py-0" th:each="err : ${#fields.errors('content')}" th:text="#{${err}}"></p>
                 </div>
 
-                <button class="btn btn-secondary mt-1" type="submit">Post comment
-                </button>
+                <button class="btn btn-secondary mt-1" type="submit" th:text="#{tickets.details.comment.form.button}">Post comment</button>
             </form>
         </div>
         <div th:unless="${ticket.commentList == null or #lists.isEmpty(ticket.commentList)}" class="row mb-3">

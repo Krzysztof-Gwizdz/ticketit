@@ -22,9 +22,8 @@ nav {
     background-size: cover;
 }
 
-footer>div.container {
-    background-color: lightgray;
-    padding: 50px 0;
+footer>div.container-fluid {
+    padding: 20px 0;
 }
 
 .error-message {
