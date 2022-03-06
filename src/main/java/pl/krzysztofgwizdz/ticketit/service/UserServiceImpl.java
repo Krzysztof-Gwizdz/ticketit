@@ -2,12 +2,15 @@ package pl.krzysztofgwizdz.ticketit.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
+import org.springframework.web.server.ResponseStatusException;
 import pl.krzysztofgwizdz.ticketit.dao.AuthorityRepository;
 import pl.krzysztofgwizdz.ticketit.dao.UserRepository;
+import pl.krzysztofgwizdz.ticketit.dto.PasswordDto;
+import pl.krzysztofgwizdz.ticketit.dto.UserBasicDto;
 import pl.krzysztofgwizdz.ticketit.dto.UserDto;
 import pl.krzysztofgwizdz.ticketit.dto.UserListDto;
 import pl.krzysztofgwizdz.ticketit.entity.Authority;
@@ -80,10 +83,32 @@ public class UserServiceImpl implements UserService {
     public void updateUserStatuses(UserListDto userListDto) {
         for (User userDto : userListDto.getUsers()) {
             User userToUpdate = userRepository.findUserById(userDto.getUserId());
-            if(userToUpdate != null) {
+            if (userToUpdate != null) {
                 userToUpdate.setEnabled(userDto.getEnabled());
                 userRepository.updateUser(userToUpdate);
             }
+        }
+    }
+
+    @Override
+    @Transactional
+    public void updateUserNames(UserBasicDto userDto) {
+        User userToUpdate = userRepository.findUserByUsername(userDto.getUsername());
+        if (userToUpdate != null) {
+            userToUpdate.setFirstName(userDto.getFirstName());
+            userToUpdate.setLastName(userDto.getLastName());
+            userRepository.updateUser(userToUpdate);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void updatePassword(PasswordDto passwordDto) {
+        User userToUpdate = userRepository.findUserByUsername(passwordDto.getUsername());
+        if (userToUpdate != null && passwordEncoder.matches(passwordDto.getOldPass(), userToUpdate.getPassword())) {
+            String encodedNewPass = passwordEncoder.encode(passwordDto.getNewPass());
+            userToUpdate.setPassword(encodedNewPass);
+            userRepository.updateUser(userToUpdate);
         }
     }
 

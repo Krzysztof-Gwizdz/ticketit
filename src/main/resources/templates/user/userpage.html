@@ -24,34 +24,48 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{navigation.navbar.home}">Home</a></li>
+                <li class="breadcrumb-item"><a th:href="@{/user}" href="#" th:text="#{navigation.navbar.users}">Users</a></li>
                 <li class="breadcrumb-item active" aria-current="page" th:text="#{navigation.navbar.profile} + ' - ' + ${user.username}">
                     User's profile
                 </li>
             </ol>
         </nav>
         <div class="row mb-4">
-            <h2 class="col-md-10" th:text="#{navigation.navbar.profile} + ' - ' + ${user.username}">User profile</h2>
+            <div class="col">
+                <h2 th:text="#{user.details.label.userprofile} + ' - ' + ${user.username}">User profile</h2>
+                <p class="ticket-date" th:text="#{user.details.label.joinedon} + ' ' + ${#dates.format(user.createdOn, 'dd.MM.yyyy')}"></p>
+            </div>
         </div>
         <div class="row mb-4">
-            <div class="col">
-                <table>
+            <div class="col mb-4 mb-md-0">
+                <table class="fancy-table-vertical">
                     <tr>
-                        <th>Username:</th>
+                        <th th:text="#{user.details.label.username}">Username:</th>
                         <td th:text="${user.username}"></td>
                     </tr>
                     <tr>
-                        <th>First name:</th>
+                        <th th:text="#{user.details.label.firstname}">First name:</th>
                         <td th:text="${user.firstName}"></td>
                     </tr>
                     <tr>
-                        <th>Last name:</th>
+                        <th th:text="#{user.details.label.lastname}">Last name:</th>
                         <td th:text="${user.lastName}"></td>
                     </tr>
                     <tr>
-                        <th>E-mail:</th>
+                        <th th:text="#{user.details.label.email}">E-mail:</th>
                         <td th:text="${user.email}"></td>
                     </tr>
                 </table>
+            </div>
+            <div th:if="${#authentication.name.equals(user.username)}" class="col-md-6 align-content-center">
+                <ul id="userDetailsButtonList" class="no-punctation text-center">
+                    <li>
+                        <a th:href="@{/user/{username}/edit(username=${#authentication.name})}" href="#"><button type="button" class="btn btn-secondary" th:text="#{user.details.button.edit}">Edit</button></a>
+                    </li>
+                    <li>
+                        <a th:href="@{/user/{username}/change-password(username = ${#authentication.name})}" href="#"><button type="button" class="btn btn-secondary" th:text="#{user.details.button.changepass}">Change password</button></a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>

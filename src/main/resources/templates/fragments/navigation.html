@@ -40,14 +40,17 @@
                     <li sec:authorize="hasRole('ROLE_USER')" class="nav-item">
                         <a class="nav-link" th:href="@{/project}" th:text="#{navigation.navbar.projects}">Projects</a>
                     </li>
+                    <li sec:authorize="hasRole('ROLE_USER')" class="nav-item">
+                        <a class="nav-link" th:href="@{/user}" th:text="#{navigation.navbar.users}">Users</a>
+                    </li>
                     <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item">
                         <a class="nav-link" href="#" th:href="@{/admin}" th:text="#{navigation.navbar.admin}">Admin Page</a>
                     </li>
                 </ul>
                 <div class="d-flex">
                     <div id="language-selector" class="mx-2 align-self-center text-center">
-                        <span th:text="#{navigation.navbar.language}"></span>
-                        <select id="locales">
+                        <span class="smaller-text" th:text="#{navigation.navbar.language}"></span>
+                        <select class="smaller-text" id="locales">
                             <option value=""></option>
                             <option value="en_US">EN US</option>
                             <option value="en_GB">EN GB</option>
@@ -57,7 +60,7 @@
                     </div>
                     <div sec:authorize="isAuthenticated()">
                         <span class="nav-item">
-                            <span th:text="#{navigation.navbar.loggedAs} + ' '">You're logged as: </span><a th:href="@{/user/{username}(username = ${#authentication.name})}"
+                            <span class="smaller-text" th:text="#{navigation.navbar.loggedAs} + ' '">You're logged as: </span><a class="smaller-text" th:href="@{/user/{username}(username = ${#authentication.name})}"
                                                                                                       sec:authentication="name">Username</a>
                         </span>
                         <a class="nav-item" th:href="@{/logout}">

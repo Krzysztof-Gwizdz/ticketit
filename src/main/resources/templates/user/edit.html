@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Ticket-It</title>
+    <meta content="Krzysztof Gwiżdż" name="author"/>
+    <meta content="IE=edge,chrome=1" http-equiv="X-Ua-Compatible"/>
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+
+    <link rel="icon" sizes="32x32" th:href="@{/images/icons/favicon.ico}" type="image/ico">
+
+    <link media="screen" rel="stylesheet" th:href="@{/css/bootstrap.min.css}"
+          href="../../static/css/bootstrap.min.css"/>
+    <link media="screen" rel="stylesheet" th:href="@{/css/main.css}" href="../../static/css/main.css"/>
+    <link media="screen" rel="stylesheet" th:href="@{/css/all.min.css}" type="text/css">
+</head>
+
+<body id="page-top">
+<div th:replace="fragments/navigation :: navigation">
+</div>
+
+<main>
+    <div class="container mt-5">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{navigation.navbar.home}">Home</a></li>
+                <li class="breadcrumb-item"><a th:href="@{/user}" href="#" th:text="#{navigation.navbar.users}">Users</a></li>
+                <li class="breadcrumb-item">
+                    <a href="#" th:href="@{/user/{username}(username=${user.username})}"
+                       th:text="#{navigation.navbar.profile} + ' - ' + ${user.username}">User's profile</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page" th:text="#{navigation.navbar.profileEdit}">Edit</li>
+            </ol>
+        </nav>
+        <div class="row mb-4">
+            <div class="col">
+                <h2 th:text="#{user.edit.title} + ' - ' + ${user.username}">Edit profile</h2>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col">
+                <form class="form-input" th:object="${user}" th:action="@{/user/edit}" method="post">
+                    <input type="hidden" th:field="*{username}"/>
+                    <div class="form-group">
+                        <label for="firstNameInput" class="form-label"
+                               th:text="#{user.edit.form.label.firstName}">First name</label>
+                        <input id="firstNameInput" class="form-control"
+                               type="text"
+                               placeholder="First name"
+                               th:field="*{firstName}"
+                               th:placeholder="#{user.edit.form.placeholder.firstName}"
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label for="lastNameInput" class="form-label"
+                               th:text="#{user.edit.form.label.lastName}">Last name</label>
+                        <input id="lastNameInput" class="form-control"
+                               type="text"
+                               placeholder="First name"
+                               th:field="*{lastName}"
+                               th:placeholder="#{user.edit.form.placeholder.lastName}"
+                        >
+                    </div>
+                    <div class="form-group">
+                        <button class="form-control btn btn-success" type="submit" th:text="#{user.edit.form.button.update}">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer id="footer" th:replace="fragments/footer :: footer">
+</footer>
+
+<div id="script-includes" th:replace="fragments/scriptIncludes :: script-includes"></div>
+
+<!--<script th:src="@{/js/jquery-3.5.1.slim.min.js}"></script>-->
+<!--<script th:src="@{/js/popper.min.js}"></script>-->
+<!--<script th:src="@{/js/bootstrap.min.js}"></script>-->
+</body>
+</html>

@@ -1,5 +1,7 @@
 package pl.krzysztofgwizdz.ticketit.service;
 
+import pl.krzysztofgwizdz.ticketit.dto.PasswordDto;
+import pl.krzysztofgwizdz.ticketit.dto.UserBasicDto;
 import pl.krzysztofgwizdz.ticketit.dto.UserDto;
 import pl.krzysztofgwizdz.ticketit.dto.UserListDto;
 import pl.krzysztofgwizdz.ticketit.entity.User;
@@ -16,4 +18,8 @@ public interface UserService {
     void updateUserStatuses(UserListDto userList);
 
     User signUpNewUser(UserDto userDto) throws UserAlreadyExistsException;
+
+    void updateUserNames(UserBasicDto userDto);
+
+    void updatePassword(PasswordDto passwordDto);
 }
