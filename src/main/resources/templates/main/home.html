@@ -25,7 +25,7 @@
         <div class="container">
             <h1 class="display-4" th:text="#{header.jumbotron.title}"></h1>
             <p class="lead" th:text="#{header.jumbotron.subtitle}"></p>
-            <a class="btn btn-primary btn-lg" href="#" th:text="#{header.jumbotron.button}"></a>
+            <a class="btn btn-primary btn-lg" href="#" th:href="@{/about}" th:text="#{header.jumbotron.button}"></a>
         </div>
     </header>
 
@@ -70,7 +70,9 @@
                     <h2 th:text="#{home.contact.header}">Faced any troubles?</h2>
                     <hr>
                     <p th:text="#{home.contact.body}">If you faced any troubles, please contact author.</p>
-                    <button class="btn btn-secondary my-4" th:text="#{home.contact.button}">Go to conatact page</button>
+                    <a href="#" th:href="@{/contact}">
+                        <button class="btn btn-secondary my-4" th:text="#{home.contact.button}">Go to conatact page</button>
+                    </a>
                 </div>
             </div>
         </div>

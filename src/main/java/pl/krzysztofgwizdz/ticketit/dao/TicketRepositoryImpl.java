@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pl.krzysztofgwizdz.ticketit.entity.Ticket;
 import pl.krzysztofgwizdz.ticketit.entity.TicketComment;
-import pl.krzysztofgwizdz.ticketit.entity.TicketStatus;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;

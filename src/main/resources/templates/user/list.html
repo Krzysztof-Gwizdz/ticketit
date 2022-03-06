@@ -36,20 +36,20 @@
         <div th:each="user : ${users}" class="row mb-2">
             <div class="col">
                 <div class="row">
-                    <div class="col-6 col-md-3">
-                        <span>Username: </span>
+                    <div class="col-12 col-xl-3">
+                        <span th:text="#{user.list.label.username}">Username: </span>
                         <a href="#" th:href="@{/user/{username}(username=${user.username})}" th:text="${user.username}"></a>
                     </div>
-                    <div class="col-6 col-md-3">
-                        <span>First name: </span>
+                    <div class="col-12 col-xl-3">
+                        <span th:text="#{user.list.label.firstName}">First name: </span>
                         <span th:text="${user.firstName}"></span>
                     </div>
-                    <div class="col-6 col-md-3">
-                        <span>Last name: </span>
+                    <div class="col-12 col-xl-3">
+                        <span th:text="#{user.list.label.lastName}">Last name: </span>
                         <span th:text="${user.lastName}"></span>
                     </div>
-                    <div class="col-6 col-md-3">
-                        <span>Joined on: </span>
+                    <div class="col-12 col-xl-3">
+                        <span th:text="#{user.list.label.joinedOn}">Joined on: </span>
                         <span th:text="${#dates.format(user.createdOn, 'dd.MM.yyyy')}"></span>
                     </div>
                 </div>

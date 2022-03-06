@@ -1,7 +1,6 @@
 package pl.krzysztofgwizdz.ticketit.entity;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @Table(name = "ticket_statuses")

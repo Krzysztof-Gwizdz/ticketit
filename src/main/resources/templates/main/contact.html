@@ -1,10 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8"/>
+    <title>Ticket-It</title>
+    <meta content="Krzysztof Gwiżdż" name="author"/>
+    <meta content="IE=edge,chrome=1" http-equiv="X-Ua-Compatible"/>
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+
+    <link rel="icon" sizes="32x32" th:href="@{/images/icons/favicon.ico}" type="image/ico">
+
+    <link media="screen" rel="stylesheet" th:href="@{/css/bootstrap.min.css}"
+          href="../../static/css/bootstrap.min.css"/>
+    <link media="screen" rel="stylesheet" th:href="@{/css/main.css}" href="../../static/css/main.css"/>
+    <link media="screen" rel="stylesheet" th:href="@{/css/all.min.css}" type="text/css">
 </head>
-<body>
+
+<body id="page-top">
+<div th:replace="fragments/navigation :: navigation">
+</div>
+
+<main>
+    <div class="container mt-5">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{navigation.navbar.home}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page" th:text="#{navigation.navbar.contact}">Contact</li>
+            </ol>
+        </nav>
+        <div class="row mb-1">
+            <div class="col">
+                <h2 th:text="#{contact.label.title}">Contact author</h2>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col">
+                <p th:text="#{contact.label.subtitle}">If you faced any troubles, please contact site's author by entering your e-mail and message.</p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col">
+                <form class="form-input">
+                    <div class="form-group">
+                        <label for="emailInput" class="form-label" th:text="#{contact.form.label.email}">Your e-mail</label>
+                        <input id="emailInput" type="text" class="form-control" placeholder="email@example.com" th:placeholder="#{contact.form.placeholder.emial}">
+                    </div>
+                    <div class="form-group">
+                        <label for="messageInput" class="form-label" th:text="#{contact.form.label.message}">Message</label>
+                        <textarea id="messageInput" class="form-control" placeholder="Enter your message here" rows="8" th:placeholder="#{contact.form.placeholder.message}"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="form-control btn btn-success" th:text="#{contact.form.button.submit}">Send message</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer id="footer" th:replace="fragments/footer :: footer">
+</footer>
+
+<div id="script-includes" th:replace="fragments/scriptIncludes :: script-includes"></div>
+
+<!--<script th:src="@{/js/jquery-3.5.1.slim.min.js}"></script>-->
+<!--<script th:src="@{/js/popper.min.js}"></script>-->
+<!--<script th:src="@{/js/bootstrap.min.js}"></script>-->
+</body>
+</html>
 
 </body>
 </html>

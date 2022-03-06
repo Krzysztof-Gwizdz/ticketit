@@ -2,7 +2,6 @@ package pl.krzysztofgwizdz.ticketit.dao;
 
 import pl.krzysztofgwizdz.ticketit.entity.Ticket;
 import pl.krzysztofgwizdz.ticketit.entity.TicketComment;
-import pl.krzysztofgwizdz.ticketit.entity.TicketStatus;
 
 import java.util.List;
 import java.util.Set;

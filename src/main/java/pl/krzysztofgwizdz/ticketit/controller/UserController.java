@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import pl.krzysztofgwizdz.ticketit.dto.PasswordDto;
 import pl.krzysztofgwizdz.ticketit.dto.UserBasicDto;
-import pl.krzysztofgwizdz.ticketit.dto.UserDto;
 import pl.krzysztofgwizdz.ticketit.entity.User;
 import pl.krzysztofgwizdz.ticketit.service.UserService;
 
@@ -93,11 +92,11 @@ public class UserController {
 
     @PostMapping("/change-password")
     public String changePass(
-        @Valid @ModelAttribute("pass")PasswordDto passwordDto,
-        BindingResult result,
-        Principal principal
+            @Valid @ModelAttribute("pass") PasswordDto passwordDto,
+            BindingResult result,
+            Principal principal
     ) {
-        if(result.hasErrors()) {
+        if (result.hasErrors()) {
             return "user/changePassword";
         }
         if (!principal.getName().equals(passwordDto.getUsername())) {

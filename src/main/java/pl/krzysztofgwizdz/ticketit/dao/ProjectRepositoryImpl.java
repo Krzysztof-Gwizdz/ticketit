@@ -5,13 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pl.krzysztofgwizdz.ticketit.entity.Project;
 import pl.krzysztofgwizdz.ticketit.entity.ProjectRole;
-import pl.krzysztofgwizdz.ticketit.entity.ProjectUserRoleLink;
 import pl.krzysztofgwizdz.ticketit.entity.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import java.util.Iterator;
 import java.util.List;
 
 @Repository
