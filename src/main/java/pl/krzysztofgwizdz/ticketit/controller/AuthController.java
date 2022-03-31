@@ -1,9 +1,5 @@
 package pl.krzysztofgwizdz.ticketit.controller;
 
-import pl.krzysztofgwizdz.ticketit.entity.User;
-import pl.krzysztofgwizdz.ticketit.dto.UserDto;
-import pl.krzysztofgwizdz.ticketit.error.UserAlreadyExistsException;
-import pl.krzysztofgwizdz.ticketit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +7,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import pl.krzysztofgwizdz.ticketit.dto.UserDto;
+import pl.krzysztofgwizdz.ticketit.entity.User;
+import pl.krzysztofgwizdz.ticketit.error.UserAlreadyExistsException;
+import pl.krzysztofgwizdz.ticketit.service.UserService;
 
 import javax.validation.Valid;
 
@@ -37,13 +37,13 @@ public class AuthController {
             BindingResult result
     ) {
         User registredUser = new User();
-        if (!result.hasErrors()){
+        if (!result.hasErrors()) {
             registredUser = createUserAccount(userDto);
         }
-        if (registredUser == null){
-            //result.reject("Istnieje już użytkownik o podanym loginie lub emailu.");
+        if (registredUser == null) {
+            result.reject("signup.form.error.userexists");
         }
-        if (result.hasErrors()){
+        if (result.hasErrors()) {
             return "auth/signUpForm";
         }
         return "auth/confirmation";
@@ -53,7 +53,7 @@ public class AuthController {
         User registeredUser = null;
         try {
             registeredUser = userService.signUpNewUser(userDto);
-        } catch (UserAlreadyExistsException exc){
+        } catch (UserAlreadyExistsException exc) {
             return null;
         }
         return registeredUser;

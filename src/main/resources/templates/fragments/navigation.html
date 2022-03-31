@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8"/>
     <title>Ticket-It</title>
@@ -10,14 +11,15 @@
     <link href="../../static/css/bootstrap.min.css" media="screen" rel="stylesheet"
           th:href="@{/css/bootstrap.min.css}"/>
     <link href="../../static/css/main.css" media="screen" rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link media="screen" rel="stylesheet" th:href="@{/css/all.min.css}" type="text/css">
 </head>
 <body>
 
 <div th:fragment="navigation">
 
-    <nav class="navbar navbar-expand-md navbar-light fixed-top" id="main-nav">
+    <nav class="navbar navbar-expand-xl navbar-light fixed-top" id="main-nav">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" th:href="@{/}">
                 <img alt="" height="25" loading="lazy" th:src="@{/images/stickyNote.png}" width="25">
                 Ticket-It!
             </a>
@@ -30,12 +32,56 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#" th:text="#{navigation.navbar.about}">About</a>
+                        <a class="nav-link" href="#" th:href="@{/about}" th:text="#{navigation.navbar.about}">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" th:text="#{navigation.navbar.contact}">Contact</a>
+                        <a class="nav-link" href="#" th:href="@{/contact}" th:text="#{navigation.navbar.contact}">Contact</a>
+                    </li>
+                    <li sec:authorize="hasRole('ROLE_USER')" class="nav-item">
+                        <a class="nav-link" th:href="@{/project}" th:text="#{navigation.navbar.projects}">Projects</a>
+                    </li>
+                    <li sec:authorize="hasRole('ROLE_USER')" class="nav-item">
+                        <a class="nav-link" th:href="@{/user}" th:text="#{navigation.navbar.users}">Users</a>
+                    </li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item">
+                        <a class="nav-link" href="#" th:href="@{/admin}" th:text="#{navigation.navbar.admin}">Admin Page</a>
                     </li>
                 </ul>
+                <div class="d-flex">
+                    <div id="language-selector" class="mx-2 align-self-center text-center">
+                        <span class="smaller-text" th:text="#{navigation.navbar.language}"></span>
+                        <select class="smaller-text" id="locales">
+                            <option value=""></option>
+                            <option value="en_US">EN US</option>
+                            <option value="en_GB">EN GB</option>
+                            <option value="pl">PL</option>
+                            <option value="de">DE</option>
+                        </select>
+                    </div>
+                    <div sec:authorize="isAuthenticated()">
+                        <span class="nav-item">
+                            <span class="smaller-text" th:text="#{navigation.navbar.loggedAs} + ' '">You're logged as: </span><a class="smaller-text" th:href="@{/user/{username}(username = ${#authentication.name})}"
+                                                                                                      sec:authentication="name">Username</a>
+                        </span>
+                        <a class="nav-item" th:href="@{/logout}">
+                            <button type="button" class="btn btn-outline-secondary"
+                                    th:text="#{navigation.navbar.signOut}">Sign Out
+                            </button>
+                        </a>
+                    </div>
+                    <div sec:authorize="!isAuthenticated()">
+                        <a class="nav-item" th:href="@{/login}">
+                            <button type="button" class="btn btn-outline-secondary"
+                                    th:text="#{navigation.navbar.signIn}">Sign In
+                            </button>
+                        </a>
+                        <a class="nav-item" th:href="@{/signUp}">
+                            <button type="button" class="btn btn-secondary" th:text="#{navigation.navbar.signUp}">Sign
+                                Up
+                            </button>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>

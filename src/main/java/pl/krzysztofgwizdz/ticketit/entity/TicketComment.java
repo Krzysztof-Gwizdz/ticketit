@@ -1,48 +1,53 @@
 package pl.krzysztofgwizdz.ticketit.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
-import java.sql.Timestamp;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Entity
 @Table(name = "ticket_comments")
 public class TicketComment {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "comment_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    @Column(name = "author")
-    private String author;
-
+    @NotNull(message = "form.field.error.required")
+    @NotEmpty(message = "form.field.error.required")
     @Column(name = "content")
     private String content;
 
-    @Column(name = "creation_date")
-    private Timestamp creationDate;
+    @Column(name = "created_on")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date createdOn = new Date();
 
-    @ManyToOne(fetch = FetchType.EAGER,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.LAZY,
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "ticket_id")
     private Ticket ticket;
+
+    @ManyToOne(
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}
+    )
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public TicketComment() {
     }
 
+    public TicketComment(String content, Ticket ticket, User user) {
+        this.content = content;
+        this.ticket = ticket;
+        this.user = user;
+    }
+
     public long getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
     }
 
     public String getContent() {
@@ -53,11 +58,27 @@ public class TicketComment {
         this.content = content;
     }
 
-    public Timestamp getCreationDate() {
-        return creationDate;
+    public Date getCreatedOn() {
+        return createdOn;
     }
 
-    public void setCreationDate(Timestamp creationDate) {
-        this.creationDate = creationDate;
+    public void setCreatedOn(Date createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public Ticket getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

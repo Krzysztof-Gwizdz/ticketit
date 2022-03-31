@@ -1,8 +1,4 @@
 {
   "properties": [
-    {
-      "name": "password.salt",
-      "type": "java.lang.String",
-      "description": "Salt that spices passwords before and after encryption."
-  }
-] }
+  ]
+}

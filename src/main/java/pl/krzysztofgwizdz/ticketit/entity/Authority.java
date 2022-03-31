@@ -1,39 +1,74 @@
 package pl.krzysztofgwizdz.ticketit.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "authorities")
 public class Authority {
 
     @Id
-    @Column(name = "authority")
-    private String authority;
+    @Column(name = "authority_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "username")
-    private User user;
+    @Column(name = "authority_name", unique = true, nullable = false)
+    private String authorityName;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "users_authorities",
+            joinColumns = {@JoinColumn(name = "authority_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")}
+    )
+    private List<User> userList;
 
     public Authority() {
+        userList = new ArrayList<>();
     }
 
-    public Authority(String authority) {
-        this.authority = authority;
+    /**
+     * @param authorityName Name of the authority (i.e. ROLE_USER)
+     */
+    public Authority(String authorityName) {
+        this.authorityName = authorityName;
+        this.userList = new ArrayList<>();
     }
 
-    public String getAuthority() {
-        return authority;
+    public Integer getId() {
+        return id;
     }
 
-    public void setAuthority(String authority) {
-        this.authority = authority;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public String getAuthorityName() {
+        return authorityName;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setAuthorityName(String authorityName) {
+        this.authorityName = authorityName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Authority authority = (Authority) o;
+
+        return authorityName != null ? authorityName.equals(authority.authorityName) : authority.authorityName == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return authorityName != null ? authorityName.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return authorityName;
     }
 }

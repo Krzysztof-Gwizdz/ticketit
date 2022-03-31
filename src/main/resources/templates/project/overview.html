@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Ticket-It</title>
+    <meta content="Krzysztof Gwiżdż" name="author"/>
+    <meta content="IE=edge,chrome=1" http-equiv="X-Ua-Compatible"/>
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+
+    <link rel="icon" sizes="32x32" th:href="@{/images/icons/favicon.ico}" type="image/ico">
+
+    <link media="screen" rel="stylesheet" th:href="@{/css/bootstrap.min.css}"
+          href="../../static/css/bootstrap.min.css"/>
+    <link media="screen" rel="stylesheet" th:href="@{/css/main.css}" href="../../static/css/main.css"/>
+    <link media="screen" rel="stylesheet" th:href="@{/css/all.min.css}" type="text/css">
+</head>
+
+<body id="page-top">
+
+<div th:replace="fragments/navigation :: navigation">
+</div>
+
+<main>
+    <div class="container mt-5">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/}" th:text="#{navigation.navbar.home}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page" th:text="#{navigation.navbar.projects}">Projects</li>
+            </ol>
+        </nav>
+        <div class="row mb-4">
+            <h2 class="col-md-10" th:text="#{projects.overview.title}">Projects</h2>
+            <a class="col-md-2 text-md-right" th:href="@{/project/create}">
+                <button type="button" class="btn btn-secondary" th:text="#{projects.overview.button.newproject}">New project</button>
+            </a>
+        </div>
+        <div class="row" th:unless="${projectsLinks==null or #lists.isEmpty(projectsLinks)}">
+            <div class="col">
+                <hr>
+                <ul id="project-list" class="no-punctation">
+                    <li class="my-2" th:each="projectLink: ${projectsLinks}">
+                        <div class="row align-self-center">
+                            <div class="col-md-9">
+                            <span class="display-5 org-link-header"><a th:text="${projectLink.getProject().getName()}"
+                                                                       th:href="@{/project/{projectAcronym}(projectAcronym = ${projectLink.getProject().getAcronym()})}"
+                                                                       href="#">Project</a></span>
+                            </div>
+                            <div class="col-md-3 text-md-right">
+                                <a th:href="@{/project/{projectAcronym}/settings(projectAcronym = ${projectLink.getProject().getAcronym()})}" href="#">
+                                    <button class="btn btn-outline-secondary" th:text="#{projects.overview.button.settings}">Settings</button>
+                                </a>
+                                <button class="btn btn-outline-secondary" th:text="#{projects.overview.button.leave}">Leave</button>
+                            </div>
+                        </div>
+                        <hr>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div th:if="${projectsLinks==null or #lists.isEmpty(projectsLinks)}">
+            <span class="no-org-text"
+                  th:text="#{projects.overview.noproject}">There are no projects to display.</span>
+        </div>
+    </div>
+</main>
+
+<footer id="footer" th:replace="fragments/footer :: footer">
+</footer>
+
+<div id="script-includes" th:replace="fragments/scriptIncludes :: script-includes"></div>
+
+<!--<script th:src="@{/js/jquery-3.5.1.slim.min.js}"></script>-->
+<!--<script th:src="@{/js/popper.min.js}"></script>-->
+<!--<script th:src="@{/js/bootstrap.min.js}"></script>-->
+
+</body>
+</html>

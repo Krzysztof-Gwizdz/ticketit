@@ -4,6 +4,7 @@ import pl.krzysztofgwizdz.ticketit.entity.Ticket;
 import pl.krzysztofgwizdz.ticketit.entity.TicketComment;
 
 import java.util.List;
+import java.util.Set;
 
 public interface TicketRepository {
 
@@ -11,11 +12,17 @@ public interface TicketRepository {
 
     Ticket findTicketById(Long id);
 
+    Ticket findTicketWithCommentsById(long ticketId);
+
+    Set<Ticket> findTicketsByProject(long projectId);
+
     void saveTicket(Ticket ticket);
 
     void deleteTicketById(Long id);
 
-    Ticket findTicketWithCommentsById(long ticketId);
+    void addCommentToTicketById(TicketComment comment);
 
-    void addCommentToTicketById(long ticketId, TicketComment comment);
+    void updateTicketComment(TicketComment comment);
+
+    void deleteComment(long commentId);
 }
