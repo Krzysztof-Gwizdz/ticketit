@@ -40,6 +40,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .antMatchers(
                         "/",
+                        "/contact**",
+                        "/about**",
                         "/signUp**",
                         "/signUpAction**",
                         "/login**",

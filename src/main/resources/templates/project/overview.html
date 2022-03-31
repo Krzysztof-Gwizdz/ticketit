@@ -35,23 +35,27 @@
             </a>
         </div>
         <div class="row" th:unless="${projectsLinks==null or #lists.isEmpty(projectsLinks)}">
-            <ul id="project-list" class="col no-punctation">
-                <li class="my-2" th:each="projectLink: ${projectsLinks}">
-                    <div class="row align-self-center">
-                        <div class="col-md-9">
+            <div class="col">
+                <hr>
+                <ul id="project-list" class="no-punctation">
+                    <li class="my-2" th:each="projectLink: ${projectsLinks}">
+                        <div class="row align-self-center">
+                            <div class="col-md-9">
                             <span class="display-5 org-link-header"><a th:text="${projectLink.getProject().getName()}"
                                                                        th:href="@{/project/{projectAcronym}(projectAcronym = ${projectLink.getProject().getAcronym()})}"
                                                                        href="#">Project</a></span>
+                            </div>
+                            <div class="col-md-3 text-md-right">
+                                <a th:href="@{/project/{projectAcronym}/settings(projectAcronym = ${projectLink.getProject().getAcronym()})}" href="#">
+                                    <button class="btn btn-outline-secondary" th:text="#{projects.overview.button.settings}">Settings</button>
+                                </a>
+                                <button class="btn btn-outline-secondary" th:text="#{projects.overview.button.leave}">Leave</button>
+                            </div>
                         </div>
-                        <div class="col-md-3 text-md-right">
-                            <a th:href="@{/project/{projectAcronym}/settings(projectAcronym = ${projectLink.getProject().getAcronym()})}" href="#">
-                                <button class="btn btn-outline-secondary" th:text="#{projects.overview.button.settings}">Settings</button>
-                            </a>
-                            <button class="btn btn-outline-secondary" th:text="#{projects.overview.button.leave}">Leave</button>
-                        </div>
-                    </div>
-                </li>
-            </ul>
+                        <hr>
+                    </li>
+                </ul>
+            </div>
         </div>
         <div th:if="${projectsLinks==null or #lists.isEmpty(projectsLinks)}">
             <span class="no-org-text"

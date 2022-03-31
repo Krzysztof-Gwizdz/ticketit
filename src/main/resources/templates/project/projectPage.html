@@ -42,9 +42,11 @@
         </div>
         <div class="row mb-2">
             <div class="col" th:unless="${openTickets==null or #lists.isEmpty(openTickets)}">
+                <hr>
                 <ul class="no-punctation">
                     <li th:each="ticket :${openTickets}">
                         <a th:href="@{/project/{projectAcronym}/ticket/{ticketId}(projectAcronym = ${project.acronym}, ticketId = ${ticket.id})}"><span class="org-link-header" th:text="${ticket.title}">Title</span></a>
+                        <hr>
                     </li>
                 </ul>
             </div>
@@ -57,9 +59,11 @@
         </div>
         <div class="row mb-2">
             <div class="col" th:unless="${inProgressTickets==null or #lists.isEmpty(inProgressTickets)}">
+                <hr>
                 <ul class="no-punctation">
                     <li th:each="ticket :${inProgressTickets}">
                         <a th:href="@{/project/{projectAcronym}/ticket/{ticketId}(projectAcronym = ${project.acronym}, ticketId = ${ticket.id})}"><span th:text="${ticket.title}">Title</span></a>
+                        <hr>
                     </li>
                 </ul>
             </div>
