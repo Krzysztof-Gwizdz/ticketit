@@ -15,6 +15,7 @@ public class ProjectRoleRepositoryImpl implements ProjectRoleRepository {
     public ProjectRoleRepositoryImpl() {
     }
 
+    @Autowired
     public ProjectRoleRepositoryImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
@@ -29,10 +30,5 @@ public class ProjectRoleRepositoryImpl implements ProjectRoleRepository {
     public ProjectRole findById(Long id) {
         Session session = entityManager.unwrap(Session.class);
         return session.byId(ProjectRole.class).load(id);
-    }
-
-    @Autowired
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
     }
 }

@@ -21,7 +21,11 @@ public class ProjectServiceImpl implements ProjectService {
     private UserRepository userRepository;
     private ProjectRoleRepository projectRoleRepository;
 
-    public ProjectServiceImpl() {
+    @Autowired
+    public ProjectServiceImpl(ProjectRepository projectRepository, UserRepository userRepository, ProjectRoleRepository projectRoleRepository) {
+        this.projectRepository = projectRepository;
+        this.userRepository = userRepository;
+        this.projectRoleRepository = projectRoleRepository;
     }
 
     @Override
@@ -65,20 +69,5 @@ public class ProjectServiceImpl implements ProjectService {
     public Project updateProject(Project project) {
         Project savedProject = projectRepository.updateProject(project);
         return savedProject;
-    }
-
-    @Autowired
-    public void setProjectRoleRepository(ProjectRoleRepository projectRoleRepository) {
-        this.projectRoleRepository = projectRoleRepository;
-    }
-
-    @Autowired
-    public void setProjectRepository(ProjectRepository projectRepository) {
-        this.projectRepository = projectRepository;
-    }
-
-    @Autowired
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
     }
 }
