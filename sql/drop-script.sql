@@ -1,0 +1,21 @@
+ALTER TABLE ticket_comments DROP FOREIGN KEY `fk_ticketcom_ticket`;
+ALTER TABLE ticket_comments DROP FOREIGN KEY `fk_ticketcom_user`;
+ALTER TABLE tickets DROP FOREIGN KEY `fk_ticket_status`;
+ALTER TABLE tickets DROP FOREIGN KEY `fk_ticket_project`;
+ALTER TABLE tickets DROP FOREIGN KEY `fk_ticket_user`;
+ALTER TABLE projects DROP FOREIGN KEY `fk_project_organization`;
+ALTER TABLE project_users DROP FOREIGN KEY `fk_pu_projects`;
+ALTER TABLE project_users DROP FOREIGN KEY `fk_pu_users`;
+ALTER TABLE project_users DROP FOREIGN KEY `fk_pu_roles`;
+ALTER TABLE users_authorities DROP FOREIGN KEY `fk_ua_authorities`;
+ALTER TABLE users_authorities DROP FOREIGN KEY `fk_ua_users`;
+
+DROP TABLE ticket_comments;
+DROP TABLE tickets;
+DROP TABLE ticket_statuses;
+DROP TABLE project_users;
+DROP TABLE project_roles;
+DROP TABLE projects;
+DROP TABLE users_authorities;
+DROP TABLE authorities;
+DROP TABLE users;
