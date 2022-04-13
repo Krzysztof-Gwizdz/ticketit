@@ -25,12 +25,6 @@ public class TicketController {
     private TicketService ticketService;
     private ProjectService projectService;
 
-    @Autowired
-    public TicketController(TicketService ticketService, ProjectService projectService) {
-        this.ticketService = ticketService;
-        this.projectService = projectService;
-    }
-
     @GetMapping
     public String getTicketList(Model model) {
         List<Ticket> tickets = ticketService.findAllTickets();
@@ -319,5 +313,15 @@ public class TicketController {
         url.append("/ticket/");
         url.append(ticketId);
         return url.toString();
+    }
+
+    @Autowired
+    public void setTicketService(TicketService ticketService) {
+        this.ticketService = ticketService;
+    }
+
+    @Autowired
+    public void setProjectService(ProjectService projectService) {
+        this.projectService = projectService;
     }
 }
