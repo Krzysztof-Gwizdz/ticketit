@@ -132,3 +132,10 @@ CREATE TABLE ticket_comments (
                                  CONSTRAINT `fk_ticketcom_user`
                                      FOREIGN KEY (user_id) REFERENCES users (user_id)
 ) ENGINE = InnoDB;
+
+INSERT INTO authorities (authority_name) VALUES ('ROLE_ADMIN');
+INSERT INTO authorities (authority_name) VALUES ('ROLE_USER');
+INSERT INTO project_roles (role_name) VALUES ('Owner');
+INSERT INTO ticket_statuses (status_name) VALUES ('Open');
+INSERT INTO ticket_statuses (status_name) VALUES ('In progress');
+INSERT INTO ticket_statuses (status_name) VALUES ('Closed');
